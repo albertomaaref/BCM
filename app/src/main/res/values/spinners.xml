@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinnerTipoUtenza">
+        <item>Selzionare tipologia</item>
+        <item>OPERAIO</item>
+        <item>CAPO CANTIERE</item>
+        <item>IMPIEGATO</item>
+        <item>AUTISTA</item>
+    </string-array>
+</resources>
