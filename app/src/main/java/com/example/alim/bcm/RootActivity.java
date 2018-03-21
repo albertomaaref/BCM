@@ -7,6 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.alim.bcm.model.Costants;
+
+import static com.example.alim.bcm.model.Costants.TIPO_UTENTE_ATTIVO;
+import static com.example.alim.bcm.model.Costants.UTENTE_ATTIVO;
+
 public class RootActivity extends AppCompatActivity {
 
     private SharedPreferences preferences;
@@ -27,8 +32,8 @@ public class RootActivity extends AppCompatActivity {
         setContentView(R.layout.activity_root);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        utenteAttivo = preferences.getString("utenteAttivo","");
-        tipoUtenteAttivo = preferences.getString("tipoUtenteAttivo","");
+        utenteAttivo = preferences.getString(UTENTE_ATTIVO,"");
+        tipoUtenteAttivo = preferences.getString(TIPO_UTENTE_ATTIVO,"");
 
         // active session control
         sessionControl();

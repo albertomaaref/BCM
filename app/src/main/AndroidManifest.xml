@@ -20,7 +20,11 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".RegisterActivity" />
+        <activity
+            android:name=".ImpiegatoActivity"
+            android:label="@string/title_activity_impiegato"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

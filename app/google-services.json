@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "674247002147",
+    "firebase_url": "https://bcmfirebaseproject.firebaseio.com",
+    "project_id": "bcmfirebaseproject",
+    "storage_bucket": "bcmfirebaseproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674247002147:android:aa2f1cf625ec1e80",
+        "android_client_info": {
+          "package_name": "com.example.alim.bcm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674247002147-amc45cmogaqshj091mbkep6j5hbp4b4o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.alim.bcm",
+            "certificate_hash": "836f3fe0d6c0c1001d9c6d10a40ea3eda7d73339"
+          }
+        },
+        {
+          "client_id": "674247002147-55ql030v37gekpf1dv92ouii4fn3rp6a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg2jECs2uFUp_ndIxzH_VeRYvJHR7klKQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674247002147-55ql030v37gekpf1dv92ouii4fn3rp6a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
