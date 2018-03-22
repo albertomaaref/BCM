@@ -33,6 +33,43 @@
 
         </FrameLayout>
 
+        <RadioGroup
+            android:id="@+id/qualifica"
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin">
+
+            <RadioButton
+                android:id="@+id/rImpiegato"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity=""
+                android:layout_weight="1"
+                android:text="Impiegato" />
+
+            <RadioButton
+                android:id="@+id/rAutista"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Autista" />
+
+            <RadioButton
+                android:id="@+id/rCapoCantiere"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="CapoCantiere" />
+
+            <RadioButton
+                android:id="@+id/rOperaio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Operaio" />
+        </RadioGroup>
+
         <EditText
             android:id="@+id/eUsername"
             android:layout_width="match_parent"

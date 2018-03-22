@@ -7,7 +7,22 @@ import com.loopj.android.http.*;
 
 public final class FireBaseConnection {
 
-    private static final String BASE_URL = "https://provafinale-733e5.firebaseio.com/";
+    public static final String UTENTI = "utenti";
+
+    public static final String OPERAIO = "operaio";
+
+    public static final String IMPIEGATO = "impiegato";
+
+    public static final String CAPOCANTIERE = "capocantiere";
+
+    public static final String AUTISTA ="autista";
+
+    public static final String PASSWORD = "password";
+
+    public static final String USERNAME = "username";
+
+
+    private static final String BASE_URL = "https://bcmfirebaseproject.firebaseio.com/";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 

@@ -5,5 +5,5 @@ package com.example.alim.bcm.utilities;
  */
 
 public interface TaskCompletion {
-    public void taskToDo(String string);
+    public void taskToDo(String esito,String bodyResponse);
 }
