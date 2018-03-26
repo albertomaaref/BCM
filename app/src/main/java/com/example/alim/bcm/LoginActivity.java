@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.alim.bcm.model.Costants;
 import com.example.alim.bcm.utilities.FireBaseConnection;
 import com.example.alim.bcm.utilities.JsonParser;
 import com.example.alim.bcm.utilities.TaskCompletion;
@@ -148,11 +149,17 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletion {
         else if (statusCode.equals("200")){
             if (psw.equals(password.getText().toString())){
 
+                // salvare utenza attiva
+                /*SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(Costants.UTENTE_ATTIVO,username.getText().toString());
+                editor.putString(Costants.TIPO_UTENTE_ATTIVO,psw);
+                editor.commit();*/
+
                 Intent i = new Intent(LoginActivity.this, ImpiegatoActivity.class);
                 startActivity(i);
             }
             else{
-
+                Toast.makeText(getApplicationContext(),"PASSWORD ERRATA",Toast.LENGTH_SHORT);
             }
         }
 
