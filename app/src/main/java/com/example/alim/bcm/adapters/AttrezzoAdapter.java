@@ -1,21 +1,20 @@
 package com.example.alim.bcm.adapters;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.example.alim.bcm.R;
 import com.example.alim.bcm.model.Attrezzo;
 
 import java.util.List;
-
-import butterknife.BindView;
 
 /**
  * Created by alim on 25-Mar-18.
@@ -26,10 +25,18 @@ public class AttrezzoAdapter extends RecyclerView.Adapter<AttrezzoAdapter.Attrez
     private Context context;
     private List<Attrezzo> listaAttrezzi;
 
+    public interface OnAttrezzoClickListener {
+        void onAttrezzoCheck(Attrezzo attrezzo);
+        void onAttrezzoUncheck(Attrezzo attrezzo);
+    }
 
-    public AttrezzoAdapter(Context context, List<Attrezzo> listaAttrezzi) {
+    private OnAttrezzoClickListener onAttrezzoClickListener;
+
+
+    public AttrezzoAdapter(Context context, List<Attrezzo> listaAttrezzi, @NonNull OnAttrezzoClickListener onAttrezzoClickListener) {
         this.context = context;
         this.listaAttrezzi = listaAttrezzi;
+        this.onAttrezzoClickListener = onAttrezzoClickListener;
     }
 
     @Override
@@ -40,8 +47,35 @@ public class AttrezzoAdapter extends RecyclerView.Adapter<AttrezzoAdapter.Attrez
     }
 
     @Override
-    public void onBindViewHolder(AttrezzoHolder holder, int position) {
+    public void onBindViewHolder(final AttrezzoHolder holder, int position) {
         holder.textAttrezzo.setText(listaAttrezzi.get(position).getNome());
+        final Attrezzo attrezzo = listaAttrezzi.get(position);
+
+        holder.checkBoxCestino.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    onAttrezzoClickListener.onAttrezzoCheck(attrezzo);
+
+                }
+                else {
+                    onAttrezzoClickListener.onAttrezzoUncheck(attrezzo);
+
+                }
+            }
+        });
+
+//        holder.attrezzo_card.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (holder.checkBoxCestino.isChecked()){
+//                    onAttrezzoClickListener.onAttrezzoCheck(attrezzo);
+//                }
+//                else{
+//                    onAttrezzoClickListener.onAttrezzoUncheck(attrezzo);
+//                }
+//            }
+//        });
     }
 
     @Override

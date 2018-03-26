@@ -7,6 +7,10 @@ import java.io.Serializable;
  */
 
 public class Attrezzo implements Serializable {
+    private int quantita;
+
+
+    private String id;
     private String modello;
     private String marca;
     private String nome;
@@ -42,5 +46,21 @@ public class Attrezzo implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public int getQuantita() {
+        return quantita;
+    }
+
+    public void setQuantita(int quantita) {
+        this.quantita = quantita;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.alim.bcm.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.AttrRes;
@@ -11,23 +12,31 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.alim.bcm.R;
 import com.example.alim.bcm.adapters.AttrezzoAdapter;
 import com.example.alim.bcm.model.Attrezzo;
 import com.example.alim.bcm.model.Autista;
 import com.example.alim.bcm.model.Cantiere;
+import com.example.alim.bcm.model.Costants;
 import com.example.alim.bcm.model.Materiale;
 import com.example.alim.bcm.model.Personale;
+import com.example.alim.bcm.utilities.FireBaseConnection;
 import com.example.alim.bcm.utilities.ImpiegatoTasks;
+import com.example.alim.bcm.utilities.JsonParser;
+import com.example.alim.bcm.utilities.TaskCompletion;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,14 +44,18 @@ import butterknife.ButterKnife;
  * to handle interaction events.
  * create an instance of this fragment.
  */
-public class AttrezzziFragment extends Fragment implements ImpiegatoTasks {
+public class AttrezzziFragment extends Fragment implements ImpiegatoTasks, TaskCompletion {
 
 
+    Button bMandaAutista;
     Button bAggiungiCestino;
     RecyclerView recyclerViewAttrezzi;
     LinearLayoutManager lm;
     ListView listViewCestinoA;
-    final List<Attrezzo> listaAtrezzi = new ArrayList<>();
+    List<Attrezzo> listaAtrezzi = new ArrayList<>();
+    private List<Attrezzo> listaCestino = new ArrayList<>();
+    private TaskCompletion delegato;
+    private ProgressDialog progressDialog;
 
 
 
@@ -61,6 +74,7 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lm = new LinearLayoutManager(getContext());
+        delegato = this;
 
 
     }
@@ -75,6 +89,21 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks {
         recyclerViewAttrezzi = (RecyclerView) view.findViewById(R.id.ListViewAttrezzi);
         bAggiungiCestino = (Button) view.findViewById(R.id.bAggiungiAttrezzo);
         listViewCestinoA = (ListView) view.findViewById(R.id.listViewCestinoA);
+        bMandaAutista = view.findViewById(R.id.bMandaAutista);
+
+        bMandaAutista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // To Do : mandare notifica all'autista con la lista degli elementi con relativo cantiere
+            }
+        });
+
+        bAggiungiCestino.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setbAggiungiCestino(listaCestino);
+            }
+        });
 
         return view;
 
@@ -102,12 +131,59 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks {
     private void downloadAttrezzi (){
         boolean result = false;
 
-        for (int i=0 ; i<10; i++){
-            Attrezzo attrezzo = new Attrezzo("hitaki","bomber","A"+i);
-            listaAtrezzi.add(attrezzo);
+        restCallAttrezzi(delegato);
+
+
+    }
+
+    private void restCallAttrezzi(final TaskCompletion delegato) {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.show();
+        FireBaseConnection.get("attrezzi.json", null, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String s = new String(responseBody);
+                delegato.taskToDo(Costants.SUCCESSO,s);
+                AttrezzoAdapter attrezzoAdapter =new AttrezzoAdapter(getContext(), listaAtrezzi, new AttrezzoAdapter.OnAttrezzoClickListener() {
+                    @Override
+                    public void onAttrezzoCheck(Attrezzo attrezzo) {
+                        listaCestino.add(attrezzo);
+                    }
+
+                    @Override
+                    public void onAttrezzoUncheck(Attrezzo attrezzo) {
+                        listaCestino.remove(attrezzo);
+                    }
+                });
+                recyclerViewAttrezzi.setLayoutManager(lm);
+                recyclerViewAttrezzi.setAdapter(attrezzoAdapter);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                delegato.taskToDo(Costants.ERROR,new String(responseBody));
+            }
+        });
+    }
+
+    public void setbAggiungiCestino (List<Attrezzo> lista){
+        List<String> listanome = new ArrayList<>();
+        for (Attrezzo a : lista){
+            listanome.add(a.getNome());
         }
-        AttrezzoAdapter attrezzoAdapter =new AttrezzoAdapter(getContext(),listaAtrezzi);
-        recyclerViewAttrezzi.setLayoutManager(lm);
-        recyclerViewAttrezzi.setAdapter(attrezzoAdapter);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(),R.layout.cestino_item,R.id.tCestinoItem,listanome);
+        listViewCestinoA.setAdapter(arrayAdapter);
+    }
+
+    @Override
+    public void taskToDo(String esito, String bodyResponse) {
+        progressDialog.dismiss();
+        progressDialog.cancel();
+        if (esito.equals(Costants.SUCCESSO)){
+            listaAtrezzi = JsonParser.getAttrezzi(bodyResponse);
+        }
+        else if (esito.equals(Costants.ERROR)){
+            Toast.makeText(getContext(),"ERROE NEL DOWNLOAD DEGLI ATTREZZI", Toast.LENGTH_SHORT).show();
+        }
     }
 }

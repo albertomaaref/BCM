@@ -18,7 +18,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ListViewAttrezzi"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="200dp"
+        android:layout_margin="10dp">
 
     </android.support.v7.widget.RecyclerView>
 
@@ -41,5 +42,15 @@
     <ListView
         android:id="@+id/listViewCestinoA"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="100dp"
+        android:layout_margin="10dp">
+
+    </ListView>
+
+    <Button
+        android:id="@+id/bMandaAutista"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="comunica all'autista" />
+
 </LinearLayout>
