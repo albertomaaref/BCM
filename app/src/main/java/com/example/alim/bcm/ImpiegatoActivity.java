@@ -56,6 +56,7 @@ public class ImpiegatoActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            finish();
         }
     }
 
@@ -120,4 +121,6 @@ public class ImpiegatoActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

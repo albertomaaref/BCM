@@ -10,6 +10,13 @@ import java.util.HashMap;
 public class Cantiere implements Serializable {
     private HashMap<String,Materiale> listaMateriali;
     private HashMap<String,Attrezzo> listaAttrezzi;
+    private String indirizzo;
+    private Integer statoDiAvanzamento;
+    private HashMap<String,Personale> listaPersonale;
+
+
+    public Cantiere() {
+    }
 
     public Cantiere(HashMap<String, Materiale> listaMateriali, HashMap<String, Attrezzo> listaAttrezzi) {
         this.listaMateriali = listaMateriali;
@@ -33,5 +40,15 @@ public class Cantiere implements Serializable {
         this.statoDiAvanzamento = statoDiAvanzamento;
     }
 
-    private Integer statoDiAvanzamento;
+    public String getIndirizzo() {
+        return indirizzo;
+    }
+
+    public void setIndirizzo(String indirizzo) {
+        this.indirizzo = indirizzo;
+    }
+
+    public void addPersonaleToCantiere(Personale personale){
+        listaPersonale.put(personale.getNome(),personale);
+    }
 }

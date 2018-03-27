@@ -11,6 +11,15 @@ public class Materiale implements Serializable {
     private String tipo;
     private String nome;
     private String marca;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Materiale() {
     }

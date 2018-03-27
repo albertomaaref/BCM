@@ -7,10 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.alim.bcm.model.Costants;
-
-import static com.example.alim.bcm.model.Costants.TIPO_UTENTE_ATTIVO;
-import static com.example.alim.bcm.model.Costants.UTENTE_ATTIVO;
+import static com.example.alim.bcm.model.Constants.TIPO_UTENTE_ATTIVO;
+import static com.example.alim.bcm.model.Constants.UTENTE_ATTIVO;
 
 public class RootActivity extends AppCompatActivity {
 

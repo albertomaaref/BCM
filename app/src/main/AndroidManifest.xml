@@ -4,7 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-feature android:name="android.hardware.location.gps"/>
+
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <application
         android:allowBackup="true"
@@ -28,7 +29,12 @@
         <activity
             android:name=".ImpiegatoActivity"
             android:label="@string/title_activity_impiegato"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".OperaioActivity" />
+        <activity android:name=".AutistaActivity" />
+        <activity
+            android:name=".CapoCantiereActivity"
+            android:label="@string/title_activity_capo_cantiere"></activity>
     </application>
 
 </manifest>

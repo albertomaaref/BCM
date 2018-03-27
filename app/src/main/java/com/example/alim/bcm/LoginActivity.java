@@ -14,11 +14,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.alim.bcm.model.Costants;
+import com.example.alim.bcm.model.CapoCantiere;
+import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.utilities.FireBaseConnection;
 import com.example.alim.bcm.utilities.JsonParser;
 import com.example.alim.bcm.utilities.TaskCompletion;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import java.util.concurrent.CompletionService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -86,49 +89,43 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletion {
 
     private void tryLogin(EditText username, EditText password) {
 
-        if (isEditTextEmpty(username) || isEditTextEmpty(password) || rQualifica.getCheckedRadioButtonId() == -1){
-            Toast.makeText(getApplicationContext(),"CONTROLLARE I CAMPI",Toast.LENGTH_SHORT).show();
-        }
-        else {
+        if (isEditTextEmpty(username) || isEditTextEmpty(password) || rQualifica.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(getApplicationContext(), "CONTROLLARE I CAMPI", Toast.LENGTH_SHORT).show();
+        } else {
             int id = rQualifica.getCheckedRadioButtonId();
-            String type ="";
-            if (id == rAutista.getId()){
-                type=FireBaseConnection.AUTISTA;
-            }
-            else if (id==rCapocantiere.getId()){
-                type=FireBaseConnection.CAPOCANTIERE;
-            }
-            else if (id==rImpiegato.getId()){
-                type=FireBaseConnection.IMPIEGATO;
-            }
-            else if (id==rOperaio.getId()){
-                type=FireBaseConnection.AUTISTA;
+            String type = "";
+            if (id == rAutista.getId()) {
+                type = Constants.AUTISTA;
+            } else if (id == rCapocantiere.getId()) {
+                type = Constants.CAPOCANTIERE;
+            } else if (id == rImpiegato.getId()) {
+                type = Constants.IMPIEGATO;
+            } else if (id == rOperaio.getId()) {
+                type = Constants.OPERAIO;
             }
 
-            restCallForLogin(delegation,username.getText().toString(), type);
+            restCallForLogin(delegation, username.getText().toString(), type);
         }
-
-
 
 
     }
 
-    private void restCallForLogin(final TaskCompletion delegation, String username, String qualifica) {
-        progressDialog  =new ProgressDialog(LoginActivity.this);
+    private void restCallForLogin(final TaskCompletion delegation, String username, final String qualifica) {
+        progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setMessage("CARICAMENTO IN CORSO");
         progressDialog.show();
-        String url = FireBaseConnection.UTENTI+"/"+qualifica+"/"+username+".json";
+        String url = Constants.UTENTI + "/" + qualifica + "/" + username + ".json";
         FireBaseConnection.get(url, null, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String s = new String(responseBody);
                 String psw = JsonParser.getPassword(s);
-                delegation.taskToDo(Integer.toString(statusCode),psw);
+                delegation.taskToDo(Constants.SUCCESSO, psw, qualifica);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                delegation.taskToDo("error","connessione fallita");
+                delegation.taskToDo(Constants.ERROR, "connessione fallita", qualifica);
             }
         });
     }
@@ -141,31 +138,59 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletion {
 
     @Override
     public void taskToDo(String statusCode, String psw) {
+
+    }
+
+    @Override
+    public void taskToDo(String esito, String bodyResponse, String qualifica) {
         progressDialog.dismiss();
         progressDialog.cancel();
-        if (statusCode.equals("error")){
+        if (esito.equals(Constants.ERROR)) {
 
-        }
-        else if (statusCode.equals("200")){
-            if (psw.equals(password.getText().toString())){
+        } else if (esito.equals(Constants.SUCCESSO)) {
+            if (bodyResponse.equals(password.getText().toString())) {
 
                 // salvare utenza attiva
                 /*SharedPreferences.Editor editor = preferences.edit();
-                editor.putString(Costants.UTENTE_ATTIVO,username.getText().toString());
-                editor.putString(Costants.TIPO_UTENTE_ATTIVO,psw);
+                editor.putString(Constants.UTENTE_ATTIVO,username.getText().toString());
+                editor.putString(Constants.TIPO_UTENTE_ATTIVO,psw);
                 editor.commit();*/
 
-                Intent i = new Intent(LoginActivity.this, ImpiegatoActivity.class);
-                startActivity(i);
-            }
-            else{
-                Toast.makeText(getApplicationContext(),"PASSWORD ERRATA",Toast.LENGTH_SHORT);
+                switch (qualifica) {
+                    case Constants.AUTISTA: {
+                        Intent i = new Intent(LoginActivity.this, AutistaActivity.class);
+                        startActivity(i);
+                        this.finish();
+                    }
+                    case Constants.IMPIEGATO: {
+                        Intent i = new Intent(LoginActivity.this, ImpiegatoActivity.class);
+                        startActivity(i);
+                        this.finish();
+
+                    }
+                    case Constants.CAPOCANTIERE: {
+                        Intent i = new Intent(LoginActivity.this, CapoCantiereActivity.class);
+                        startActivity(i);
+                        this.finish();
+                    }
+                    case Constants.OPERAIO: {
+                        Intent i = new Intent(LoginActivity.this, OperaioActivity.class);
+                        startActivity(i);
+                        this.finish();
+                    }
+                    default:
+                        return;
+                }
+
+
+            } else {
+                Toast.makeText(getApplicationContext(), "PASSWORD ERRATA", Toast.LENGTH_SHORT);
             }
         }
 
     }
 
-    private boolean isEditTextEmpty (EditText editText){
+    private boolean isEditTextEmpty(EditText editText) {
         if (editText.getText().toString().equals("")) return true;
         return false;
     }

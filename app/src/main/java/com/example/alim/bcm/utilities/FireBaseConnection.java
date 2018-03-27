@@ -7,15 +7,7 @@ import com.loopj.android.http.*;
 
 public final class FireBaseConnection {
 
-    public static final String UTENTI = "utenti";
 
-    public static final String OPERAIO = "operaio";
-
-    public static final String IMPIEGATO = "impiegato";
-
-    public static final String CAPOCANTIERE = "capocantiere";
-
-    public static final String AUTISTA ="autista";
 
     public static final String PASSWORD = "password";
 
