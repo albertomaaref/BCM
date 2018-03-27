@@ -1,7 +1,9 @@
 package com.example.alim.bcm.fragments;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,6 +26,8 @@ import com.example.alim.bcm.utilities.FireBaseConnection;
 import com.example.alim.bcm.utilities.ImpiegatoTasks;
 import com.example.alim.bcm.utilities.JsonParser;
 import com.example.alim.bcm.utilities.TaskCompletion;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.ArrayList;
@@ -40,7 +44,7 @@ import cz.msebera.android.httpclient.Header;
 public class AttrezzziFragment extends Fragment implements ImpiegatoTasks, TaskCompletion {
 
 
-    Button bMandaAutista;
+    Button bApprovaRichiesta;
     Button bAggiungiCestino;
     RecyclerView recyclerViewAttrezzi;
     LinearLayoutManager lm;
@@ -49,6 +53,9 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks, TaskC
     private List<Attrezzo> listaCestino = new ArrayList<>();
     private TaskCompletion delegato;
     private ProgressDialog progressDialog;
+    private DatabaseReference ref;
+    private FirebaseDatabase database;
+
 
 
 
@@ -68,6 +75,8 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks, TaskC
         super.onCreate(savedInstanceState);
         lm = new LinearLayoutManager(getContext());
         delegato = this;
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReferenceFromUrl(FireBaseConnection.BASE_URL);
 
 
     }
@@ -82,12 +91,12 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks, TaskC
         recyclerViewAttrezzi = (RecyclerView) view.findViewById(R.id.ListViewAttrezzi);
         bAggiungiCestino = (Button) view.findViewById(R.id.bAggiungiAttrezzo);
         listViewCestinoA = (ListView) view.findViewById(R.id.listViewCestinoA);
-        bMandaAutista = view.findViewById(R.id.bMandaAutista);
+        bApprovaRichiesta = view.findViewById(R.id.bApprovaRichiesta);
 
-        bMandaAutista.setOnClickListener(new View.OnClickListener() {
+        bApprovaRichiesta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // To Do : mandare notifica all'autista con la lista degli elementi con relativo cantiere
+                sendRequest(listaCestino);
             }
         });
 
@@ -99,6 +108,26 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks, TaskC
         });
 
         return view;
+
+    }
+
+    private void sendRequest(List<Attrezzo> listaCestino) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Procedere con la richiesta ?");
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
 
     }
 

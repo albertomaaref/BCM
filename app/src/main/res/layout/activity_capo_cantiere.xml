@@ -9,7 +9,7 @@
     tools:context="com.example.alim.bcm.CapoCantiereActivity">
 
     <FrameLayout
-        android:id="@+id/FragmentCapo"
+        android:id="@+id/fragmentCapo"
         android:layout_width="match_parent"
         android:layout_height="460dp"></FrameLayout>
 

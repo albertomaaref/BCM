@@ -7,4 +7,9 @@
         <item>IMPIEGATO</item>
         <item>AUTISTA</item>
     </string-array>
+    <string-array name="spinnerCantiereFrag">
+        <item>Stato Cantiere</item>
+        <item>Statistiche Cantiere</item>
+        <item>stato richieste</item>
+    </string-array>
 </resources>

@@ -48,9 +48,9 @@
     </ListView>
 
     <Button
-        android:id="@+id/bMandaAutista"
+        android:id="@+id/bApprovaRichiesta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="comunica all'autista" />
+        android:text="apporva richiesta" />
 
 </LinearLayout>

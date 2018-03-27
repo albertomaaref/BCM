@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -156,37 +157,39 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletion {
                 editor.putString(Constants.TIPO_UTENTE_ATTIVO,psw);
                 editor.commit();*/
 
-                switch (qualifica) {
-                    case Constants.AUTISTA: {
+                if (qualifica.equals(Constants.OPERAIO))
+                    {
+                        Log.i("alim",""+qualifica.equals(Constants.OPERAIO));
+                        Intent i = new Intent(LoginActivity.this, OperaioActivity.class);
+                        startActivity(i);
+                        this.finish();
+                    }
+                else if (qualifica.equals(Constants.AUTISTA))    {
                         Intent i = new Intent(LoginActivity.this, AutistaActivity.class);
                         startActivity(i);
                         this.finish();
                     }
-                    case Constants.IMPIEGATO: {
+                else if (qualifica.equals(Constants.IMPIEGATO)){
                         Intent i = new Intent(LoginActivity.this, ImpiegatoActivity.class);
                         startActivity(i);
                         this.finish();
 
                     }
-                    case Constants.CAPOCANTIERE: {
+                else if (qualifica.equals(Constants.CAPOCANTIERE)){
                         Intent i = new Intent(LoginActivity.this, CapoCantiereActivity.class);
                         startActivity(i);
                         this.finish();
                     }
-                    case Constants.OPERAIO: {
-                        Intent i = new Intent(LoginActivity.this, OperaioActivity.class);
-                        startActivity(i);
-                        this.finish();
-                    }
-                    default:
-                        return;
+
+
+                else     return;
                 }
 
 
             } else {
                 Toast.makeText(getApplicationContext(), "PASSWORD ERRATA", Toast.LENGTH_SHORT);
             }
-        }
+
 
     }
 

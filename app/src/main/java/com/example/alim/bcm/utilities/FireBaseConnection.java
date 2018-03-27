@@ -14,7 +14,7 @@ public final class FireBaseConnection {
     public static final String USERNAME = "username";
 
 
-    private static final String BASE_URL = "https://bcmfirebaseproject.firebaseio.com/";
+    public static final String BASE_URL = "https://bcmfirebaseproject.firebaseio.com/";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 

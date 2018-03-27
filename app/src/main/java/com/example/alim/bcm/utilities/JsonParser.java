@@ -1,7 +1,9 @@
 package com.example.alim.bcm.utilities;
 
+import com.example.alim.bcm.fragments.RichiesteFragment;
 import com.example.alim.bcm.model.Attrezzo;
 import com.example.alim.bcm.model.Materiale;
+import com.example.alim.bcm.model.Richiesta;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -109,4 +111,5 @@ public final class JsonParser {
 
         return lista;
     }
+
 }
