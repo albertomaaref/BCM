@@ -12,4 +12,8 @@
         <item>Statistiche Cantiere</item>
         <item>stato richieste</item>
     </string-array>
+    <string-array name="spinnerRichiesteFrag">
+        <item>MATERIALI</item>
+        <item>ATTREZZI</item>
+    </string-array>
 </resources>

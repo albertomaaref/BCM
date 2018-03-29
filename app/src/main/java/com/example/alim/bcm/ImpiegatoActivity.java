@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -108,7 +109,7 @@ public class ImpiegatoActivity extends AppCompatActivity
                 AttrezzziFragment impiegatoAttrezziFragmentTaskImpl = new AttrezzziFragment();
                 fragTrans.replace(R.id.fragmentImpiegato, impiegatoAttrezziFragmentTaskImpl, ATTREZZI_FRAGMENT);
                 fragTrans.commit();
-            } else if (myAttreziFragment != null && myMaterialiFragment.isVisible()) {
+            } else if (myAttreziFragment != null && myAttreziFragment.isVisible()) {
                 // sono già nel fragment
             } else {
                 fragTrans.add(R.id.fragmentImpiegato, myMaterialiFragment, ATTREZZI_FRAGMENT);

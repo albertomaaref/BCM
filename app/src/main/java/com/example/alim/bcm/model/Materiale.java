@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by alim on 21-Mar-18.
  */
 
-public class Materiale implements Serializable {
+public class Materiale extends Articolo implements Serializable {
     private String modello;
     private String tipo;
     private String nome;

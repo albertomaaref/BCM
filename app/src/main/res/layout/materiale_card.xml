@@ -8,6 +8,7 @@
         android:id="@+id/card_materiale"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="10dp"
         android:layout_weight="5">
 
         <LinearLayout
@@ -20,22 +21,30 @@
                 android:id="@+id/tnomeMateriale"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1" />
 
             <EditText
                 android:id="@+id/eQuantita"
-                android:layout_width="10dp"
+                android:layout_width="2dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:ems="10"
-                android:inputType="number" />
+                android:background="@android:color/transparent"
+                android:hint="Qtà"
+                android:inputType="number"
+                android:layout_gravity="center"
+                android:gravity="center"/>
 
             <CheckBox
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:id="@+id/checkBoxMateriale"
                 android:layout_width="10dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="sleziona" />
+                android:text="sleziona"
+                />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by alim on 21-Mar-18.
  */
 
-public class Attrezzo implements Serializable {
+public class Attrezzo extends Articolo implements Serializable {
     private int quantita;
 
 

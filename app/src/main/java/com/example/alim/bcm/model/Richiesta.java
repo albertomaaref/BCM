@@ -14,6 +14,7 @@ public class Richiesta {
     private Date dataArrivo;
     private List<Materiale> listaMateriali;
     private List<Attrezzo> listaAttrezzi;
+    private String testoLibero ;
 
     public Richiesta() {
         listaAttrezzi = new ArrayList<>();
@@ -66,5 +67,13 @@ public class Richiesta {
 
     public void setTitolo(String titolo) {
         Titolo = titolo;
+    }
+
+    public String getTestoLibero() {
+        return testoLibero;
+    }
+
+    public void setTestoLibero(String testoLibero) {
+        this.testoLibero = testoLibero;
     }
 }

@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="460dp"
+    android:orientation="vertical"
     tools:context="com.example.alim.bcm.fragments.CantiereFragment">
 
     <Spinner
@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:entries="@array/spinnerCantiereFrag"/>
+        android:entries="@array/spinnerCantiereFrag" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -69,8 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:visibility="visible"
-                    />
+                    android:visibility="visible" />
             </LinearLayout>
 
             <LinearLayout
@@ -152,6 +151,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -175,11 +175,13 @@
         </LinearLayout>
 
     </FrameLayout>
+
     <FrameLayout
         android:id="@+id/statistiche"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"></FrameLayout>
+
     <FrameLayout
         android:id="@+id/statoRichieste"
         android:layout_width="match_parent"

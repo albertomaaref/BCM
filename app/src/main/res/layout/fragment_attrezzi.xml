@@ -16,18 +16,12 @@
         android:textSize="24sp" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/ListViewAttrezzi"
+        android:id="@+id/recyclerViewAttrezzi"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="10dp">
 
     </android.support.v7.widget.RecyclerView>
-
-    <Button
-        android:id="@+id/bAggiungiAttrezzo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Aggiungi al cestino" />
 
     <TextView
         android:id="@+id/textView8"
@@ -35,22 +29,23 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="CESTINO"
+        android:text="OSSERVAZIONI"
         android:textColor="@android:color/background_dark"
         android:textSize="24sp" />
 
-    <ListView
-        android:id="@+id/listViewCestinoA"
+    <EditText
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="10dp">
-
-    </ListView>
+        android:layout_height="150dp"
+        android:gravity="top|left"
+        android:background="@android:color/transparent"
+        android:layout_margin="10dp"
+        />
 
     <Button
         android:id="@+id/bApprovaRichiesta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="apporva richiesta" />
+        android:text="apporva richiesta"
+        />
 
 </LinearLayout>
