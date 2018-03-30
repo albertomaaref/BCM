@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Richiesta {
     private int id;
-    private String Titolo;
+    private String cantiere;
     private Date dataArrivo;
     private List<Materiale> listaMateriali;
     private List<Attrezzo> listaAttrezzi;
@@ -61,12 +61,12 @@ public class Richiesta {
         this.dataArrivo = dataArrivo;
     }
 
-    public String getTitolo() {
-        return Titolo;
+    public String getCantiere() {
+        return cantiere;
     }
 
-    public void setTitolo(String titolo) {
-        Titolo = titolo;
+    public void setCantiere(String cantiere) {
+        this.cantiere = cantiere;
     }
 
     public String getTestoLibero() {

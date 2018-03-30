@@ -5,12 +5,12 @@ package com.example.alim.bcm.model;
  */
 
 public class Constants {
-    public static String UTENTE_ATTIVO = "utenteAttivo";
-    public static String TIPO_UTENTE_ATTIVO = "tipoUtenteAttivo";
-    public static String SUCCESSO = "successo";
-    public static String ERROR = "error";
-    public static String ATTREZZI = "attrezzi.json";
-    public static String MATERIALI = "materiali.json";
+    public static final String UTENTE_ATTIVO = "utenteAttivo";
+    public static final String TIPO_UTENTE_ATTIVO = "tipoUtenteAttivo";
+    public static final String SUCCESSO = "successo";
+    public static final String ERROR = "error";
+    public static final String ATTREZZI = "attrezzi.json";
+    public static final String MATERIALI = "materiali.json";
     public static final String UTENTI = "utenti";
     public static final String OPERAIO = "operaio";
     public static final String IMPIEGATO = "impiegato";

@@ -18,34 +18,37 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewAttrezzi"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:layout_margin="10dp">
 
     </android.support.v7.widget.RecyclerView>
 
-    <TextView
-        android:id="@+id/textView8"
+    <Spinner
+        android:id="@+id/sCantieri"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/spinnerCantieri"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp">
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/bAggiungiNota"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="OSSERVAZIONI"
-        android:textColor="@android:color/background_dark"
-        android:textSize="24sp" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:gravity="top|left"
-        android:background="@android:color/transparent"
-        android:layout_margin="10dp"
-        />
+        android:text="aggiungi nota" />
 
     <Button
         android:id="@+id/bApprovaRichiesta"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="apporva richiesta"
-        />
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="apporva richiesta" />
 
 </LinearLayout>

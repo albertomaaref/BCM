@@ -10,5 +10,37 @@
         android:id="@+id/recyclerMateriali"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp" >
+
+    </android.support.v7.widget.RecyclerView>
+
+    <Spinner
+        android:id="@+id/sCantieri"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/spinnerCantieri" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp">
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/bAggiungiNota"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="aggiungi nota" />
+
+    <Button
+        android:id="@+id/bApprovaRichiesta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="apporva richiesta"
+        android:layout_gravity="center"
+        android:gravity="center"
+        />
+
 </LinearLayout>

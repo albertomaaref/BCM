@@ -120,8 +120,15 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletion {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String s = new String(responseBody);
-                String psw = JsonParser.getPassword(s);
-                delegation.taskToDo(Constants.SUCCESSO, psw, qualifica);
+                if (s.equals("null")){
+                    delegation.taskToDo(Constants.ERROR, "connessione fallita", qualifica);
+
+                }
+                else {
+
+                    String psw = JsonParser.getPassword(s);
+                    delegation.taskToDo(Constants.SUCCESSO, psw, qualifica);
+                }
             }
 
             @Override

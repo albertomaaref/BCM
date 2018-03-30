@@ -3,6 +3,7 @@ package com.example.alim.bcm.utilities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.alim.bcm.adapters.AttrezzoAdapter;
@@ -56,6 +57,7 @@ public class DownloadItems implements TaskCompletion {
         this.context = context;
         this.layoutManager = layoutManager;
         this.recyclerView = recyclerView;
+        recyclerView.setVisibility(View.GONE);
 
 
         progressDialog = new ProgressDialog(context);
@@ -110,6 +112,9 @@ public class DownloadItems implements TaskCompletion {
                 });
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(attrezzoAdapter);
+                recyclerView.setVisibility(View.VISIBLE);
+
+
             }else if (param1.equals(Constants.MATERIALI)){
                 final List<? extends Articolo> lista ;
                 lista = JsonParser.getMateriali(bodyResponse);
@@ -131,6 +136,7 @@ public class DownloadItems implements TaskCompletion {
                 });
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(materialeAdapter);
+                recyclerView.setVisibility(View.VISIBLE);
             }
 
 

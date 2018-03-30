@@ -13,7 +13,14 @@
         <item>stato richieste</item>
     </string-array>
     <string-array name="spinnerRichiesteFrag">
-        <item>MATERIALI</item>
         <item>ATTREZZI</item>
+        <item>MATERIALI</item>
+    </string-array>
+    <string-array name="spinnerCantieri">
+        <item>Seleziona Cantieri</item>
+        <item>VIA PARAVIA 68</item>
+        <item>VIA LARGA 12</item>
+        <item>VIA TORINO 61</item>
+        <item>VIA MARIANI 6</item>
     </string-array>
 </resources>
