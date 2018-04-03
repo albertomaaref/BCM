@@ -1,7 +1,6 @@
 package com.example.alim.bcm.fragments;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,24 +13,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.alim.bcm.R;
-import com.example.alim.bcm.adapters.MaterialeAdapter;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Materiale;
 import com.example.alim.bcm.model.Richiesta;
-import com.example.alim.bcm.utilities.DownloadItems;
-import com.example.alim.bcm.utilities.FireBaseConnection;
-import com.example.alim.bcm.utilities.JsonParser;
+import com.example.alim.bcm.utilities.ItemsManager;
 import com.example.alim.bcm.utilities.RequestManager;
-import com.example.alim.bcm.utilities.TaskCompletion;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import cz.msebera.android.httpclient.Header;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,8 +72,8 @@ public class MaterialiFragment extends Fragment {
         bAggiungiNota = view.findViewById(R.id.bAggiungiNota);
         lm = new LinearLayoutManager(getContext());
         recyclerViewMateriale = view.findViewById(R.id.recyclerMateriali);
-        DownloadItems downloadItems = DownloadItems.getDownloadItems();
-        downloadItems.scaricaListFromDB(getContext(),listaCestino,recyclerViewMateriale,lm,Constants.MATERIALI);
+        ItemsManager itemsManager = ItemsManager.getDownloadItems();
+        itemsManager.scaricaListFromDB(getContext(),listaCestino,recyclerViewMateriale,lm,Constants.MATERIALI);
 
         bAggiungiNota.setOnClickListener(new View.OnClickListener() {
             @Override

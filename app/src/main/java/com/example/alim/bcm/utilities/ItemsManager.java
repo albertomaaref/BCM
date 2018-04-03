@@ -23,35 +23,35 @@ import cz.msebera.android.httpclient.Header;
  * Created by alim on 29-Mar-18.
  */
 
-public class DownloadItems implements TaskCompletion {
+public class ItemsManager implements TaskCompletion {
 
     private TaskCompletion delegato;
     private ProgressDialog progressDialog;
-    private List<? extends  Articolo> listaCestino ;
+    private List<? extends Articolo> listaCestino;
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
 
-    private static DownloadItems istanza = null;
+    private static ItemsManager istanza = null;
 
-    private DownloadItems (){}
+    private ItemsManager() {
+    }
 
     private Context context;
-
 
 
     private AttrezzoAdapter attrezzoAdapter;
     private MaterialeAdapter materialeAdapter;
 
-    public static DownloadItems getDownloadItems(){
-        if (istanza == null){
-            istanza = new DownloadItems();
+    public static ItemsManager getDownloadItems() {
+        if (istanza == null) {
+            istanza = new ItemsManager();
         }
 
         return istanza;
     }
 
-    public  void scaricaListFromDB(final Context context, final List<? extends Articolo> listaCestino, final RecyclerView recyclerView, final RecyclerView.LayoutManager layoutManager, final String tipologia){
+    public void scaricaListFromDB(final Context context, final List<? extends Articolo> listaCestino, final RecyclerView recyclerView, final RecyclerView.LayoutManager layoutManager, final String tipologia) {
         delegato = this;
         this.listaCestino = listaCestino;
         this.context = context;
@@ -62,18 +62,18 @@ public class DownloadItems implements TaskCompletion {
 
         progressDialog = new ProgressDialog(context);
         progressDialog.show();
-        FireBaseConnection.get(tipologia, null, new AsyncHttpResponseHandler() {
+        FireBaseConnection.get(tipologia + ".json", null, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String s = new String(responseBody);
-                delegato.taskToDo(Constants.SUCCESSO,s,tipologia);
+                delegato.taskToDo(Constants.SUCCESSO, s, tipologia);
 
 
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                delegato.taskToDo(Constants.ERROR,new String(responseBody),tipologia);
+                delegato.taskToDo(Constants.ERROR, new String(responseBody), tipologia);
             }
         });
 
@@ -89,13 +89,14 @@ public class DownloadItems implements TaskCompletion {
     public void taskToDo(String esito, String bodyResponse, String param1) {
         progressDialog.dismiss();
         progressDialog.cancel();
-        if (esito.equals(Constants.SUCCESSO)){
-            if  ( param1.equals(Constants.ATTREZZI)){
-                final List<? extends Articolo> lista ;
+        if (esito.equals(Constants.SUCCESSO)) {
+            if (param1.equals(Constants.ATTREZZI)) {
+                final List<? extends Articolo> lista;
                 lista = JsonParser.getAttrezzi(bodyResponse);
-                attrezzoAdapter =new AttrezzoAdapter(context, (List<Attrezzo>) lista, new AttrezzoAdapter.OnAttrezzoClickListener() {
+                attrezzoAdapter = new AttrezzoAdapter(context, (List<Attrezzo>) lista, new AttrezzoAdapter.OnAttrezzoClickListener() {
                     @Override
                     public void onAttrezzoCheck(Attrezzo attrezzo) {
+
                         List<Attrezzo> list = new ArrayList<>();
                         list = (List<Attrezzo>) listaCestino;
                         list.add(attrezzo);
@@ -115,20 +116,26 @@ public class DownloadItems implements TaskCompletion {
                 recyclerView.setVisibility(View.VISIBLE);
 
 
-            }else if (param1.equals(Constants.MATERIALI)){
-                final List<? extends Articolo> lista ;
+            } else if (param1.equals(Constants.MATERIALI)) {
+                final List<? extends Articolo> lista;
                 lista = JsonParser.getMateriali(bodyResponse);
                 materialeAdapter = new MaterialeAdapter((List<Materiale>) lista, context, new MaterialeAdapter.OnMaterialeClickListener() {
                     @Override
                     public void onMaterialeCheck(Materiale materiale) {
-                        List<Materiale> list =  new ArrayList<>();
-                        list = (List<Materiale>) listaCestino;
-                        list.add(materiale);
-                        listaCestino = list;                    }
+                        if (materiale.getQuantita() < 1) {
+                            Toast.makeText(context, "CONTROLLARE QUANTITA", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            List<Materiale> list = new ArrayList<>();
+                            list = (List<Materiale>) listaCestino;
+                            list.add(materiale);
+                            listaCestino = list;
+                        }
+                    }
 
                     @Override
                     public void onMaterialeUncheck(Materiale materiale) {
-                        List<Materiale> list =  new ArrayList<>();
+                        List<Materiale> list = new ArrayList<>();
                         list = (List<Materiale>) listaCestino;
                         list.remove(materiale);
                         listaCestino = list;
@@ -140,11 +147,8 @@ public class DownloadItems implements TaskCompletion {
             }
 
 
-
-
-        }
-        else if (esito.equals(Constants.ERROR)){
-            Toast.makeText(context,"ERROE NEL DOWNLOAD DEGLI ATTREZZI", Toast.LENGTH_SHORT).show();
+        } else if (esito.equals(Constants.ERROR)) {
+            Toast.makeText(context, "ERROE NEL DOWNLOAD DEGLI ATTREZZI", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -156,7 +160,7 @@ public class DownloadItems implements TaskCompletion {
         this.listaCestino = listaCestino;
     }
 
-    public void removeAll(){
+    public void removeAll() {
         listaCestino.removeAll(listaCestino);
     }
 }

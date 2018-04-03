@@ -1,12 +1,10 @@
 package com.example.alim.bcm.fragments;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.PluralsRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,18 +15,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.example.alim.bcm.ImpiegatoActivity;
 import com.example.alim.bcm.R;
 import com.example.alim.bcm.model.Attrezzo;
 import com.example.alim.bcm.model.Autista;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Richiesta;
-import com.example.alim.bcm.utilities.DownloadItems;
-import com.example.alim.bcm.utilities.FireBaseConnection;
+import com.example.alim.bcm.utilities.ItemsManager;
 import com.example.alim.bcm.utilities.ImpiegatoTasks;
 import com.example.alim.bcm.utilities.RequestManager;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,8 +55,8 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final DownloadItems downloadItems = DownloadItems.getDownloadItems();
-        downloadItems.scaricaListFromDB(getContext(),listaCestino,recyclerViewAttrezzi,lm, Constants.ATTREZZI);
+        final ItemsManager itemsManager = ItemsManager.getDownloadItems();
+        itemsManager.scaricaListFromDB(getContext(),listaCestino,recyclerViewAttrezzi,lm, Constants.ATTREZZI);
         bApprovaRichiesta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +64,7 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks {
                 richiesta.setId(10);
                 richiesta.setListaAttrezzi(listaCestino);
                 //richiesta.setTestoLibero();
-                AttrezzziFragment fr = (AttrezzziFragment) getFragmentManager().findFragmentById(R.id.fragmentImpiegato);
+                AttrezzziFragment fr = (AttrezzziFragment) new AttrezzziFragment();
                 RequestManager.sendRequest(getContext(),richiesta,Constants.ATTREZZI,getFragmentManager(),fr);
             }
         });

@@ -22,7 +22,9 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textColor="@color/colorAccent"
+                android:textSize="24sp"/>
 
             <EditText
                 android:id="@+id/eQuantita"

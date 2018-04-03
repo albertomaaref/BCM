@@ -18,7 +18,7 @@
 
             <TextView
                 android:id="@+id/text_attrezzo"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
@@ -26,10 +26,23 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="24sp" />
 
+            <EditText
+                android:id="@+id/eQuantita"
+                android:layout_width="2dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="Qtà"
+                android:inputType="number" />
+
             <CheckBox
                 android:id="@+id/checkBoxCestino"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"/>
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

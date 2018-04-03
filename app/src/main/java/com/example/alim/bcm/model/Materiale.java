@@ -12,6 +12,7 @@ public class Materiale extends Articolo implements Serializable {
     private String nome;
     private String marca;
     private String id;
+    private int quantita;
 
     public String getId() {
         return id;
@@ -61,5 +62,13 @@ public class Materiale extends Articolo implements Serializable {
 
     public void setMarca(String marca) {
         this.marca = marca;
+    }
+
+    public int getQuantita() {
+        return quantita;
+    }
+
+    public void setQuantita(int quantita) {
+        this.quantita = quantita;
     }
 }

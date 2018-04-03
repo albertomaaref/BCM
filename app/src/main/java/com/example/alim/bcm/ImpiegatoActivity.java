@@ -22,6 +22,7 @@ public class ImpiegatoActivity extends AppCompatActivity
 
     private static String ATTREZZI_FRAGMENT = "attrezi_fragment";
     private static String MATERIALI_FRAGMENT = "materiali_fragment";
+    private static String RICHIESTE_FRAGMENT = "richieste_fragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,28 +94,54 @@ public class ImpiegatoActivity extends AppCompatActivity
         AttrezzziFragment myAttreziFragment = (AttrezzziFragment) getSupportFragmentManager().findFragmentByTag(ATTREZZI_FRAGMENT);
         MaterialiFragment myMaterialiFragment = (MaterialiFragment) getSupportFragmentManager().findFragmentByTag(MATERIALI_FRAGMENT);
         if (id == R.id.nav_materiale) {
-            if (myAttreziFragment != null && myAttreziFragment.isVisible()) {
+            for(Fragment fragment:getSupportFragmentManager().getFragments()){
+
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            }
+            MaterialiFragment materialiFragment = new MaterialiFragment();
+            fragTrans.add(R.id.fragmentImpiegato, materialiFragment, MATERIALI_FRAGMENT);
+            fragTrans.commit();
+
+
+            /*if (myAttreziFragment != null && myAttreziFragment.isVisible()) {
                 MaterialiFragment materialiFragment = new MaterialiFragment();
                 fragTrans.replace(R.id.fragmentImpiegato, materialiFragment, MATERIALI_FRAGMENT);
                 fragTrans.commit();
             } else if (myMaterialiFragment != null && myMaterialiFragment.isVisible()) {
                 // sono già nel fragment
             } else {
-                fragTrans.add(R.id.fragmentImpiegato, myMaterialiFragment, MATERIALI_FRAGMENT);
+                MaterialiFragment materialiFragment = new MaterialiFragment();
+                fragTrans.add(R.id.fragmentImpiegato, materialiFragment, MATERIALI_FRAGMENT);
                 fragTrans.commit();
-            }
+            }*/
 
         } else if (id == R.id.nav_attrezzi) {
-            if (myMaterialiFragment != null && myMaterialiFragment.isVisible()) {
+            for(Fragment fragment:getSupportFragmentManager().getFragments()){
+
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            }
+            AttrezzziFragment attreziFragment = new AttrezzziFragment();
+            fragTrans.add(R.id.fragmentImpiegato, attreziFragment, ATTREZZI_FRAGMENT);
+            fragTrans.commit();
+
+
+            /*if (myMaterialiFragment != null && myMaterialiFragment.isVisible()) {
                 AttrezzziFragment impiegatoAttrezziFragmentTaskImpl = new AttrezzziFragment();
                 fragTrans.replace(R.id.fragmentImpiegato, impiegatoAttrezziFragmentTaskImpl, ATTREZZI_FRAGMENT);
                 fragTrans.commit();
             } else if (myAttreziFragment != null && myAttreziFragment.isVisible()) {
                 // sono già nel fragment
             } else {
-                fragTrans.add(R.id.fragmentImpiegato, myMaterialiFragment, ATTREZZI_FRAGMENT);
+                fragTrans.add(R.id.fragmentImpiegato, myAttreziFragment, ATTREZZI_FRAGMENT);
                 fragTrans.commit();
+            }*/
+
+        } else if (id == R.id.nav_richieste){
+            for(Fragment fragment:getSupportFragmentManager().getFragments()){
+
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             }
+
 
         }
 

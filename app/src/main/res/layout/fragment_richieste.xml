@@ -1,98 +1,90 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="460dp"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.alim.bcm.fragments.RichiesteFragment">
-    <android.support.v7.widget.AppCompatSpinner
-        android:id="@+id/sFragrichieste"
-        android:layout_margin="10dp"
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/spinnerRichiesteFrag">
-
-    </android.support.v7.widget.AppCompatSpinner>
-
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        >
+        android:layout_margin="10dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView7"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="LISTA ATTREZZI"
-                android:textColor="@android:color/background_dark"
-                android:textSize="24sp" />
-            <FrameLayout
-                android:id="@+id/frameAttrezzi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerViewAttrezzi"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_margin="10dp">
+                android:orientation="horizontal">
 
-                </android.support.v7.widget.RecyclerView>
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="CANTIERE" />
 
-            </FrameLayout>
-            <FrameLayout
-                android:id="@+id/frameMateriali"
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="nome cantiere" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone">
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerMateriali"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_margin="10dp" >
+                android:orientation="horizontal">
 
-                </android.support.v7.widget.RecyclerView>
+                <TextView
+                    android:id="@+id/textView20"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="STATO RICHIESTA" />
 
-            </FrameLayout>
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="stato richiesta" />
+            </LinearLayout>
 
-            <Spinner
-                android:id="@+id/sCantieri"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:entries="@array/spinnerCantieri" />
+                android:orientation="horizontal">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="35dp">
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="DATA DI CONSEGNA"
+                    android:layout_weight="1"/>
 
-            </FrameLayout>
-
-            <Button
-                android:id="@+id/bAggiungiNota"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="aggiungi nota" />
-
-            <Button
-                android:id="@+id/bApprovaRichiesta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="apporva richiesta"
-                android:layout_gravity="center"
-                android:gravity="center"
-                />
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="data di consegna"
+                    android:layout_weight="1"/>
+            </LinearLayout>
         </LinearLayout>
+
     </FrameLayout>
-
-
-
 </LinearLayout>

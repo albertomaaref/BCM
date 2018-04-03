@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.alim.bcm.R;
 import com.example.alim.bcm.model.Attrezzo;
@@ -48,17 +50,27 @@ public class AttrezzoAdapter extends RecyclerView.Adapter<AttrezzoAdapter.Attrez
 
     @Override
     public void onBindViewHolder(final AttrezzoHolder holder, int position) {
-        holder.textAttrezzo.setText(listaAttrezzi.get(position).getNome());
-        final Attrezzo attrezzo = listaAttrezzi.get(position);
 
+        final Attrezzo attrezzo = listaAttrezzi.get(position);
+        holder.textAttrezzo.setText(attrezzo.getNome());
         holder.checkBoxCestino.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    onAttrezzoClickListener.onAttrezzoCheck(attrezzo);
+                    if (holder.quantità.getText().toString().equals("") || Integer.parseInt(holder.quantità.getText().toString())<1){
+                        holder.checkBoxCestino.setChecked(false);
+                        Toast.makeText(context, "CONTROLLARE QUANTITA", Toast.LENGTH_SHORT).show();
+
+                    }
+                    else {
+
+                        attrezzo.setQuantita(Integer.parseInt(holder.quantità.getText().toString()));
+                        onAttrezzoClickListener.onAttrezzoCheck(attrezzo);
+                    }
 
                 }
                 else {
+                    holder.quantità.setText("");
                     onAttrezzoClickListener.onAttrezzoUncheck(attrezzo);
 
                 }
@@ -88,12 +100,14 @@ public class AttrezzoAdapter extends RecyclerView.Adapter<AttrezzoAdapter.Attrez
         CardView attrezzo_card;
         TextView textAttrezzo;
         CheckBox checkBoxCestino;
+        EditText quantità ;
 
         public AttrezzoHolder(View itemView) {
             super(itemView);
             textAttrezzo = itemView.findViewById(R.id.text_attrezzo);
             checkBoxCestino = itemView.findViewById(R.id.checkBoxCestino);
             attrezzo_card = itemView.findViewById(R.id.card_attrezzo);
+            quantità = itemView.findViewById(R.id.eQuantita);
         }
     }
 }

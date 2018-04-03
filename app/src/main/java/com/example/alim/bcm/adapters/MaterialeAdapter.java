@@ -11,11 +11,13 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.alim.bcm.R;
 import com.example.alim.bcm.model.Attrezzo;
 import com.example.alim.bcm.model.Materiale;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -46,16 +48,31 @@ public class MaterialeAdapter extends RecyclerView.Adapter<MaterialeAdapter.Mate
     }
 
     @Override
-    public void onBindViewHolder(Materialeholder holder, int position) {
-        holder.textMateriale.setText(listaMataeriali.get(position).getNome());
+    public void onBindViewHolder(final Materialeholder holder, int position) {
+
         final Materiale materiale= listaMataeriali.get(position);
+        holder.textMateriale.setText(materiale.getNome());
+
         holder.checkMateriale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    onMaterialeClickListener.onMaterialeCheck(materiale);
+                    if (holder.quantitaMateriale.getText().toString().equals("") || Integer.parseInt(holder.quantitaMateriale.getText().toString())<1) {
+                        holder.checkMateriale.setChecked(false);
+                        Toast.makeText(context, "CONTROLLARE QUANTITA", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+
+                        materiale.setQuantita(Integer.parseInt(holder.quantitaMateriale.getText().toString()));
+                        onMaterialeClickListener.onMaterialeCheck(materiale);
+
+                    }
+
                 }
-                else onMaterialeClickListener.onMaterialeUncheck(materiale);
+                else {
+                    holder.quantitaMateriale.setText("");
+                    onMaterialeClickListener.onMaterialeUncheck(materiale);
+                }
             }
         });
     }

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.alim.bcm.fragments.CantiereFragment;
 import com.example.alim.bcm.fragments.NotificheFragment;
-import com.example.alim.bcm.fragments.RichiesteFragment;
+import com.example.alim.bcm.fragments.CapoDemandFragment;
 
 public class CapoCantiereActivity extends AppCompatActivity {
 
@@ -38,12 +38,12 @@ public class CapoCantiereActivity extends AppCompatActivity {
                     }
                     return true;
                 case R.id.navigation_richieste:
-                    RichiesteFragment richiesteFragment = (RichiesteFragment) fm.findFragmentByTag(RICHIESTE_FRAGMENT);
-                    if (richiesteFragment != null)
-                        ft.replace(R.id.fragmentCapo, richiesteFragment, RICHIESTE_FRAGMENT).commit();
+                    CapoDemandFragment capoDemandFragment = (CapoDemandFragment) fm.findFragmentByTag(RICHIESTE_FRAGMENT);
+                    if (capoDemandFragment != null)
+                        ft.replace(R.id.fragmentCapo, capoDemandFragment, RICHIESTE_FRAGMENT).commit();
                     else {
-                        richiesteFragment = new RichiesteFragment();
-                        ft.replace(R.id.fragmentCapo, richiesteFragment, RICHIESTE_FRAGMENT).commit();
+                        capoDemandFragment = new CapoDemandFragment();
+                        ft.replace(R.id.fragmentCapo, capoDemandFragment, RICHIESTE_FRAGMENT).commit();
                     }
                     return true;
 

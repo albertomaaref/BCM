@@ -9,8 +9,8 @@ public class Constants {
     public static final String TIPO_UTENTE_ATTIVO = "tipoUtenteAttivo";
     public static final String SUCCESSO = "successo";
     public static final String ERROR = "error";
-    public static final String ATTREZZI = "attrezzi.json";
-    public static final String MATERIALI = "materiali.json";
+    public static final String ATTREZZI = "attrezzi";
+    public static final String MATERIALI = "materiali";
     public static final String UTENTI = "utenti";
     public static final String OPERAIO = "operaio";
     public static final String IMPIEGATO = "impiegato";
