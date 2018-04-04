@@ -51,13 +51,13 @@ public class ItemsManager implements TaskCompletion {
         return istanza;
     }
 
-    public void scaricaListFromDB(final Context context, final List<? extends Articolo> listaCestino, final RecyclerView recyclerView, final RecyclerView.LayoutManager layoutManager, final String tipologia) {
+    public void scaricaListArticoliFromDB(final Context context, final List<? extends Articolo> listaCestino, final RecyclerView recyclerView, final RecyclerView.LayoutManager layoutManager, final String tipologia) {
         delegato = this;
         this.listaCestino = listaCestino;
         this.context = context;
         this.layoutManager = layoutManager;
         this.recyclerView = recyclerView;
-        recyclerView.setVisibility(View.GONE);
+        //recyclerView.setVisibility(View.GONE);
 
 
         progressDialog = new ProgressDialog(context);

@@ -3,7 +3,9 @@ package com.example.alim.bcm.fragments;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +22,7 @@ import com.example.alim.bcm.model.Attrezzo;
 import com.example.alim.bcm.model.Autista;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Richiesta;
+import com.example.alim.bcm.services.SelectDataDialog;
 import com.example.alim.bcm.utilities.ItemsManager;
 import com.example.alim.bcm.utilities.ImpiegatoTasks;
 import com.example.alim.bcm.utilities.RequestManager;
@@ -43,6 +46,8 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks {
     private List<Attrezzo> listaCestino = new ArrayList<>();
     private Spinner spinnerCantieri;
     final  private Richiesta richiesta = new Richiesta();
+    private EditText eDataConsegna;
+
 
 
 
@@ -56,16 +61,21 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks {
         super.onViewCreated(view, savedInstanceState);
 
         final ItemsManager itemsManager = ItemsManager.getDownloadItems();
-        itemsManager.scaricaListFromDB(getContext(),listaCestino,recyclerViewAttrezzi,lm, Constants.ATTREZZI);
+        itemsManager.scaricaListArticoliFromDB(getContext(),listaCestino,recyclerViewAttrezzi,lm, Constants.ATTREZZI);
         bApprovaRichiesta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 richiesta.setCantiere(spinnerCantieri.getSelectedItem().toString());
-                richiesta.setId(10);
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                richiesta.setId(sharedPreferences.getInt(Constants.ID_RICHIESTA,404)+1);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt(Constants.ID_RICHIESTA,sharedPreferences.getInt(Constants.ID_RICHIESTA,404)+1).commit();
+                richiesta.setDataConesgna(eDataConsegna.getText().toString());
                 richiesta.setListaAttrezzi(listaCestino);
                 //richiesta.setTestoLibero();
                 AttrezzziFragment fr = (AttrezzziFragment) new AttrezzziFragment();
-                RequestManager.sendRequest(getContext(),richiesta,Constants.ATTREZZI,getFragmentManager(),fr);
+                RequestManager requestManager = RequestManager.getIstance();
+                requestManager.sendRequest(getContext(),richiesta,Constants.ATTREZZI,getFragmentManager(),fr);
             }
         });
 
@@ -73,6 +83,14 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks {
             @Override
             public void onClick(View v) {
                 showInputDialog();
+            }
+        });
+
+        eDataConsegna.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SelectDataDialog selectDataDialog = new SelectDataDialog(eDataConsegna);
+                selectDataDialog.show(getFragmentManager(),Constants.SELECT_DATA_DIALOG);
             }
         });
 
@@ -98,6 +116,7 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks {
         bApprovaRichiesta = view.findViewById(R.id.bApprovaRichiesta);
         spinnerCantieri = view.findViewById(R.id.sCantieri);
         bAggiungiNota = view.findViewById(R.id.bAggiungiNota);
+        eDataConsegna = view.findViewById(R.id.eDataConsegna);
 
         return view;
 

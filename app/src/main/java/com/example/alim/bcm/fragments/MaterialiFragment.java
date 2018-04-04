@@ -2,7 +2,9 @@ package com.example.alim.bcm.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,10 +20,13 @@ import com.example.alim.bcm.R;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Materiale;
 import com.example.alim.bcm.model.Richiesta;
+import com.example.alim.bcm.services.SelectDataDialog;
 import com.example.alim.bcm.utilities.ItemsManager;
 import com.example.alim.bcm.utilities.RequestManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +44,7 @@ public class MaterialiFragment extends Fragment {
     private List<Materiale> listaCestino = new ArrayList<>();
     private Richiesta richiesta = new Richiesta();
     private Spinner spinnerCantieri;
+    private EditText eDataConsegna;
 
 
     public MaterialiFragment() {
@@ -66,14 +72,14 @@ public class MaterialiFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
+        eDataConsegna = view.findViewById(R.id.eDataConsegna);
         spinnerCantieri = view.findViewById(R.id.sCantieri);
         bApprovaRichiesta = view.findViewById(R.id.bApprovaRichiesta);
         bAggiungiNota = view.findViewById(R.id.bAggiungiNota);
         lm = new LinearLayoutManager(getContext());
         recyclerViewMateriale = view.findViewById(R.id.recyclerMateriali);
         ItemsManager itemsManager = ItemsManager.getDownloadItems();
-        itemsManager.scaricaListFromDB(getContext(),listaCestino,recyclerViewMateriale,lm,Constants.MATERIALI);
+        itemsManager.scaricaListArticoliFromDB(getContext(),listaCestino,recyclerViewMateriale,lm,Constants.MATERIALI);
 
         bAggiungiNota.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,14 +92,28 @@ public class MaterialiFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 richiesta.setCantiere(spinnerCantieri.getSelectedItem().toString());
-                richiesta.setId(10);
+                // controllo formato data
+
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                richiesta.setId(sharedPreferences.getInt(Constants.ID_RICHIESTA,404)+1);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt(Constants.ID_RICHIESTA,sharedPreferences.getInt(Constants.ID_RICHIESTA,404)+1).commit();
                 richiesta.setListaMateriali(listaCestino);
+                richiesta.setDataConesgna(eDataConsegna.getText().toString());
                 //richiesta.setTestoLibero();
-                MaterialiFragment fr = (MaterialiFragment) getFragmentManager().findFragmentById(R.id.fragmentImpiegato);
-                RequestManager.sendRequest(getContext(),richiesta,Constants.MATERIALI,getFragmentManager(),fr);
+                MaterialiFragment fr = new MaterialiFragment();
+                RequestManager requestManager = RequestManager.getIstance();
+                requestManager.sendRequest(getContext(),richiesta,Constants.MATERIALI,getFragmentManager(),fr);
             }
         });
 
+        eDataConsegna.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SelectDataDialog selectDataDialog = new SelectDataDialog(eDataConsegna);
+                selectDataDialog.show(getFragmentManager(),Constants.SELECT_DATA_DIALOG);
+            }
+        });
 
     }
 

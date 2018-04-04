@@ -1,9 +1,13 @@
 package com.example.alim.bcm.utilities;
 
+import android.util.Log;
+
 import com.example.alim.bcm.model.Attrezzo;
+import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Materiale;
 import com.example.alim.bcm.model.Richiesta;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -125,9 +129,29 @@ public final class JsonParser {
                 while (chiavi.hasNext()){
                     String chiave = (String) chiavi.next();
                     if (chiave.equalsIgnoreCase("cantiere"))  richiesta.setCantiere(oggetto.getString(chiave));
-                    if (chiave.equalsIgnoreCase("listaattrezzi")){
-                        JSONObject objet = oggetto.getJSONObject(chiave);
-                        Iterator cles = objet.keys();
+                    else if (chiave.equalsIgnoreCase("listaattrezzi")){
+                        JSONArray jArray = oggetto.getJSONArray(chiave);
+                        List<Attrezzo> attrezzoList = new ArrayList<>();
+                        if (jArray != null) {
+                            for (int i=0;i<jArray.length();i++){
+                                String s = jArray.getString(i);
+                                JSONObject jsonObject = new JSONObject(s);
+                                Attrezzo attrezzo = new Attrezzo();
+                                Iterator clefs = jsonObject.keys();
+                                while (clefs.hasNext()){
+                                    String cle = (String) clefs.next();
+                                    if (cle.equalsIgnoreCase("quantita")) attrezzo.setQuantita(Integer.parseInt(jsonObject.getString(cle)));
+                                    else if (cle.equalsIgnoreCase("id")) attrezzo.setId(jsonObject.getString(cle));
+                                    else if (cle.equalsIgnoreCase("nome")) attrezzo.setNome(jsonObject.getString(cle));
+                                }
+                                attrezzoList.add(attrezzo);
+
+                            }
+
+                        }
+
+                        richiesta.setListaAttrezzi(attrezzoList);
+                        /*Iterator cles = objet.keys();
                         List<Attrezzo> attrezzoList = new ArrayList<>();
                         while (cles.hasNext()){
                             String cle = (String) cles.next();
@@ -135,7 +159,49 @@ public final class JsonParser {
                             attrezzo = (Attrezzo) object.get(cle);
                             attrezzoList.add(attrezzo);
                         }
+                        richiesta.setListaAttrezzi(attrezzoList);*/
 
+                    }
+                    else if (chiave.equalsIgnoreCase("listamateriali")){
+                        JSONArray jArray = oggetto.getJSONArray(chiave);
+                        List<Materiale> materialeList = new ArrayList<>();
+                        if (jArray != null) {
+
+                            for (int i=0;i<jArray.length();i++){
+                                String s = jArray.getString(i);
+                                JSONObject jsonObject = new JSONObject(s);
+                                Materiale materiale = new Materiale();
+                                Iterator clefs = jsonObject.keys();
+                                while (clefs.hasNext()){
+                                    String cle = (String) clefs.next();
+                                    if (cle.equalsIgnoreCase("quantita")) materiale.setQuantita(Integer.parseInt(jsonObject.getString(cle)));
+                                    else if (cle.equalsIgnoreCase("id")) materiale.setId(jsonObject.getString(cle));
+                                    else if (cle.equalsIgnoreCase("nome")) materiale.setNome(jsonObject.getString(cle));
+                                }
+
+                                materialeList.add(materiale);
+
+                            }
+
+                        }
+
+
+                        richiesta.setListaMateriali(materialeList);
+                        /*Iterator cles = objet.keys();
+                        List<Materiale> materialeList = new ArrayList<>();
+                        while (cles.hasNext()){
+                            String cle = (String) cles.next();
+                            Materiale materiale = new Materiale();
+                            materiale = (Materiale) object.get(cle);
+                            materialeList.add(materiale);
+                        }
+                        richiesta.setListaMateriali(materialeList);*/
+                    }
+                    else if (chiave.equalsIgnoreCase("dataconesgna")) {
+                        richiesta.setDataConesgna(oggetto.getString(chiave));
+                    }
+                    else if (chiave.equalsIgnoreCase("nota")){
+                        richiesta.setTestoLibero(oggetto.getString(chiave));
                     }
                 }
                 list.add(richiesta);

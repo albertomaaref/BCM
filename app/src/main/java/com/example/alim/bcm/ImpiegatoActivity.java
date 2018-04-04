@@ -16,6 +16,7 @@ import android.view.MenuItem;
 
 import com.example.alim.bcm.fragments.AttrezzziFragment;
 import com.example.alim.bcm.fragments.MaterialiFragment;
+import com.example.alim.bcm.fragments.RichiesteFragment;
 
 public class ImpiegatoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -141,7 +142,9 @@ public class ImpiegatoActivity extends AppCompatActivity
 
                 getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             }
-
+            RichiesteFragment richiesteFragment = new RichiesteFragment();
+            fragTrans.add(R.id.fragmentImpiegato,richiesteFragment,RICHIESTE_FRAGMENT);
+            fragTrans.commit();
 
         }
 

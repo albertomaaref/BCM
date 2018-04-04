@@ -6,6 +6,13 @@
     tools:context="com.example.alim.bcm.fragments.MaterialiFragment">
 
 
+    <Spinner
+        android:id="@+id/sCantieri"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:entries="@array/spinnerCantieri" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerMateriali"
         android:layout_width="match_parent"
@@ -14,33 +21,62 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <Spinner
-        android:id="@+id/sCantieri"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/spinnerCantieri" />
-
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp">
+        android:layout_height="45dp"
+        android:layout_margin="5dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Data di consgna"
+                android:gravity="center"/>
+
+            <EditText
+                android:editable="false"
+                android:id="@+id/eDataConsegna"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="center"
+                android:inputType="date"
+                android:background="@android:color/transparent"
+                android:hint="GG/MM//AAAA"
+                android:focusable="false"
+                />
+        </LinearLayout>
     </FrameLayout>
 
-    <Button
-        android:id="@+id/bAggiungiNota"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="aggiungi nota" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/bApprovaRichiesta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="apporva richiesta"
-        android:layout_gravity="center"
-        android:gravity="center"
-        />
+        <Button
+            android:id="@+id/bApprovaRichiesta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="apporva richiesta" />
+
+        <Button
+            android:id="@+id/bAggiungiNota"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="aggiungi nota" />
+    </LinearLayout>
 
 </LinearLayout>

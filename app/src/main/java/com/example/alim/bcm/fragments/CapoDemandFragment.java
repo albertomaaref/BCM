@@ -3,7 +3,9 @@ package com.example.alim.bcm.fragments;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +27,7 @@ import com.example.alim.bcm.model.Attrezzo;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Materiale;
 import com.example.alim.bcm.model.Richiesta;
+import com.example.alim.bcm.services.SelectDataDialog;
 import com.example.alim.bcm.utilities.ItemsManager;
 import com.example.alim.bcm.utilities.FireBaseConnection;
 import com.example.alim.bcm.utilities.RequestManager;
@@ -58,6 +61,8 @@ public class CapoDemandFragment extends Fragment  {
     int check ;
     private FrameLayout frameLayoutAttrezzi;
     private FrameLayout frameLayoutMateriali;
+    private EditText eDataConsegna;
+
 
 
 
@@ -90,6 +95,8 @@ public class CapoDemandFragment extends Fragment  {
         spinnerCantieri = view.findViewById(R.id.sCantieri);
         frameLayoutMateriali = view.findViewById(R.id.frameMateriali);
         frameLayoutAttrezzi = view.findViewById(R.id.frameAttrezzi);
+        eDataConsegna = view.findViewById(R.id.eDataConsegna);
+
 
         bApprovaRichiesta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,16 +105,21 @@ public class CapoDemandFragment extends Fragment  {
 
                 if (spinnerRichieste.getSelectedItem().toString().equals(ATTREZZI)){
                     richiesta.setCantiere(spinnerCantieri.getSelectedItem().toString());
-                    richiesta.setId(10);
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                    richiesta.setId(sharedPreferences.getInt(Constants.ID_RICHIESTA,404)+1);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt(Constants.ID_RICHIESTA,sharedPreferences.getInt(Constants.ID_RICHIESTA,404)+1).commit();
                     richiesta.setListaAttrezzi((ArrayList<Attrezzo>) listaCestino);
-                    RequestManager.sendRequest(getContext(),richiesta,Constants.ATTREZZI, getFragmentManager(),fr);
+                    richiesta.setDataConesgna(eDataConsegna.getText().toString());
+                    RequestManager requestManager = RequestManager.getIstance();
+                    requestManager.sendRequest(getContext(),richiesta,Constants.ATTREZZI, getFragmentManager(),fr);
                 }
                 else if (spinnerRichieste.getSelectedItem().toString().equals(MATERIALI)){
                     richiesta.setCantiere(spinnerCantieri.getSelectedItem().toString());
                     richiesta.setId(10);
                     richiesta.setListaMateriali((ArrayList<Materiale>) listaCestino);
-
-                    RequestManager.sendRequest(getContext(),richiesta,Constants.MATERIALI,getFragmentManager(),fr);
+                    RequestManager requestManager = RequestManager.getIstance();
+                    requestManager.sendRequest(getContext(),richiesta,Constants.MATERIALI,getFragmentManager(),fr);
 
                 }
                 else {
@@ -124,6 +136,13 @@ public class CapoDemandFragment extends Fragment  {
             }
         });
 
+        eDataConsegna.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SelectDataDialog selectDataDialog = new SelectDataDialog(eDataConsegna);
+                selectDataDialog.show(getFragmentManager(),Constants.SELECT_DATA_DIALOG);
+            }
+        });
 
 
 
@@ -145,14 +164,14 @@ public class CapoDemandFragment extends Fragment  {
                 if (true){
                     if (spinnerRichieste.getSelectedItem().toString().equals(ATTREZZI)){
                         ItemsManager itemsManager = ItemsManager.getDownloadItems();
-                        itemsManager.scaricaListFromDB(getContext(),listaCestino,recyclerViewAttrezzi, lm1,Constants.ATTREZZI);
+                        itemsManager.scaricaListArticoliFromDB(getContext(),listaCestino,recyclerViewAttrezzi, lm1,Constants.ATTREZZI);
 
                         frameLayoutMateriali.setVisibility(View.GONE);
                         frameLayoutAttrezzi.setVisibility(View.VISIBLE);
                     }
                     else if (spinnerRichieste.getSelectedItem().toString().equals(MATERIALI)){
                         ItemsManager itemsManager = ItemsManager.getDownloadItems();
-                        itemsManager.scaricaListFromDB(getContext(),listaCestino,recyclerViewMateriali, lm2,Constants.MATERIALI);
+                        itemsManager.scaricaListArticoliFromDB(getContext(),listaCestino,recyclerViewMateriali, lm2,Constants.MATERIALI);
 
                         frameLayoutAttrezzi.setVisibility(View.GONE);
                         frameLayoutMateriali.setVisibility(View.VISIBLE);

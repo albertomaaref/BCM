@@ -11,7 +11,7 @@ import java.util.List;
 public class Richiesta {
     private int id;
     private String cantiere;
-    private Date dataArrivo;
+    private String dataConesgna;
     private List<Materiale> listaMateriali;
     private List<Attrezzo> listaAttrezzi;
     private String testoLibero ;
@@ -53,12 +53,12 @@ public class Richiesta {
         this.id = id;
     }
 
-    public Date getDataArrivo() {
-        return dataArrivo;
+    public String getDataConesgna() {
+        return dataConesgna;
     }
 
-    public void setDataArrivo(Date dataArrivo) {
-        this.dataArrivo = dataArrivo;
+    public void setDataConesgna(String dataConesgna) {
+        this.dataConesgna = dataConesgna;
     }
 
     public String getCantiere() {
