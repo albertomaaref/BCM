@@ -34,7 +34,10 @@
         <activity android:name=".AutistaActivity" />
         <activity
             android:name=".CapoCantiereActivity"
-            android:label="@string/title_activity_capo_cantiere"></activity>
+            android:label="@string/title_activity_capo_cantiere" />
+        <activity android:name=".GestioneRichiestaActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

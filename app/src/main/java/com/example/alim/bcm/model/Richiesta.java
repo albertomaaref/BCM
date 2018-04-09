@@ -1,5 +1,6 @@
 package com.example.alim.bcm.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,17 +9,20 @@ import java.util.List;
  * Created by alim on 27-Mar-18.
  */
 
-public class Richiesta {
+public class Richiesta implements Serializable{
     private int id;
     private String cantiere;
     private String dataConesgna;
     private List<Materiale> listaMateriali;
     private List<Attrezzo> listaAttrezzi;
     private String testoLibero ;
+    private StatoRichiesta stato;
+    private String autista;
 
     public Richiesta() {
         listaAttrezzi = new ArrayList<>();
         listaMateriali = new ArrayList<>();
+        autista = "NON ASSEGNATO";
     }
 
     public List<Materiale> getListaMateriali() {
@@ -75,5 +79,21 @@ public class Richiesta {
 
     public void setTestoLibero(String testoLibero) {
         this.testoLibero = testoLibero;
+    }
+
+    public StatoRichiesta getStato() {
+        return stato;
+    }
+
+    public void setStato(StatoRichiesta stato) {
+        this.stato = stato;
+    }
+
+    public String getAutista() {
+        return autista;
+    }
+
+    public void setAutista(String autista) {
+        this.autista = autista;
     }
 }

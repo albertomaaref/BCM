@@ -34,7 +34,8 @@
                 android:gravity="center"
                 android:text="LISTA ATTREZZI"
                 android:textColor="@android:color/background_dark"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:visibility="gone"/>
             <FrameLayout
                 android:id="@+id/frameAttrezzi"
                 android:layout_width="match_parent"

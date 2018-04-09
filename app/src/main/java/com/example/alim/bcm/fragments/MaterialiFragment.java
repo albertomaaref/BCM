@@ -20,6 +20,7 @@ import com.example.alim.bcm.R;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Materiale;
 import com.example.alim.bcm.model.Richiesta;
+import com.example.alim.bcm.model.StatoRichiesta;
 import com.example.alim.bcm.services.SelectDataDialog;
 import com.example.alim.bcm.utilities.ItemsManager;
 import com.example.alim.bcm.utilities.RequestManager;
@@ -100,6 +101,8 @@ public class MaterialiFragment extends Fragment {
                 editor.putInt(Constants.ID_RICHIESTA,sharedPreferences.getInt(Constants.ID_RICHIESTA,404)+1).commit();
                 richiesta.setListaMateriali(listaCestino);
                 richiesta.setDataConesgna(eDataConsegna.getText().toString());
+                richiesta.setStato(StatoRichiesta.IN_ATTESA);
+
                 //richiesta.setTestoLibero();
                 MaterialiFragment fr = new MaterialiFragment();
                 RequestManager requestManager = RequestManager.getIstance();

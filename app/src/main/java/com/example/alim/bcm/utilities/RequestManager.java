@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.app.VoiceInteractor;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.example.alim.bcm.CapoCantiereActivity;
 import com.example.alim.bcm.ImpiegatoActivity;
 import com.example.alim.bcm.R;
+import com.example.alim.bcm.adapters.RichiestaAdapter;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Richiesta;
 import com.google.firebase.database.DatabaseReference;
@@ -29,13 +31,14 @@ import cz.msebera.android.httpclient.Header;
  * Created by alim on 29-Mar-18.
  */
 
-public class RequestManager implements TaskCompletion {
+public class RequestManager  {
 
     private TaskCompletion delegato;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private ProgressDialog progressDialog;
     private static RequestManager istanza  = null;
+    private Context context;
 
 
     private RequestManager() {
@@ -75,6 +78,8 @@ public class RequestManager implements TaskCompletion {
                     ref.child("richieste/" + richiesta.getId() + "/cantiere").setValue(richiesta.getCantiere());
                     ref.child("richieste/" + richiesta.getId() + "/dataConsegna").setValue(richiesta.getDataConesgna());
                     ref.child("richieste/" + richiesta.getId() + "/nota").setValue(richiesta.getTestoLibero());
+                    ref.child("richieste/" + richiesta.getId() + "/stato").setValue(richiesta.getStato());
+
 
 
                     //int lunghezza = 0;
@@ -111,46 +116,28 @@ public class RequestManager implements TaskCompletion {
         }
     }
 
-    public  void downloadRequests (Context context, RecyclerView.LayoutManager layoutManager, RecyclerView recyclerView){
-        delegato = this;
-        this.layoutManager = layoutManager;
-        this.recyclerView = recyclerView;
-        progressDialog = new ProgressDialog(context);
-        progressDialog.show();
+    public  void downloadRequests (@NonNull TaskCompletion taskCompletion){
+        delegato = taskCompletion;
+
         FireBaseConnection.get(Constants.RICHIESTE + ".json", null, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String s = new String(responseBody);
                 delegato.taskToDo(Constants.SUCCESSO,s);
+
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 delegato.taskToDo(Constants.ERROR,String.valueOf(statusCode));
+
             }
         });
 
 
     }
 
-    @Override
-    public void taskToDo(String esito, String bodyResponse) {
-        progressDialog.dismiss();
-        progressDialog.cancel();
-        if (esito.equals(Constants.SUCCESSO)){
-            List<Richiesta> richiestaList = new ArrayList<>();
-            richiestaList = JsonParser.getRichieste(bodyResponse);
-            Log.i(Constants.TAG,""+this.getClass());
 
-        }
-        else if (esito.equals(Constants.ERROR)){
 
-        }
 
-    }
-
-    @Override
-    public void taskToDo(String esito, String bodyResponse, String param1) {
-
-    }
 }

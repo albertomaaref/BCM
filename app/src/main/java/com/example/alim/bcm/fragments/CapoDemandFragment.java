@@ -27,6 +27,7 @@ import com.example.alim.bcm.model.Attrezzo;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Materiale;
 import com.example.alim.bcm.model.Richiesta;
+import com.example.alim.bcm.model.StatoRichiesta;
 import com.example.alim.bcm.services.SelectDataDialog;
 import com.example.alim.bcm.utilities.ItemsManager;
 import com.example.alim.bcm.utilities.FireBaseConnection;
@@ -40,7 +41,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CapoDemandFragment extends Fragment  {
+public class CapoDemandFragment extends Fragment {
 
     private Button bApprovaRichiesta;
     private Button bAggiungiNota;
@@ -58,12 +59,10 @@ public class CapoDemandFragment extends Fragment  {
     private static final String MATERIALI = "MATERIALI";
     private static final String ATTREZZI = "ATTREZZI";
     private boolean start = false;
-    int check ;
+    int check;
     private FrameLayout frameLayoutAttrezzi;
     private FrameLayout frameLayoutMateriali;
     private EditText eDataConsegna;
-
-
 
 
     public CapoDemandFragment() {
@@ -102,29 +101,22 @@ public class CapoDemandFragment extends Fragment  {
             @Override
             public void onClick(View v) {
                 CapoDemandFragment fr = new CapoDemandFragment();
+                richiesta.setCantiere(spinnerCantieri.getSelectedItem().toString());
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                richiesta.setId(sharedPreferences.getInt(Constants.ID_RICHIESTA, 404) + 1);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt(Constants.ID_RICHIESTA, sharedPreferences.getInt(Constants.ID_RICHIESTA, 404) + 1).commit();
+                richiesta.setDataConesgna(eDataConsegna.getText().toString());
+                richiesta.setStato(StatoRichiesta.IN_ATTESA);
 
-                if (spinnerRichieste.getSelectedItem().toString().equals(ATTREZZI)){
-                    richiesta.setCantiere(spinnerCantieri.getSelectedItem().toString());
-                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                    richiesta.setId(sharedPreferences.getInt(Constants.ID_RICHIESTA,404)+1);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putInt(Constants.ID_RICHIESTA,sharedPreferences.getInt(Constants.ID_RICHIESTA,404)+1).commit();
+                if (spinnerRichieste.getSelectedItem().toString().equals(ATTREZZI)) {
                     richiesta.setListaAttrezzi((ArrayList<Attrezzo>) listaCestino);
-                    richiesta.setDataConesgna(eDataConsegna.getText().toString());
-                    RequestManager requestManager = RequestManager.getIstance();
-                    requestManager.sendRequest(getContext(),richiesta,Constants.ATTREZZI, getFragmentManager(),fr);
-                }
-                else if (spinnerRichieste.getSelectedItem().toString().equals(MATERIALI)){
-                    richiesta.setCantiere(spinnerCantieri.getSelectedItem().toString());
-                    richiesta.setId(10);
+                } else if (spinnerRichieste.getSelectedItem().toString().equals(MATERIALI)) {
                     richiesta.setListaMateriali((ArrayList<Materiale>) listaCestino);
-                    RequestManager requestManager = RequestManager.getIstance();
-                    requestManager.sendRequest(getContext(),richiesta,Constants.MATERIALI,getFragmentManager(),fr);
+                }
+                RequestManager requestManager = RequestManager.getIstance();
+                requestManager.sendRequest(getContext(), richiesta, Constants.MATERIALI, getFragmentManager(), fr);
 
-                }
-                else {
-                    Toast.makeText(getContext(),"ERROR",Toast.LENGTH_SHORT).show();
-                }
 
             }
         });
@@ -140,38 +132,33 @@ public class CapoDemandFragment extends Fragment  {
             @Override
             public void onClick(View v) {
                 SelectDataDialog selectDataDialog = new SelectDataDialog(eDataConsegna);
-                selectDataDialog.show(getFragmentManager(),Constants.SELECT_DATA_DIALOG);
+                selectDataDialog.show(getFragmentManager(), Constants.SELECT_DATA_DIALOG);
             }
         });
-
-
-
 
 
         return view;
     }
 
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        Log.i("alimaaref","onViewCreated "+ this.getClass());
+        Log.i("alimaaref", "onViewCreated " + this.getClass());
         super.onViewCreated(view, savedInstanceState);
-        check=0;
+        check = 0;
         spinnerRichieste.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (true){
-                    if (spinnerRichieste.getSelectedItem().toString().equals(ATTREZZI)){
+                if (true) {
+                    if (spinnerRichieste.getSelectedItem().toString().equals(ATTREZZI)) {
                         ItemsManager itemsManager = ItemsManager.getDownloadItems();
-                        itemsManager.scaricaListArticoliFromDB(getContext(),listaCestino,recyclerViewAttrezzi, lm1,Constants.ATTREZZI);
+                        itemsManager.scaricaListArticoliFromDB(getContext(), listaCestino, recyclerViewAttrezzi, lm1, Constants.ATTREZZI);
 
                         frameLayoutMateriali.setVisibility(View.GONE);
                         frameLayoutAttrezzi.setVisibility(View.VISIBLE);
-                    }
-                    else if (spinnerRichieste.getSelectedItem().toString().equals(MATERIALI)){
+                    } else if (spinnerRichieste.getSelectedItem().toString().equals(MATERIALI)) {
                         ItemsManager itemsManager = ItemsManager.getDownloadItems();
-                        itemsManager.scaricaListArticoliFromDB(getContext(),listaCestino,recyclerViewMateriali, lm2,Constants.MATERIALI);
+                        itemsManager.scaricaListArticoliFromDB(getContext(), listaCestino, recyclerViewMateriali, lm2, Constants.MATERIALI);
 
                         frameLayoutAttrezzi.setVisibility(View.GONE);
                         frameLayoutMateriali.setVisibility(View.VISIBLE);
@@ -188,10 +175,6 @@ public class CapoDemandFragment extends Fragment  {
             }
         });
     }
-
-
-
-
 
 
     @Override
@@ -231,7 +214,6 @@ public class CapoDemandFragment extends Fragment  {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
-
 
 
 }

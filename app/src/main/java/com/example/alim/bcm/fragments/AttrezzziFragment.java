@@ -22,6 +22,7 @@ import com.example.alim.bcm.model.Attrezzo;
 import com.example.alim.bcm.model.Autista;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Richiesta;
+import com.example.alim.bcm.model.StatoRichiesta;
 import com.example.alim.bcm.services.SelectDataDialog;
 import com.example.alim.bcm.utilities.ItemsManager;
 import com.example.alim.bcm.utilities.ImpiegatoTasks;
@@ -72,6 +73,7 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks {
                 editor.putInt(Constants.ID_RICHIESTA,sharedPreferences.getInt(Constants.ID_RICHIESTA,404)+1).commit();
                 richiesta.setDataConesgna(eDataConsegna.getText().toString());
                 richiesta.setListaAttrezzi(listaCestino);
+                richiesta.setStato(StatoRichiesta.IN_ATTESA);
                 //richiesta.setTestoLibero();
                 AttrezzziFragment fr = (AttrezzziFragment) new AttrezzziFragment();
                 RequestManager requestManager = RequestManager.getIstance();

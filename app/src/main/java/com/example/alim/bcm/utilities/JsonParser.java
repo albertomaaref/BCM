@@ -6,6 +6,7 @@ import com.example.alim.bcm.model.Attrezzo;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Materiale;
 import com.example.alim.bcm.model.Richiesta;
+import com.example.alim.bcm.model.StatoRichiesta;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -197,12 +198,14 @@ public final class JsonParser {
                         }
                         richiesta.setListaMateriali(materialeList);*/
                     }
-                    else if (chiave.equalsIgnoreCase("dataconesgna")) {
+                    else if (chiave.equalsIgnoreCase("dataconsegna")) {
                         richiesta.setDataConesgna(oggetto.getString(chiave));
                     }
                     else if (chiave.equalsIgnoreCase("nota")){
                         richiesta.setTestoLibero(oggetto.getString(chiave));
                     }
+                    else if (chiave.equalsIgnoreCase("stato"))
+                        richiesta.setStato(StatoRichiesta.valueOf(oggetto.getString(chiave)) );
                 }
                 list.add(richiesta);
             }

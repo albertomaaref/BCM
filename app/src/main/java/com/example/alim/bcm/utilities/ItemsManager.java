@@ -41,7 +41,7 @@ public class ItemsManager implements TaskCompletion {
 
 
     private AttrezzoAdapter attrezzoAdapter;
-    private MaterialeAdapter materialeAdapter;
+    private     MaterialeAdapter materialeAdapter;
 
     public static ItemsManager getDownloadItems() {
         if (istanza == null) {
