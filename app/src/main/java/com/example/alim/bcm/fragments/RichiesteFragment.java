@@ -32,6 +32,8 @@ import com.example.alim.bcm.utilities.TaskCompletion;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class RichiesteFragment extends Fragment {
 
@@ -110,7 +112,7 @@ public class RichiesteFragment extends Fragment {
                             public void onclickCard(Richiesta richiesta) {
                                 Intent intent = new Intent(getContext(), GestioneRichiestaActivity.class);
                                 intent.putExtra("richiesta", richiesta);
-                                startActivity(intent);
+                                startActivityForResult(intent,200);
                             }
                         });
                          setTextView(richiestaList);
@@ -158,7 +160,7 @@ public class RichiesteFragment extends Fragment {
                 public void onclickCard(Richiesta richiesta) {
                     Intent intent = new Intent(getContext(), GestioneRichiestaActivity.class);
                     intent.putExtra("richiesta", richiesta);
-                    startActivity(intent);
+                    startActivityForResult(intent,200);
                 }
             });
 
@@ -187,6 +189,11 @@ public class RichiesteFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
@@ -197,5 +204,20 @@ public class RichiesteFragment extends Fragment {
         super.onDetach();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i(Constants.TAG,"onActivity result fragment");
 
+        if (requestCode == 200){
+            if (resultCode == RESULT_OK){
+                boolean aggiornato = data.getBooleanExtra("aggiornato",false);
+                if (aggiornato){
+                    // ricarico fragment x aver aggiornato l'autista
+                    RichiesteFragment fragment = new RichiesteFragment();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentImpiegato,fragment).commit();
+                }
+            }
+        }
+    }
 }

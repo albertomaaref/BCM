@@ -108,14 +108,16 @@ public class CapoDemandFragment extends Fragment {
                 editor.putInt(Constants.ID_RICHIESTA, sharedPreferences.getInt(Constants.ID_RICHIESTA, 404) + 1).commit();
                 richiesta.setDataConesgna(eDataConsegna.getText().toString());
                 richiesta.setStato(StatoRichiesta.IN_ATTESA);
-
+                String type = "";
                 if (spinnerRichieste.getSelectedItem().toString().equals(ATTREZZI)) {
+                    type = ATTREZZI;
                     richiesta.setListaAttrezzi((ArrayList<Attrezzo>) listaCestino);
                 } else if (spinnerRichieste.getSelectedItem().toString().equals(MATERIALI)) {
+                    type = MATERIALI;
                     richiesta.setListaMateriali((ArrayList<Materiale>) listaCestino);
                 }
                 RequestManager requestManager = RequestManager.getIstance();
-                requestManager.sendRequest(getContext(), richiesta, Constants.MATERIALI, getFragmentManager(), fr);
+                requestManager.sendRequest(getContext(), richiesta, type, getFragmentManager(), fr);
 
 
             }

@@ -23,6 +23,7 @@ public class Richiesta implements Serializable{
         listaAttrezzi = new ArrayList<>();
         listaMateriali = new ArrayList<>();
         autista = "NON ASSEGNATO";
+        testoLibero="";
     }
 
     public List<Materiale> getListaMateriali() {

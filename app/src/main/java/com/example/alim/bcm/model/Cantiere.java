@@ -14,12 +14,11 @@ public class Cantiere implements Serializable {
     private int statoFase2;
     private int statoFase3;
     private int statoFase4;
-    private int statoTot;
     private String indirizzo="";
     private int oreLavorate;
-    private HashMap<String,List<Personale>> listaLavoratori;
     private float costoLavoratori;
-    private HashMap<Serializable,List<Richiesta>> listaRichieste;
+    private String capoCantiere;
+
 
 
     public Cantiere() {

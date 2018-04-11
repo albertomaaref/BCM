@@ -10,4 +10,7 @@ public class Impiegato extends Personale implements Serializable {
     public Impiegato(int matricola, float stipendio, String nome, String cognome) {
         super(matricola, stipendio, nome, cognome);
     }
+
+    public Impiegato() {
+    }
 }

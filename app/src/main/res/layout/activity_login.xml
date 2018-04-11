@@ -14,18 +14,30 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="25dp">
 
         </FrameLayout>
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textView20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="LOGIN"
-            android:textColor="@android:color/black" />
+            android:text="BENVENUTO"
+            android:textColor="@color/blu"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/blu"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -76,7 +88,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:ems="10"
+            android:padding="5dp"
             android:gravity="center"
+            android:background="@android:color/transparent"
             android:hint="Username"
             android:inputType="textPersonName" />
 
@@ -85,16 +99,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:padding="5dp"
             android:ems="10"
             android:gravity="center"
             android:hint="Password"
+            android:background="@android:color/transparent"
             android:inputType="textPassword" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp">
+
+        </FrameLayout>
 
         <Button
             android:id="@+id/bLogin"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="accedi" />
+            android:layout_gravity="center"
+            android:text="accedi"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_button"/>
 
     </LinearLayout>
 
@@ -109,16 +134,18 @@
         android:layout_marginEnd="45dp"
         android:layout_marginRight="45dp"
         android:clickable="true"
-        app:srcCompat="@android:drawable/btn_star" />
+        app:srcCompat="@drawable/ic_account_plus_white_24dp" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bRegistrati"
-        android:layout_alignLeft="@+id/bRegistrati"
-        android:layout_alignStart="@+id/bRegistrati"
-        android:layout_marginBottom="23dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="11dp"
+        android:layout_marginEnd="35dp"
         android:text="Registrati"
-        android:textColor="@android:color/black" />
+        android:textColor="@color/blu"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="35dp" />
 </RelativeLayout>

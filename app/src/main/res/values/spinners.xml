@@ -3,7 +3,7 @@
     <string-array name="spinnerTipoUtenza">
         <item>Selzionare tipologia</item>
         <item>OPERAIO</item>
-        <item>CAPO CANTIERE</item>
+        <item>CAPOCANTIERE</item>
         <item>IMPIEGATO</item>
         <item>AUTISTA</item>
     </string-array>

@@ -160,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletion {
 
                 // salvare utenza attiva
                 /*SharedPreferences.Editor editor = preferences.edit();
-                editor.putString(Constants.UTENTE_ATTIVO,username.getText().toString());
+                editor.putString(Constants.UTENTE_ATTIVO,nome.getText().toString());
                 editor.putString(Constants.TIPO_UTENTE_ATTIVO,psw);
                 editor.commit();*/
 

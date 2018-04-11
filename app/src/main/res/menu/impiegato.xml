@@ -2,8 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_AddSite"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="Aggiungi Cantiere"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_AddProduct"
+        android:title="Aggiungi Prodotto"></item>
 </menu>

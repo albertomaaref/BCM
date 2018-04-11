@@ -2,6 +2,7 @@
     <string name="app_name">BCM</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_impiegato">ImpiegatoActivity</string>
+    <string name="nome_app">Build Company Managment</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

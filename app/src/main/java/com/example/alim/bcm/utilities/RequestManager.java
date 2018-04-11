@@ -39,9 +39,15 @@ public class RequestManager  {
     private ProgressDialog progressDialog;
     private static RequestManager istanza  = null;
     private Context context;
+    DatabaseReference ref;
+    FirebaseDatabase database;
+
+
 
 
     private RequestManager() {
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReferenceFromUrl(FireBaseConnection.BASE_URL);
     }
 
     public static RequestManager getIstance (){
@@ -52,10 +58,7 @@ public class RequestManager  {
     }
 
     public  void sendRequest(final Context context, final Richiesta richiesta, final String type, final android.support.v4.app.FragmentManager fragmentManager, final Fragment fragment) {
-        final DatabaseReference ref;
-        FirebaseDatabase database;
-        database = FirebaseDatabase.getInstance();
-        ref = database.getReferenceFromUrl(FireBaseConnection.BASE_URL);
+
         // controllo se è stato scelto un cantiere
         if (richiesta.getCantiere().equalsIgnoreCase("seleziona cantiere")) {
             Toast.makeText(context, "SELEZIONARE CANTIERE", Toast.LENGTH_SHORT).show();
@@ -79,18 +82,21 @@ public class RequestManager  {
                     ref.child("richieste/" + richiesta.getId() + "/dataConsegna").setValue(richiesta.getDataConesgna());
                     ref.child("richieste/" + richiesta.getId() + "/nota").setValue(richiesta.getTestoLibero());
                     ref.child("richieste/" + richiesta.getId() + "/stato").setValue(richiesta.getStato());
+                    ref.child("richieste/" + richiesta.getId() + "/corriere").setValue(richiesta.getAutista());
+
+
 
 
 
                     //int lunghezza = 0;
-                if (type.equals(Constants.ATTREZZI)) {
+                if (type.equalsIgnoreCase(Constants.ATTREZZI)) {
                     ref.child("richieste/"+richiesta.getId()+"/lista"+type.toUpperCase()).setValue(richiesta.getListaAttrezzi());
                     //lunghezza = richiesta.getListaAttrezzi().size();
                     /*for (int i = 0 ; i< lunghezza; i++){
                         ref.child("richieste/"+richiesta.getId()+"/lista"+type+"/"+(i+1)).setValue(richiesta.getListaAttrezzi().get(i));
                     }*/
                 }
-                else if (type.equals(Constants.MATERIALI)) {
+                else if (type.equalsIgnoreCase(Constants.MATERIALI)) {
                     ref.child("richieste/"+richiesta.getId()+"/lista"+type.toUpperCase()).setValue(richiesta.getListaMateriali());
 
                 }
@@ -135,6 +141,33 @@ public class RequestManager  {
         });
 
 
+    }
+
+
+    public void downloadRequestfromAutista(Richiesta richiesta, Context context, final TaskCompletion taskCompletion){
+
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.show();
+        FireBaseConnection.get(Constants.UTENTI + "/" + Constants.AUTISTA + "/" + richiesta.getAutista() + ".json", null, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String s = new String(responseBody);
+                taskCompletion.taskToDo(Constants.SUCCESSO, s);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                taskCompletion.taskToDo(Constants.ERROR,""+statusCode);
+            }
+        });
+
+
+    }
+
+
+    public void assegnaRichiesta(Richiesta richiesta, List<Integer> listaRichieste){
+        ref.child("richieste/" + richiesta.getId() + "/corriere").setValue(richiesta.getAutista());
+        ref.child(Constants.UTENTI+"/"+Constants.AUTISTA+"/"+richiesta.getAutista()+"/listaRichieste/").setValue(listaRichieste);
     }
 
 

@@ -2,7 +2,9 @@ package com.example.alim.bcm.utilities;
 
 import android.util.Log;
 
+import com.example.alim.bcm.R;
 import com.example.alim.bcm.model.Attrezzo;
+import com.example.alim.bcm.model.Autista;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Materiale;
 import com.example.alim.bcm.model.Richiesta;
@@ -206,6 +208,8 @@ public final class JsonParser {
                     }
                     else if (chiave.equalsIgnoreCase("stato"))
                         richiesta.setStato(StatoRichiesta.valueOf(oggetto.getString(chiave)) );
+                    else if (chiave.equalsIgnoreCase("corriere"))
+                        richiesta.setAutista(oggetto.getString(chiave));
                 }
                 list.add(richiesta);
             }
@@ -214,6 +218,50 @@ public final class JsonParser {
         }
 
         return list;
+    }
+
+    public static List<Autista> getAutisti(String string) {
+        List<Autista> autisti = new ArrayList<>();
+        try {
+            JSONObject jsonObject = new JSONObject(string);
+            Iterator keys = jsonObject.keys();
+            while (keys.hasNext()){
+                    Autista autista = new Autista();
+                    String key = (String) keys.next();
+                    JSONObject oggetto = jsonObject.getJSONObject(key);
+                    Iterator chiavi = oggetto.keys();
+                    while (chiavi.hasNext()){
+                        String chiave = (String) chiavi.next();
+                        if (chiave.equalsIgnoreCase("nome")){
+                            autista.setNome(oggetto.getString(chiave));
+                        }
+                        else if (chiave.equalsIgnoreCase("cognome")){
+                            autista.setCognome(oggetto.getString(chiave));
+                        }
+                        else if (chiave.equalsIgnoreCase("stipendio")){
+                            autista.setStipendio(Float.parseFloat(oggetto.getString(chiave)));
+                        }
+                        else if (chiave.equalsIgnoreCase("listarichieste")){
+                            JSONObject objet = oggetto.getJSONObject(chiave);
+                            Iterator clefs = objet.keys();
+                            while (clefs.hasNext()){
+                                String clef = (String) clefs.next();
+                                Integer richiesta = (Integer) objet.get(clef);
+                                autista.getListaRichieste().add(richiesta);
+                            }
+                        }
+
+
+                    }
+                    autisti.add(autista);
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return autisti;
     }
 
 }

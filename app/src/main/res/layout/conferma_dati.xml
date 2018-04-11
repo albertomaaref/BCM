@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Procedere ?"
+        android:textColor="@color/blu"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"/>
+
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Nome"
+            android:gravity="center"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:textColor="@color/blu"
+            android:gravity="center"
+
+            android:id="@+id/tNomeRegister"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="50dp"
+            android:gravity="center"
+
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cognome"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:textColor="@color/blu"
+            android:gravity="center"
+
+            android:id="@+id/tCognomeRegister"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:textColor="@color/black"
+            android:layout_width="50dp"
+            android:gravity="center"
+
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Qualifica" />
+
+        <TextView
+            android:textColor="@color/blu"
+            android:id="@+id/tQualificaRegister"
+            android:layout_width="50dp"
+            android:gravity="center"
+
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp">
+
+    </FrameLayout>
+
+    <LinearLayout
+    android:layout_margin="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+
+        <ImageButton
+            android:id="@+id/bCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button"
+            app:srcCompat="@drawable/ic_checkbox_marked_circle_white_24dp" />
+
+        <ImageButton
+            android:id="@+id/bClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+
+            android:layout_weight="1"
+            android:background="@drawable/bg_button"
+            app:srcCompat="@drawable/ic_close_circle_white_24dp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"></FrameLayout>
+</LinearLayout>

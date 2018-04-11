@@ -35,4 +35,8 @@ public class Constants {
 
     public static final String TAG = "alimmaaref";
 
+    public static final String LISTA_AUTISTI = "listaAutisti";
+
+    public static final String CONFERMA_DATI_DIALOG = "ConfermaDatiDialog";
+
 }

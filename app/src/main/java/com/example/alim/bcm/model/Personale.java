@@ -12,6 +12,9 @@ public class Personale implements Serializable {
     private String nome;
     private String cognome;
 
+    public Personale() {
+    }
+
     public int getMatricola() {
         return matricola;
     }

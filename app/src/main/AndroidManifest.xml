@@ -23,18 +23,20 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".RegisterActivity" />
         <activity
             android:name=".ImpiegatoActivity"
-            android:label="@string/title_activity_impiegato"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".OperaioActivity" />
-        <activity android:name=".AutistaActivity" />
+        <activity android:name=".OperaioActivity"
+            android:label="@string/app_name"/>
+        <activity android:name=".AutistaActivity"
+            android:label="@string/app_name"/>
         <activity
             android:name=".CapoCantiereActivity"
-            android:label="@string/title_activity_capo_cantiere" />
+            android:label="@string/app_name" />
         <activity android:name=".GestioneRichiestaActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
