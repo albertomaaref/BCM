@@ -142,7 +142,7 @@ public class RichiesteFragment extends Fragment {
 
     private void filtroLista(String cantiere) {
         List<Richiesta> listaFiltrata = new ArrayList<>();
-        if (!cantiere.equalsIgnoreCase("seleziona cantiere")){
+        if (!cantiere.equalsIgnoreCase("Tutte")){
 
 
             for (Richiesta richiesta: richiestaList
@@ -152,6 +152,8 @@ public class RichiesteFragment extends Fragment {
                 }
             }
         }
+        else listaFiltrata = richiestaList;
+
 
         if (listaFiltrata.size()>0){
 

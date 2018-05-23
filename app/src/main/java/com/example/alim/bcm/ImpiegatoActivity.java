@@ -2,6 +2,7 @@ package com.example.alim.bcm;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,24 +21,25 @@ import com.example.alim.bcm.fragments.MaterialiFragment;
 import com.example.alim.bcm.fragments.RichiesteFragment;
 import com.example.alim.bcm.model.Autista;
 import com.example.alim.bcm.model.Constants;
+import com.example.alim.bcm.utilities.DriversManager;
 import com.example.alim.bcm.utilities.FireBaseConnection;
 import com.example.alim.bcm.utilities.InternalStorage;
 import com.example.alim.bcm.utilities.JsonParser;
 import com.example.alim.bcm.utilities.TaskCompletion;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
 public class ImpiegatoActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, TaskCompletion{
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private static String ATTREZZI_FRAGMENT = "attrezi_fragment";
     private static String MATERIALI_FRAGMENT = "materiali_fragment";
     private static String RICHIESTE_FRAGMENT = "richieste_fragment";
-    private TaskCompletion taskCompletion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,7 @@ public class ImpiegatoActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        taskCompletion = this;
+        //taskCompletion = this;
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -65,7 +67,34 @@ public class ImpiegatoActivity extends AppCompatActivity
 
         }
 
-        loadInitialData();
+
+
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        DriversManager driversManager = DriversManager.getInstance();
+        driversManager.getAutistiInternal(new TaskCompletion() {
+            @Override
+            public void taskToDo(String esito, String bodyResponse) {
+                if (esito.equalsIgnoreCase(Constants.SUCCESSO)) {
+                    List<Autista> listaAutisti = new ArrayList<>();
+                    listaAutisti = JsonParser.getAutisti(bodyResponse);
+                    Log.i(Constants.TAG, this.getClass() + "   caricati atuisti");
+                    InternalStorage.writeObject(getApplicationContext(), Constants.LISTA_AUTISTI, listaAutisti);
+
+                } else {
+                    Log.i(Constants.TAG, this.getClass() + "   errore caricamento autisti");
+                }
+            }
+
+
+            @Override
+            public void taskToDo(String esito, String bodyResponse, String param1) {
+
+            }
+        });
     }
 
     @Override
@@ -173,7 +202,7 @@ public class ImpiegatoActivity extends AppCompatActivity
         return true;
     }
 
-    public void loadInitialData(){
+    /*public void loadInitialData(){
         FireBaseConnection.get(Constants.UTENTI+"/"+Constants.AUTISTA + ".json", null, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -208,7 +237,7 @@ public class ImpiegatoActivity extends AppCompatActivity
     @Override
     public void taskToDo(String esito, String bodyResponse, String param1) {
 
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

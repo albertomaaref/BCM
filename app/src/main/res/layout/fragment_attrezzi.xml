@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:entries="@array/spinnerCantieri" />
+        android:entries="@array/spinnerCantieri"
+        />
 
     <TextView
         android:id="@+id/textView7"
@@ -46,6 +47,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Data di consgna"
+                android:textColor="@color/black"
                 android:gravity="center"/>
             <EditText
                 android:id="@+id/eDataConsegna"
@@ -53,6 +55,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:ems="10"
+                android:textColor="@color/blu"
                 android:gravity="center"
                 android:inputType="date"
                 android:background="@android:color/transparent"
@@ -64,27 +67,33 @@
     </FrameLayout>
 
     <LinearLayout
+        android:layout_marginHorizontal="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <Button
+            android:layout_marginRight="5dp"
             android:id="@+id/bApprovaRichiesta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/bg_button"
             android:gravity="center"
+            android:textColor="@color/white"
             android:text="apporva richiesta" />
 
         <Button
+            android:layout_marginLeft="5dp"
             android:id="@+id/bAggiungiNota"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:textColor="@color/white"
             android:gravity="center"
-            android:background="@color/greenLight"
+            android:background="@drawable/bg_button"
             android:text="aggiungi nota" />
     </LinearLayout>
 

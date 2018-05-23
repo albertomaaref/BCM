@@ -2,25 +2,31 @@ package com.example.alim.bcm;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.alim.bcm.adapters.ArticoloAdapter;
 import com.example.alim.bcm.model.Autista;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Richiesta;
+import com.example.alim.bcm.utilities.DriversManager;
 import com.example.alim.bcm.utilities.InternalStorage;
+import com.example.alim.bcm.utilities.JsonParser;
 import com.example.alim.bcm.utilities.RequestManager;
 import com.example.alim.bcm.utilities.TaskCompletion;
 
+import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +67,6 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
 
 
 
-        setSpinnerAutisti();
 
         fIsAssigned = findViewById(R.id.frameAutistaAssegnato);
         fNotAssigned = findViewById(R.id.frameAggiungiAutista);
@@ -93,6 +98,14 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        setSpinnerAutisti();
 
     }
 
@@ -136,6 +149,26 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
         ArrayList<String> listaNomi = new ArrayList<>();
         sAutisti = findViewById(R.id.sAutisti);
         listaAutisti = (List<Autista>) InternalStorage.readObject(getApplicationContext(),Constants.LISTA_AUTISTI);
+        if (listaAutisti == null){
+            DriversManager driversManager = DriversManager.getInstance();
+            driversManager.getAutistiInternal(new TaskCompletion() {
+                @Override
+                public void taskToDo(String esito, String bodyResponse) {
+                    if (esito.equalsIgnoreCase(Constants.SUCCESSO))
+                    listaAutisti = JsonParser.getAutisti(bodyResponse);
+                    else {
+                        Toast.makeText(getApplicationContext(),"Error caricamento autisti",Toast.LENGTH_SHORT).show();
+                        Log.i(Constants.TAG, this.getClass() + "   errore caricamento autisti");
+
+                    }
+                }
+
+                @Override
+                public void taskToDo(String esito, String bodyResponse, String param1) {
+
+                }
+            });
+        }
         for (Autista a: listaAutisti
              ) {
             listaNomi.add(a.getNome().toUpperCase());

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -16,6 +17,9 @@ import com.example.alim.bcm.services.ConfermaDatiDialog;
 import com.example.alim.bcm.utilities.FireBaseConnection;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -39,11 +43,16 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         bRegistrazione = findViewById(R.id.bRegistrazione);
+
         tipoutenza = findViewById(R.id.tipoUtenza);
+        setSpinner(tipoutenza);
+
         conferma = findViewById(R.id.rConferma);
         cognome = findViewById(R.id.rCognome);
         nome = findViewById(R.id.rNome);
         password = findViewById(R.id.rPassword);
+
+
 
         bRegistrazione.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +64,18 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void setSpinner(Spinner tipoutenza) {
+        List<String> listaUtenza = new ArrayList<>();
+        listaUtenza.add("Selezionare Qualifica");
+        listaUtenza.add(Constants.AUTISTA.toUpperCase());
+        listaUtenza.add(Constants.CAPOCANTIERE.toUpperCase());
+        listaUtenza.add(Constants.IMPIEGATO.toUpperCase());
+        listaUtenza.add(Constants.OPERAIO.toUpperCase());
+
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getApplicationContext(),R.layout.spinner_registration_item,R.id.spinnerRegistration,listaUtenza);
+        tipoutenza.setAdapter(spinnerAdapter);
     }
 
 
