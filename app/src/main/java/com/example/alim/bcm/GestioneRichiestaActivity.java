@@ -20,13 +20,14 @@ import com.example.alim.bcm.adapters.ArticoloAdapter;
 import com.example.alim.bcm.model.Autista;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Richiesta;
-import com.example.alim.bcm.utilities.DriversManager;
+import com.example.alim.bcm.utilities.ManagerSiteAndPersonal;
+import com.example.alim.bcm.utilities.FireBaseConnection;
 import com.example.alim.bcm.utilities.InternalStorage;
 import com.example.alim.bcm.utilities.JsonParser;
-import com.example.alim.bcm.utilities.RequestManager;
 import com.example.alim.bcm.utilities.TaskCompletion;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,8 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
     private FrameLayout fIsAssigned;
     private FrameLayout fNotAssigned;
     private TextView tCorriere;
+    DatabaseReference ref;
+    FirebaseDatabase database;
     private Button bAssegnaAutista;
     private boolean aggiornato= false;// se ho aggiornato la richiesta con un autista aggiorno il fragment richieste nell onbackPressed
 
@@ -67,7 +70,8 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
 
 
 
-
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReferenceFromUrl(FireBaseConnection.BASE_URL);
         fIsAssigned = findViewById(R.id.frameAutistaAssegnato);
         fNotAssigned = findViewById(R.id.frameAggiungiAutista);
         tCorriere = findViewById(R.id.tCorriere);
@@ -91,7 +95,7 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
         bAssegnaAutista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                aggiornaLayout();
+                aggiornaDB();
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("aggiornato",aggiornato);
                 setResult(Activity.RESULT_OK,returnIntent);
@@ -109,22 +113,10 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
 
     }
 
-    private void aggiornaLayout() {
-        richiesta.setAutista(sAutisti.getSelectedItem().toString().toLowerCase());
-        aggiornato = true;
-        final RequestManager requestManager = RequestManager.getIstance();
-        requestManager.downloadRequestfromAutista(richiesta, getApplicationContext(), new TaskCompletion() {
-            @Override
-            public void taskToDo(String esito, String bodyResponse) {
-                // qui bisogna parsare il json e chiamare la funzione assegnaAutista
-
-            }
-
-            @Override
-            public void taskToDo(String esito, String bodyResponse, String param1) {
-
-            }
-        });
+    private void aggiornaDB() {
+        richiesta.setAutista(sAutisti.getSelectedItem().toString());
+        ref.child("richieste/" + richiesta.getId() + "/corriere").setValue(richiesta.getAutista());
+        ref.child(Constants.UTENTI+"/"+Constants.AUTISTA+"/"+richiesta.getAutista().toLowerCase()+"/listaRichieste/"+richiesta.getId()+"id").setValue(richiesta.getId());
 
     }
 
@@ -149,9 +141,9 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
         ArrayList<String> listaNomi = new ArrayList<>();
         sAutisti = findViewById(R.id.sAutisti);
         listaAutisti = (List<Autista>) InternalStorage.readObject(getApplicationContext(),Constants.LISTA_AUTISTI);
-        if (listaAutisti == null){
-            DriversManager driversManager = DriversManager.getInstance();
-            driversManager.getAutistiInternal(new TaskCompletion() {
+        if (listaAutisti == null || listaAutisti.size()==0){
+            ManagerSiteAndPersonal managerSiteAndPersonal = ManagerSiteAndPersonal.getInstance();
+            managerSiteAndPersonal.getAutistiInternal(new TaskCompletion() {
                 @Override
                 public void taskToDo(String esito, String bodyResponse) {
                     if (esito.equalsIgnoreCase(Constants.SUCCESSO))

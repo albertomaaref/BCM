@@ -9,26 +9,31 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.alim.bcm.R;
+import com.example.alim.bcm.model.Cantiere;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Materiale;
 import com.example.alim.bcm.model.Richiesta;
 import com.example.alim.bcm.model.StatoRichiesta;
 import com.example.alim.bcm.services.SelectDataDialog;
+import com.example.alim.bcm.utilities.InternalStorage;
 import com.example.alim.bcm.utilities.ItemsManager;
 import com.example.alim.bcm.utilities.RequestManager;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
+import static com.example.alim.bcm.model.Constants.CANTIERI;
+import static com.example.alim.bcm.model.Constants.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,8 +84,10 @@ public class MaterialiFragment extends Fragment {
         bAggiungiNota = view.findViewById(R.id.bAggiungiNota);
         lm = new LinearLayoutManager(getContext());
         recyclerViewMateriale = view.findViewById(R.id.recyclerMateriali);
-        ItemsManager itemsManager = ItemsManager.getDownloadItems();
+        ItemsManager itemsManager = ItemsManager.getIstance();
         itemsManager.scaricaListArticoliFromDB(getContext(),listaCestino,recyclerViewMateriale,lm,Constants.MATERIALI);
+
+        setSpinnerCantieri();
 
         bAggiungiNota.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +125,23 @@ public class MaterialiFragment extends Fragment {
             }
         });
 
+    }
+
+    public void setSpinnerCantieri (){
+        List<Cantiere> cantiereList = (List<Cantiere>) InternalStorage.readObject(getContext(),CANTIERI);
+        List<String> lista = new ArrayList<>();
+        lista.add("Seleziona Cantiere");
+        for (Cantiere cantiere: cantiereList
+             ) {
+            lista.add(cantiere.getIndirizzo());
+        }
+        if (cantiereList == null){
+            Log.i(TAG,this.getClass()+" errore settaggio spinner cantieri");
+        }
+        else {
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(),R.layout.spinner_item,R.id.tSpinner,lista);
+            spinnerCantieri.setAdapter(arrayAdapter);
+        }
     }
 
 

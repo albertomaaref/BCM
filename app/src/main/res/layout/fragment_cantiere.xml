@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="460dp"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.alim.bcm.fragments.CantiereFragment">
 
@@ -48,12 +48,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:orientation="horizontal">
 
@@ -74,7 +74,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:orientation="horizontal">
 
@@ -94,7 +94,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:orientation="horizontal">
 
@@ -114,7 +114,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:orientation="horizontal">
 
@@ -154,20 +154,28 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:orientation="horizontal">
 
                 <Button
+                    android:layout_gravity="center"
                     android:id="@+id/bAggiornaCantiere"
                     android:layout_width="wrap_content"
+                    android:background="@drawable/bg_button"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:layout_weight="1"
+                    android:layout_marginRight="5dp"
                     android:text="aggiorna" />
 
                 <Button
+                    android:layout_gravity="center"
                     android:id="@+id/bSalvaCantiere"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bg_button"
                     android:layout_width="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="salva modifiche" />

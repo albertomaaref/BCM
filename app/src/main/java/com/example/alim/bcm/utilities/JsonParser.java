@@ -1,10 +1,13 @@
 package com.example.alim.bcm.utilities;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.example.alim.bcm.R;
 import com.example.alim.bcm.model.Attrezzo;
 import com.example.alim.bcm.model.Autista;
+import com.example.alim.bcm.model.Cantiere;
+import com.example.alim.bcm.model.CapoCantiere;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Materiale;
 import com.example.alim.bcm.model.Richiesta;
@@ -246,22 +249,86 @@ public final class JsonParser {
                             Iterator clefs = objet.keys();
                             while (clefs.hasNext()){
                                 String clef = (String) clefs.next();
-                                Integer richiesta = (Integer) objet.get(clef);
-                                autista.getListaRichieste().add(richiesta);
+                                JSONObject oggettino = objet.getJSONObject(clef);
+                                Iterator chiavette = oggettino.keys();
+                                while (chiavette.hasNext()) {
+                                    String chiavetta = (String) chiavette.next();
+                                    Integer richiesta = (Integer) oggettino.get(chiavetta);
+                                    autista.getListaRichieste().add(richiesta);
+                                }
                             }
                         }
-
-
                     }
                     autisti.add(autista);
             }
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return autisti;
+    }
+
+    public static List<Cantiere> getCantieri (String string) {
+        List<Cantiere> cantieri = new ArrayList<>();
+        try {
+            JSONObject jsonObject = new JSONObject(string);
+            Iterator keys = jsonObject.keys();
+            while (keys.hasNext()){
+                Cantiere cantiere = new Cantiere();
+                String key = (String) keys.next();
+                JSONObject oggetto = jsonObject.getJSONObject(key);
+                Iterator chiavi = oggetto.keys();
+                while (chiavi.hasNext()){
+                    String chiave = (String) chiavi.next();
+                    if (chiave.equalsIgnoreCase("capoCantiere")) cantiere.setCapoCantiere(oggetto.getString(chiave));
+                    else if (chiave.equalsIgnoreCase("costoLavoratori")) cantiere.setCostoLavoratori(Float.parseFloat(oggetto.getString(chiave)));
+                    else if (chiave.equalsIgnoreCase("valoreAppalto")) cantiere.setValoreAppalto(Float.parseFloat(oggetto.getString(chiave)));
+                    else if (chiave.equalsIgnoreCase("dataFine")) cantiere.setDataFine(oggetto.getString(chiave));
+                    else if (chiave.equalsIgnoreCase("dataInizio")) cantiere.setDataInizio(oggetto.getString(chiave));
+                    else if (chiave.equalsIgnoreCase("indirizzo")) cantiere.setIndirizzo(oggetto.getString(chiave));
+                    else if (chiave.equalsIgnoreCase("statoFase1")) cantiere.setStatoFase1(Integer.parseInt(oggetto.getString(chiave)));
+                    else if (chiave.equalsIgnoreCase("statoFase2")) cantiere.setStatoFase2(Integer.parseInt(oggetto.getString(chiave)));
+                    else if (chiave.equalsIgnoreCase("statoFase3")) cantiere.setStatoFase3(Integer.parseInt(oggetto.getString(chiave)));
+                    else if (chiave.equalsIgnoreCase("statoFase4")) cantiere.setStatoFase4(Integer.parseInt(oggetto.getString(chiave)));
+
+                }
+
+                cantieri.add(cantiere);
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return cantieri;
+    }
+
+
+    public static List<CapoCantiere> getBosses (String string){
+        List<CapoCantiere> capiCantieri = new ArrayList<>();
+        try {
+            JSONObject jsonObject = new JSONObject(string);
+            Iterator keys = jsonObject.keys();
+            while (keys.hasNext()){
+                CapoCantiere capoCantiere = new CapoCantiere();
+                String key = (String) keys.next();
+                JSONObject oggetto = jsonObject.getJSONObject(key);
+                Iterator chiavi = oggetto.keys();
+                while (chiavi.hasNext()){
+                    String chiave = (String) chiavi.next();
+                    if (chiave.equalsIgnoreCase("cantiere")) capoCantiere.setCantiere(oggetto.getString(chiave));
+                    else if (chiave.equalsIgnoreCase("cognome")) capoCantiere.setCognome(oggetto.getString(chiave));
+                    else if (chiave.equalsIgnoreCase("nome")) capoCantiere.setNome(oggetto.getString(chiave));
+                }
+
+                capiCantieri.add(capoCantiere);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return capiCantieri;
     }
 
 }

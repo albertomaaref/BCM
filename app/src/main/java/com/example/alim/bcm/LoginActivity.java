@@ -141,7 +141,6 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletion {
     private void goToregister() {
         Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(i);
-        finish();
     }
 
     @Override

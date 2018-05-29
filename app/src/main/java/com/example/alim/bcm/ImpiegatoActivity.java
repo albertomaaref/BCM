@@ -1,5 +1,6 @@
 package com.example.alim.bcm;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,30 +17,36 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.alim.bcm.fragments.AddSiteFragment;
 import com.example.alim.bcm.fragments.AttrezzziFragment;
 import com.example.alim.bcm.fragments.MaterialiFragment;
 import com.example.alim.bcm.fragments.RichiesteFragment;
 import com.example.alim.bcm.model.Autista;
+import com.example.alim.bcm.model.Cantiere;
+import com.example.alim.bcm.model.CapoCantiere;
 import com.example.alim.bcm.model.Constants;
-import com.example.alim.bcm.utilities.DriversManager;
-import com.example.alim.bcm.utilities.FireBaseConnection;
+import com.example.alim.bcm.utilities.ManagerSiteAndPersonal;
 import com.example.alim.bcm.utilities.InternalStorage;
 import com.example.alim.bcm.utilities.JsonParser;
 import com.example.alim.bcm.utilities.TaskCompletion;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.msebera.android.httpclient.Header;
+import static com.example.alim.bcm.model.Constants.ADD_SITE_FRAGMENT;
+import static com.example.alim.bcm.model.Constants.ATTREZZI;
+import static com.example.alim.bcm.model.Constants.ATTREZZI_FRAGMENT;
+import static com.example.alim.bcm.model.Constants.CANTIERI;
+import static com.example.alim.bcm.model.Constants.CAPOCANTIERE;
+import static com.example.alim.bcm.model.Constants.LISTA_AUTISTI;
+import static com.example.alim.bcm.model.Constants.MATERIALI;
+import static com.example.alim.bcm.model.Constants.MATERIALI_FRAGMENT;
+import static com.example.alim.bcm.model.Constants.RICHIESTE_FRAGMENT;
+import static com.example.alim.bcm.model.Constants.SUCCESSO;
 
 public class ImpiegatoActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static String ATTREZZI_FRAGMENT = "attrezi_fragment";
-    private static String MATERIALI_FRAGMENT = "materiali_fragment";
-    private static String RICHIESTE_FRAGMENT = "richieste_fragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +67,12 @@ public class ImpiegatoActivity extends AppCompatActivity
 
         // attach the fragment
         if (savedInstanceState == null) {
-            Fragment attrezziFragment = new AttrezzziFragment();
+            Fragment richiesteFragment = new RichiesteFragment();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.fragmentImpiegato, attrezziFragment, ATTREZZI_FRAGMENT).commit();
+            ft.add(R.id.fragmentImpiegato, richiesteFragment, RICHIESTE_FRAGMENT).commit();
 
         }
-
 
 
     }
@@ -74,18 +80,32 @@ public class ImpiegatoActivity extends AppCompatActivity
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        DriversManager driversManager = DriversManager.getInstance();
-        driversManager.getAutistiInternal(new TaskCompletion() {
+        init();
+    }
+
+    private void init() {
+
+        // resetto la memoria
+        InternalStorage.writeObject(getApplicationContext(),ATTREZZI,null);
+        InternalStorage.writeObject(getApplicationContext(),MATERIALI,null);
+        InternalStorage.writeObject(getApplicationContext(),CANTIERI,null);
+        InternalStorage.writeObject(getApplicationContext(),CAPOCANTIERE,null);
+        InternalStorage.writeObject(getApplicationContext(), LISTA_AUTISTI, null);
+
+
+        // carico autisti
+        ManagerSiteAndPersonal managerSiteAndPersonal = ManagerSiteAndPersonal.getInstance();
+        managerSiteAndPersonal.getAutistiInternal(new TaskCompletion() {
             @Override
             public void taskToDo(String esito, String bodyResponse) {
                 if (esito.equalsIgnoreCase(Constants.SUCCESSO)) {
                     List<Autista> listaAutisti = new ArrayList<>();
                     listaAutisti = JsonParser.getAutisti(bodyResponse);
                     Log.i(Constants.TAG, this.getClass() + "   caricati atuisti");
-                    InternalStorage.writeObject(getApplicationContext(), Constants.LISTA_AUTISTI, listaAutisti);
+                    InternalStorage.writeObject(getApplicationContext(), LISTA_AUTISTI, listaAutisti);
 
                 } else {
-                    Log.i(Constants.TAG, this.getClass() + "   errore caricamento autisti");
+                    Log.i(Constants.TAG, this.getClass() + "   errore caricamento autisti, errorCode " + bodyResponse);
                 }
             }
 
@@ -95,6 +115,52 @@ public class ImpiegatoActivity extends AppCompatActivity
 
             }
         });
+
+
+        // carico cantieri
+        managerSiteAndPersonal.getCantieri(new TaskCompletion() {
+            @Override
+            public void taskToDo(String esito, String bodyResponse) {
+                if (esito.equalsIgnoreCase(Constants.SUCCESSO)) {
+                    List<Cantiere> listaCantieri = new ArrayList<>();
+                    listaCantieri = JsonParser.getCantieri(bodyResponse);
+                    Log.i(Constants.TAG, this.getClass() + "   caricati cantieri");
+                    InternalStorage.writeObject(getApplicationContext(), CANTIERI, listaCantieri);
+                } else {
+                    Log.i(Constants.TAG, this.getClass() + "   errore caricamento cantieri, errorCode " + bodyResponse);
+
+                }
+            }
+
+            @Override
+            public void taskToDo(String esito, String bodyResponse, String param1) {
+
+            }
+        });
+
+
+        // carico i bosses
+        managerSiteAndPersonal.getBosses(new TaskCompletion() {
+            @Override
+            public void taskToDo(String esito, String bodyResponse) {
+                if (esito.equalsIgnoreCase(SUCCESSO)){
+                    List<CapoCantiere> listaBosses = new ArrayList<>();
+                    listaBosses = JsonParser.getBosses(bodyResponse);
+                    Log.i(Constants.TAG, this.getClass() + "   caricati bosses");
+                    InternalStorage.writeObject(getApplicationContext(),CAPOCANTIERE,listaBosses);
+                }
+                else  Log.i(Constants.TAG, this.getClass() + "   errore caricamento Bosses, errorCode " + bodyResponse);
+
+            }
+
+            @Override
+            public void taskToDo(String esito, String bodyResponse, String param1) {
+
+            }
+        });
+
+
+
     }
 
     @Override
@@ -124,10 +190,11 @@ public class ImpiegatoActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_AddSite) {
-            return true;
+            AddSiteFragment addSiteFragment = new AddSiteFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentImpiegato, addSiteFragment, ADD_SITE_FRAGMENT).commit();
         }
 
-        if (id == R.id.action_AddProduct){
+        if (id == R.id.action_AddProduct) {
             return true;
         }
 
@@ -144,7 +211,7 @@ public class ImpiegatoActivity extends AppCompatActivity
         AttrezzziFragment myAttreziFragment = (AttrezzziFragment) getSupportFragmentManager().findFragmentByTag(ATTREZZI_FRAGMENT);
         MaterialiFragment myMaterialiFragment = (MaterialiFragment) getSupportFragmentManager().findFragmentByTag(MATERIALI_FRAGMENT);
         if (id == R.id.nav_materiale) {
-            for(Fragment fragment:getSupportFragmentManager().getFragments()){
+            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
 
                 getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             }
@@ -166,7 +233,7 @@ public class ImpiegatoActivity extends AppCompatActivity
             }*/
 
         } else if (id == R.id.nav_attrezzi) {
-            for(Fragment fragment:getSupportFragmentManager().getFragments()){
+            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
 
                 getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             }
@@ -186,13 +253,13 @@ public class ImpiegatoActivity extends AppCompatActivity
                 fragTrans.commit();
             }*/
 
-        } else if (id == R.id.nav_richieste){
-            for(Fragment fragment:getSupportFragmentManager().getFragments()){
+        } else if (id == R.id.nav_richieste) {
+            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
 
                 getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             }
             RichiesteFragment richiesteFragment = new RichiesteFragment();
-            fragTrans.add(R.id.fragmentImpiegato,richiesteFragment,RICHIESTE_FRAGMENT);
+            fragTrans.add(R.id.fragmentImpiegato, richiesteFragment, RICHIESTE_FRAGMENT);
             fragTrans.commit();
 
         }
@@ -242,5 +309,11 @@ public class ImpiegatoActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.show();
+        RichiesteFragment fragment = new RichiesteFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentImpiegato, fragment).commit();
+        progressDialog.dismiss();
+        progressDialog.cancel();
     }
 }

@@ -19,6 +19,10 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
+import static com.example.alim.bcm.model.Constants.ATTREZZI;
+import static com.example.alim.bcm.model.Constants.MATERIALI;
+import static com.example.alim.bcm.model.Constants.SUCCESSO;
+
 /**
  * Created by alim on 29-Mar-18.
  */
@@ -41,9 +45,9 @@ public class ItemsManager implements TaskCompletion {
 
 
     private AttrezzoAdapter attrezzoAdapter;
-    private     MaterialeAdapter materialeAdapter;
+    private MaterialeAdapter materialeAdapter;
 
-    public static ItemsManager getDownloadItems() {
+    public static ItemsManager getIstance() {
         if (istanza == null) {
             istanza = new ItemsManager();
         }
@@ -62,20 +66,32 @@ public class ItemsManager implements TaskCompletion {
 
         progressDialog = new ProgressDialog(context);
         progressDialog.show();
-        FireBaseConnection.get(tipologia + ".json", null, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                String s = new String(responseBody);
-                delegato.taskToDo(Constants.SUCCESSO, s, tipologia);
+        List <Attrezzo> listaAttrezzo = (List<Attrezzo>) InternalStorage.readObject(context,ATTREZZI);
+        List <Materiale> listaMateriale = (List<Materiale>) InternalStorage.readObject(context,MATERIALI);
+
+        if (listaAttrezzo != null && listaAttrezzo.size()>0 && tipologia.equalsIgnoreCase(ATTREZZI)){
+            setRecyclerAttrezzi(listaAttrezzo);
+        }
+        else if (listaMateriale != null && listaMateriale.size()>0 && tipologia.equalsIgnoreCase(MATERIALI)){
+            setRecyclerMateriali(listaMateriale);
+        }
+        else {
+
+            FireBaseConnection.get(tipologia + ".json", null, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String s = new String(responseBody);
+                    delegato.taskToDo(Constants.SUCCESSO, s, tipologia);
 
 
-            }
+                }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                delegato.taskToDo(Constants.ERROR, new String(responseBody), tipologia);
-            }
-        });
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    delegato.taskToDo(Constants.ERROR, new String(responseBody), tipologia);
+                }
+            });
+        }
 
 
     }
@@ -90,66 +106,80 @@ public class ItemsManager implements TaskCompletion {
         progressDialog.dismiss();
         progressDialog.cancel();
         if (esito.equals(Constants.SUCCESSO)) {
-            if (param1.equals(Constants.ATTREZZI)) {
+            if (param1.equals(ATTREZZI)) {
                 final List<? extends Articolo> lista;
                 lista = JsonParser.getAttrezzi(bodyResponse);
-                attrezzoAdapter = new AttrezzoAdapter(context, (List<Attrezzo>) lista, new AttrezzoAdapter.OnAttrezzoClickListener() {
-                    @Override
-                    public void onAttrezzoCheck(Attrezzo attrezzo) {
-
-                        List<Attrezzo> list = new ArrayList<>();
-                        list = (List<Attrezzo>) listaCestino;
-                        list.add(attrezzo);
-                        listaCestino = list;
-                    }
-
-                    @Override
-                    public void onAttrezzoUncheck(Attrezzo attrezzo) {
-                        List<Attrezzo> list = new ArrayList<>();
-                        list = (List<Attrezzo>) listaCestino;
-                        list.remove(attrezzo);
-                        listaCestino = list;
-                    }
-                });
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(attrezzoAdapter);
-                recyclerView.setVisibility(View.VISIBLE);
+                InternalStorage.writeObject(context,ATTREZZI,lista);
+                setRecyclerAttrezzi((List<Attrezzo>) lista);
 
 
             } else if (param1.equals(Constants.MATERIALI)) {
                 final List<? extends Articolo> lista;
                 lista = JsonParser.getMateriali(bodyResponse);
-                materialeAdapter = new MaterialeAdapter((List<Materiale>) lista, context, new MaterialeAdapter.OnMaterialeClickListener() {
-                    @Override
-                    public void onMaterialeCheck(Materiale materiale) {
-                        if (materiale.getQuantita() < 1) {
-                            Toast.makeText(context, "CONTROLLARE QUANTITA", Toast.LENGTH_SHORT).show();
-
-                        } else {
-                            List<Materiale> list = new ArrayList<>();
-                            list = (List<Materiale>) listaCestino;
-                            list.add(materiale);
-                            listaCestino = list;
-                        }
-                    }
-
-                    @Override
-                    public void onMaterialeUncheck(Materiale materiale) {
-                        List<Materiale> list = new ArrayList<>();
-                        list = (List<Materiale>) listaCestino;
-                        list.remove(materiale);
-                        listaCestino = list;
-                    }
-                });
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(materialeAdapter);
-                recyclerView.setVisibility(View.VISIBLE);
+                InternalStorage.writeObject(context,MATERIALI,lista);
+                setRecyclerMateriali((List<Materiale>) lista);
             }
 
 
         } else if (esito.equals(Constants.ERROR)) {
             Toast.makeText(context, "ERROE NEL DOWNLOAD DEGLI ATTREZZI", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void setRecyclerMateriali(List<Materiale> lista) {
+        progressDialog.dismiss();
+        progressDialog.cancel();
+        materialeAdapter = new MaterialeAdapter(lista, context, new MaterialeAdapter.OnMaterialeClickListener() {
+            @Override
+            public void onMaterialeCheck(Materiale materiale) {
+                if (materiale.getQuantita() < 1) {
+                    Toast.makeText(context, "CONTROLLARE QUANTITA", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    List<Materiale> list = new ArrayList<>();
+                    list = (List<Materiale>) listaCestino;
+                    list.add(materiale);
+                    listaCestino = list;
+                }
+            }
+
+            @Override
+            public void onMaterialeUncheck(Materiale materiale) {
+                List<Materiale> list = new ArrayList<>();
+                list = (List<Materiale>) listaCestino;
+                list.remove(materiale);
+                listaCestino = list;
+            }
+        });
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(materialeAdapter);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+
+    private void setRecyclerAttrezzi(List<Attrezzo> lista) {
+        progressDialog.dismiss();
+        progressDialog.cancel();
+        attrezzoAdapter = new AttrezzoAdapter(context, lista, new AttrezzoAdapter.OnAttrezzoClickListener() {
+            @Override
+            public void onAttrezzoCheck(Attrezzo attrezzo) {
+
+                List<Attrezzo> list = new ArrayList<>();
+                list = (List<Attrezzo>) listaCestino;
+                list.add(attrezzo);
+                listaCestino = list;
+            }
+
+            @Override
+            public void onAttrezzoUncheck(Attrezzo attrezzo) {
+                List<Attrezzo> list = new ArrayList<>();
+                list = (List<Attrezzo>) listaCestino;
+                list.remove(attrezzo);
+                listaCestino = list;
+            }
+        });
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(attrezzoAdapter);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     public List<? extends Articolo> getListaCestino() {

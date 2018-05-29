@@ -3,26 +3,22 @@ package com.example.alim.bcm.utilities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.app.VoiceInteractor;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.alim.bcm.CapoCantiereActivity;
 import com.example.alim.bcm.ImpiegatoActivity;
 import com.example.alim.bcm.R;
-import com.example.alim.bcm.adapters.RichiestaAdapter;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Richiesta;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -105,7 +101,7 @@ public class RequestManager  {
 
                 }*/
 
-                    ItemsManager itemsManager = ItemsManager.getDownloadItems();
+                    ItemsManager itemsManager = ItemsManager.getIstance();
                     itemsManager.removeAll();
                     fragmentManager.beginTransaction().replace(idContainer, fragment).commit();
 
@@ -144,7 +140,7 @@ public class RequestManager  {
     }
 
 
-    public void downloadRequestfromAutista(Richiesta richiesta, Context context, final TaskCompletion taskCompletion){
+    public void downloadRequestfromAutista(Richiesta richiesta, Context context){
 
         ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.show();
@@ -152,12 +148,11 @@ public class RequestManager  {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String s = new String(responseBody);
-                taskCompletion.taskToDo(Constants.SUCCESSO, s);
+
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                taskCompletion.taskToDo(Constants.ERROR,""+statusCode);
             }
         });
 
@@ -167,7 +162,7 @@ public class RequestManager  {
 
     public void assegnaRichiesta(Richiesta richiesta, List<Integer> listaRichieste){
         ref.child("richieste/" + richiesta.getId() + "/corriere").setValue(richiesta.getAutista());
-        ref.child(Constants.UTENTI+"/"+Constants.AUTISTA+"/"+richiesta.getAutista()+"/listaRichieste/").setValue(listaRichieste);
+        ref.child(Constants.UTENTI+"/"+Constants.AUTISTA+"/"+richiesta.getAutista().toLowerCase()+"/listaRichieste/").setValue(listaRichieste);
     }
 
 

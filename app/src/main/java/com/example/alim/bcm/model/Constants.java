@@ -39,4 +39,10 @@ public class Constants {
 
     public static final String CONFERMA_DATI_DIALOG = "ConfermaDatiDialog";
 
+    public static final String ATTREZZI_FRAGMENT = "attrezi_fragment";
+    public static final String MATERIALI_FRAGMENT = "materiali_fragment";
+    public static final String RICHIESTE_FRAGMENT = "richieste_fragment";
+    public static final String ADD_SITE_FRAGMENT = "add_site_fragment";
+
+    public static final String CANTIERI = "cantieri" ;
 }

@@ -153,13 +153,13 @@ public class CapoDemandFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (true) {
                     if (spinnerRichieste.getSelectedItem().toString().equals(ATTREZZI)) {
-                        ItemsManager itemsManager = ItemsManager.getDownloadItems();
+                        ItemsManager itemsManager = ItemsManager.getIstance();
                         itemsManager.scaricaListArticoliFromDB(getContext(), listaCestino, recyclerViewAttrezzi, lm1, Constants.ATTREZZI);
 
                         frameLayoutMateriali.setVisibility(View.GONE);
                         frameLayoutAttrezzi.setVisibility(View.VISIBLE);
                     } else if (spinnerRichieste.getSelectedItem().toString().equals(MATERIALI)) {
-                        ItemsManager itemsManager = ItemsManager.getDownloadItems();
+                        ItemsManager itemsManager = ItemsManager.getIstance();
                         itemsManager.scaricaListArticoliFromDB(getContext(), listaCestino, recyclerViewMateriali, lm2, Constants.MATERIALI);
 
                         frameLayoutAttrezzi.setVisibility(View.GONE);

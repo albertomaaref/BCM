@@ -10,9 +10,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -20,16 +22,21 @@ import android.widget.Spinner;
 import com.example.alim.bcm.R;
 import com.example.alim.bcm.model.Attrezzo;
 import com.example.alim.bcm.model.Autista;
+import com.example.alim.bcm.model.Cantiere;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Richiesta;
 import com.example.alim.bcm.model.StatoRichiesta;
 import com.example.alim.bcm.services.SelectDataDialog;
+import com.example.alim.bcm.utilities.InternalStorage;
 import com.example.alim.bcm.utilities.ItemsManager;
 import com.example.alim.bcm.utilities.ImpiegatoTasks;
 import com.example.alim.bcm.utilities.RequestManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.alim.bcm.model.Constants.CANTIERI;
+import static com.example.alim.bcm.model.Constants.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,7 +68,7 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final ItemsManager itemsManager = ItemsManager.getDownloadItems();
+        final ItemsManager itemsManager = ItemsManager.getIstance();
         itemsManager.scaricaListArticoliFromDB(getContext(),listaCestino,recyclerViewAttrezzi,lm, Constants.ATTREZZI);
         bApprovaRichiesta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +94,8 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks {
                 showInputDialog();
             }
         });
+
+        setSpinnerCantieri();
 
         eDataConsegna.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +152,23 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks {
     @Override
     public void comunicateObjectsToDriver(List<Object> objects, Autista autista) {
 
+    }
+
+    public void setSpinnerCantieri (){
+        List<Cantiere> cantiereList = (List<Cantiere>) InternalStorage.readObject(getContext(),CANTIERI);
+        List<String> lista = new ArrayList<>();
+        lista.add("Seleziona Cantiere");
+        for (Cantiere cantiere: cantiereList
+                ) {
+            lista.add(cantiere.getIndirizzo());
+        }
+        if (cantiereList == null){
+            Log.i(TAG,this.getClass()+" errore settaggio spinner cantieri");
+        }
+        else {
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(),R.layout.spinner_item,R.id.tSpinner,lista);
+            spinnerCantieri.setAdapter(arrayAdapter);
+        }
     }
 
     public void showInputDialog(){
