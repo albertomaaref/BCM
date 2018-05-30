@@ -43,6 +43,7 @@ public class Constants {
     public static final String MATERIALI_FRAGMENT = "materiali_fragment";
     public static final String RICHIESTE_FRAGMENT = "richieste_fragment";
     public static final String ADD_SITE_FRAGMENT = "add_site_fragment";
+    public static final String DASHBOARD_AUTISTA_FRAGMENT = "dashboard_Autista_Fragment";
 
     public static final String CANTIERI = "cantieri" ;
 }

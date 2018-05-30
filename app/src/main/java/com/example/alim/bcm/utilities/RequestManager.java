@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.alim.bcm.CapoCantiereActivity;
@@ -19,9 +20,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+
+import static com.example.alim.bcm.model.Constants.TAG;
 
 /**
  * Created by alim on 29-Mar-18.
@@ -126,13 +130,13 @@ public class RequestManager  {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String s = new String(responseBody);
                 delegato.taskToDo(Constants.SUCCESSO,s);
-
+                Log.e(TAG,""+this.getClass()+" caricati le richieste");
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 delegato.taskToDo(Constants.ERROR,String.valueOf(statusCode));
-
+                Log.e(TAG,""+this.getClass()+" errore caricamento richieste");
             }
         });
 
@@ -140,29 +144,22 @@ public class RequestManager  {
     }
 
 
-    public void downloadRequestfromAutista(Richiesta richiesta, Context context){
+    public List<Richiesta> getRichiesteByAutista (String nomeAutista, List<Richiesta> listarichieste){
 
-        ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.show();
-        FireBaseConnection.get(Constants.UTENTI + "/" + Constants.AUTISTA + "/" + richiesta.getAutista() + ".json", null, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                String s = new String(responseBody);
+        List<Richiesta> lista = new ArrayList<>();
+        try {
 
+            for (Richiesta richiesta: listarichieste
+                    ) {
+                if (richiesta.getAutista().equalsIgnoreCase(nomeAutista)){
+                    lista.add(richiesta);
+                }
             }
+        }catch (Exception e){
+            Log.e(TAG,this.getClass()+" "+e);
+        }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-            }
-        });
-
-
-    }
-
-
-    public void assegnaRichiesta(Richiesta richiesta, List<Integer> listaRichieste){
-        ref.child("richieste/" + richiesta.getId() + "/corriere").setValue(richiesta.getAutista());
-        ref.child(Constants.UTENTI+"/"+Constants.AUTISTA+"/"+richiesta.getAutista().toLowerCase()+"/listaRichieste/").setValue(listaRichieste);
+        return lista;
     }
 
 

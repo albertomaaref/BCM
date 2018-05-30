@@ -1,7 +1,6 @@
 package com.example.alim.bcm.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -10,26 +9,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.alim.bcm.GestioneRichiestaActivity;
 import com.example.alim.bcm.R;
 import com.example.alim.bcm.model.Richiesta;
 
 import java.util.List;
 
-public class RichiestaAdapter extends RecyclerView.Adapter<RichiestaAdapter.RichiestaHolder> {
+public class RichiestaAutistaAdapter extends RecyclerView.Adapter<RichiestaAutistaAdapter.RichiestaHolder> {
 
+    private List<Richiesta> listarichieste;
     private Context context;
-    private List<Richiesta> listaRichieste;
     private OnClickCardListener onClickCardListener;
 
-    public RichiestaAdapter(Context context, List<Richiesta> listaRichieste, @NonNull OnClickCardListener onClickCardListener) {
-        this.context = context;
-        this.listaRichieste = listaRichieste;
-        this.onClickCardListener = onClickCardListener;
+    public RichiestaAutistaAdapter() {
     }
 
     public interface OnClickCardListener {
         public void onclickCard(Richiesta richiesta);
+    }
+
+    public RichiestaAutistaAdapter(List<Richiesta> listarichieste, Context context, @NonNull OnClickCardListener onClickCardListener) {
+        this.onClickCardListener = onClickCardListener;
+        this.listarichieste = listarichieste;
+        this.context = context;
     }
 
     @Override
@@ -41,37 +42,37 @@ public class RichiestaAdapter extends RecyclerView.Adapter<RichiestaAdapter.Rich
 
     @Override
     public void onBindViewHolder(RichiestaHolder holder, int position) {
-            final Richiesta richiesta = listaRichieste.get(position);
-            holder.tCantiere.setText(richiesta.getCantiere());
-            holder.tStatoRichiesta.setText(richiesta.getStato().toString());
-            holder.cardRichiesta.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    onClickCardListener.onclickCard(richiesta);
-
-
-                }
-            });
+        final Richiesta richiesta = listarichieste.get(position);
+        holder.tStatoRichiesta.setVisibility(View.GONE);
+        holder.tDataConsegna.setVisibility(View.VISIBLE);
+        holder.tDataConsegna.setText(richiesta.getDataConesgna());
+        holder.tCantiere.setText(richiesta.getCantiere());
+        holder.cardRichiesta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickCardListener.onclickCard(richiesta);
+            }
+        });
 
     }
 
     @Override
     public int getItemCount() {
-        return listaRichieste.size();
+        return listarichieste.size();
     }
 
     public class RichiestaHolder extends RecyclerView.ViewHolder {
 
         CardView cardRichiesta;
         TextView tCantiere;
+        TextView tDataConsegna;
         TextView tStatoRichiesta;
 
         public RichiestaHolder(View itemView) {
             super(itemView);
-
             cardRichiesta = itemView.findViewById(R.id.card_richiesta);
             tCantiere = itemView.findViewById(R.id.tCantiere);
+            tDataConsegna = itemView.findViewById(R.id.tDataConsegna);
             tStatoRichiesta = itemView.findViewById(R.id.tStatoRichiesta);
         }
     }

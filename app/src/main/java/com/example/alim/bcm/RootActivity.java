@@ -1,12 +1,17 @@
 package com.example.alim.bcm;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.alim.bcm.model.Autista;
+import com.example.alim.bcm.model.CapoCantiere;
 import com.example.alim.bcm.model.Constants;
 
 import static com.example.alim.bcm.model.Constants.TIPO_UTENTE_ATTIVO;
@@ -42,7 +47,8 @@ public class RootActivity extends AppCompatActivity {
         }
 
         // active session control
-        sessionControl();
+        if (isOnline()) sessionControl();
+        else Log.i(Constants.TAG," non c connessione ad Internet");
 
     }
 
@@ -58,16 +64,29 @@ public class RootActivity extends AppCompatActivity {
             switch (tipoUtenteAttivo){
 
                 case IMPIEGATO:{
-
+                    Log.i(Constants.TAG,""+this.getClass()+" go to activity for"+tipoUtenteAttivo);
+                    Intent i = new Intent(RootActivity.this, ImpiegatoActivity.class);
+                    startActivity(i);
+                    this.finish();
                 }
                 case OPERAIO:{
-
+                    Log.i(Constants.TAG,""+this.getClass()+" go to activity for"+tipoUtenteAttivo);
+                    Intent i = new Intent(RootActivity.this, OperaioActivity.class);
+                    startActivity(i);
+                    this.finish();
                 }
                 case CAPOCANTIERE:{
-
+                    Log.i(Constants.TAG,""+this.getClass()+" go to activity for"+tipoUtenteAttivo);
+                    Intent i = new Intent(RootActivity.this, CapoCantiereActivity.class);
+                    startActivity(i);
+                    this.finish();
                 }
                 case AUTISTA:{
-
+                    Log.i(Constants.TAG,""+this.getClass()+" go to activity for"+tipoUtenteAttivo);
+                    Intent i = new Intent(RootActivity.this, AutistaActivity.class);
+                    i.putExtra(Constants.AUTISTA,utenteAttivo);
+                    startActivity(i);
+                    this.finish();
                 }
 
                 default: return;
@@ -77,5 +96,12 @@ public class RootActivity extends AppCompatActivity {
 
         finish();
 
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

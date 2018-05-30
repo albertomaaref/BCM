@@ -3,7 +3,6 @@ package com.example.alim.bcm.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,14 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alim.bcm.GestioneRichiestaActivity;
 import com.example.alim.bcm.R;
-import com.example.alim.bcm.adapters.RichiestaAdapter;
+import com.example.alim.bcm.adapters.RichiestaImpiegatoAdapter;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Richiesta;
 import com.example.alim.bcm.model.StatoRichiesta;
@@ -46,7 +44,7 @@ public class RichiesteFragment extends Fragment {
     TextView tNumAttesa;
     TextView tNumConsegna;
     List<Richiesta> richiestaList = new ArrayList<>();
-    RichiestaAdapter richiestaAdapter;
+    RichiestaImpiegatoAdapter richiestaImpiegatoAdapter;
 
 
     public RichiesteFragment() {
@@ -107,7 +105,7 @@ public class RichiesteFragment extends Fragment {
 
                     Log.i(Constants.TAG,""+this.getClass());
                     if (richiestaList != null && richiestaList.size()>0){
-                         richiestaAdapter = new RichiestaAdapter(getContext(), richiestaList, new RichiestaAdapter.OnClickCardListener() {
+                         richiestaImpiegatoAdapter = new RichiestaImpiegatoAdapter(getContext(), richiestaList, new RichiestaImpiegatoAdapter.OnClickCardListener() {
                             @Override
                             public void onclickCard(Richiesta richiesta) {
                                 Intent intent = new Intent(getContext(), GestioneRichiestaActivity.class);
@@ -157,7 +155,7 @@ public class RichiesteFragment extends Fragment {
 
         if (listaFiltrata.size()>0){
 
-            richiestaAdapter = new RichiestaAdapter(getContext(), listaFiltrata, new RichiestaAdapter.OnClickCardListener() {
+            richiestaImpiegatoAdapter = new RichiestaImpiegatoAdapter(getContext(), listaFiltrata, new RichiestaImpiegatoAdapter.OnClickCardListener() {
                 @Override
                 public void onclickCard(Richiesta richiesta) {
                     Intent intent = new Intent(getContext(), GestioneRichiestaActivity.class);
@@ -168,7 +166,7 @@ public class RichiesteFragment extends Fragment {
 
             setTextView(listaFiltrata);
 
-            recyclerView.setAdapter(richiestaAdapter);
+            recyclerView.setAdapter(richiestaImpiegatoAdapter);
         }
 
 
@@ -187,7 +185,7 @@ public class RichiesteFragment extends Fragment {
         tNumConsegna.setText(""+inConesgna);
         tNumRichieste.setText(""+list.size());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(richiestaAdapter);
+        recyclerView.setAdapter(richiestaImpiegatoAdapter);
     }
 
     @Override

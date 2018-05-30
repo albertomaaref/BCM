@@ -28,6 +28,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
+import static com.example.alim.bcm.model.Constants.AUTISTA;
+
 public class LoginActivity extends AppCompatActivity implements TaskCompletion {
 
     @BindView(R.id.eUsername)
@@ -96,7 +98,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletion {
             int id = rQualifica.getCheckedRadioButtonId();
             String type = "";
             if (id == rAutista.getId()) {
-                type = Constants.AUTISTA;
+                type = AUTISTA;
             } else if (id == rCapocantiere.getId()) {
                 type = Constants.CAPOCANTIERE;
             } else if (id == rImpiegato.getId()) {
@@ -158,31 +160,38 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletion {
             if (bodyResponse.equals(password.getText().toString())) {
 
                 // salvare utenza attiva
-                /*SharedPreferences.Editor editor = preferences.edit();
-                editor.putString(Constants.UTENTE_ATTIVO,nome.getText().toString());
-                editor.putString(Constants.TIPO_UTENTE_ATTIVO,psw);
-                editor.commit();*/
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(Constants.UTENTE_ATTIVO,username.getText().toString());
+                editor.putString(Constants.TIPO_UTENTE_ATTIVO,qualifica);
+                editor.commit();
 
                 if (qualifica.equals(Constants.OPERAIO))
                     {
-                        Log.i("alim",""+qualifica.equals(Constants.OPERAIO));
+                        Log.i(Constants.TAG,""+this.getClass()+" go to activity for"+qualifica);
                         Intent i = new Intent(LoginActivity.this, OperaioActivity.class);
                         startActivity(i);
                         this.finish();
                     }
-                else if (qualifica.equals(Constants.AUTISTA))    {
-                        Intent i = new Intent(LoginActivity.this, AutistaActivity.class);
+                else if (qualifica.equals(AUTISTA))    {
+                    Log.i(Constants.TAG,""+this.getClass()+" go to activity for"+qualifica);
+
+                    Intent i = new Intent(LoginActivity.this, AutistaActivity.class);
+                        i.putExtra(AUTISTA,username.getText().toString());
                         startActivity(i);
                         this.finish();
                     }
                 else if (qualifica.equals(Constants.IMPIEGATO)){
-                        Intent i = new Intent(LoginActivity.this, ImpiegatoActivity.class);
+                    Log.i(Constants.TAG,""+this.getClass()+" go to activity for"+qualifica);
+
+                    Intent i = new Intent(LoginActivity.this, ImpiegatoActivity.class);
                         startActivity(i);
                         this.finish();
 
                     }
                 else if (qualifica.equals(Constants.CAPOCANTIERE)){
-                        Intent i = new Intent(LoginActivity.this, CapoCantiereActivity.class);
+                    Log.i(Constants.TAG,""+this.getClass()+" go to activity for"+qualifica);
+
+                    Intent i = new Intent(LoginActivity.this, CapoCantiereActivity.class);
                         startActivity(i);
                         this.finish();
                     }
