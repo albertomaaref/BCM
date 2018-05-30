@@ -41,13 +41,13 @@ public class Geocode extends AsyncTask<List<Richiesta>, Void, List<String>> {
     protected List<String> doInBackground(List<Richiesta>... richieste) {
         List<String>response = new ArrayList<>();
         List<Richiesta> listaRichieste = richieste[0];
-        HttpGeo httpGeo = new HttpGeo();
+        HttpGeodecoding httpGeodecoding = new HttpGeodecoding();
         try {
 
             for (Richiesta richiesta: listaRichieste
                  ) {
                 String url = String.format("https://maps.googleapis.com/maps/api/geocode/json?address="+richiesta.getCantiere()+"&key=AIzaSyCgtIgULUcESz1-Z7grOqFY94vaKACZnIE&");
-                response.add(httpGeo.getGeodecoding(url)) ;
+                response.add(httpGeodecoding.getGeodecoding(url)) ;
             }
 
             //HttpDataHandler httpDataHandler = new HttpDataHandler();
