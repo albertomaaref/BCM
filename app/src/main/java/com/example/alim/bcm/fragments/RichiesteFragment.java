@@ -3,11 +3,15 @@ package com.example.alim.bcm.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,12 +29,15 @@ import com.example.alim.bcm.model.Richiesta;
 import com.example.alim.bcm.model.StatoRichiesta;
 import com.example.alim.bcm.utilities.JsonParser;
 import com.example.alim.bcm.utilities.RequestManager;
+import com.example.alim.bcm.utilities.SwipeController;
+import com.example.alim.bcm.utilities.SwipeControllerActions;
 import com.example.alim.bcm.utilities.TaskCompletion;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static com.example.alim.bcm.model.Constants.TIPO_UTENTE_ATTIVO;
 
 
 public class RichiesteFragment extends Fragment {
@@ -45,6 +52,7 @@ public class RichiesteFragment extends Fragment {
     TextView tNumConsegna;
     List<Richiesta> richiestaList = new ArrayList<>();
     RichiestaImpiegatoAdapter richiestaImpiegatoAdapter;
+    SharedPreferences preferences;
 
 
     public RichiesteFragment() {
@@ -73,6 +81,8 @@ public class RichiesteFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         progressDialog = new ProgressDialog(getContext());
         progressDialog.show();
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         tNumRichieste = view.findViewById(R.id.tNumRichieste);
         tNumAttesa = view.findViewById(R.id.tNumAttesa);
@@ -113,7 +123,7 @@ public class RichiesteFragment extends Fragment {
                                 startActivityForResult(intent,200);
                             }
                         });
-                         setTextView(richiestaList);
+                         setRecycler(richiestaList);
 
                     }
                     else {
@@ -164,7 +174,7 @@ public class RichiesteFragment extends Fragment {
                 }
             });
 
-            setTextView(listaFiltrata);
+            setRecycler(listaFiltrata);
 
             recyclerView.setAdapter(richiestaImpiegatoAdapter);
         }
@@ -173,7 +183,7 @@ public class RichiesteFragment extends Fragment {
 
     }
 
-    public void setTextView(List<Richiesta> list){
+    public void setRecycler(List<Richiesta> list){
         int inAttesa = 0;
         int inConesgna = 0;
         for (Richiesta richiesta: list
@@ -186,6 +196,30 @@ public class RichiesteFragment extends Fragment {
         tNumRichieste.setText(""+list.size());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(richiestaImpiegatoAdapter);
+
+        //gestione swipe
+        final SwipeController swipeController = new SwipeController(new SwipeControllerActions() {
+            @Override
+            public void onLeftClicked(int position) {
+                super.onLeftClicked(position);
+            }
+
+            @Override
+            public void onRightClicked(int position) {
+                super.onRightClicked(position);
+            }
+        },preferences.getString(TIPO_UTENTE_ATTIVO,""));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                swipeController.onDraw(c);
+            }
+        });
+
+
     }
 
     @Override

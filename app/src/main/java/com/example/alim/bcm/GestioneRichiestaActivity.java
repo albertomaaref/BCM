@@ -1,12 +1,17 @@
 package com.example.alim.bcm;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -24,12 +29,16 @@ import com.example.alim.bcm.utilities.ManagerSiteAndPersonal;
 import com.example.alim.bcm.utilities.FireBaseConnection;
 import com.example.alim.bcm.utilities.InternalStorage;
 import com.example.alim.bcm.utilities.JsonParser;
+import com.example.alim.bcm.utilities.SwipeController;
+import com.example.alim.bcm.utilities.SwipeControllerActions;
 import com.example.alim.bcm.utilities.TaskCompletion;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.alim.bcm.model.Constants.TIPO_UTENTE_ATTIVO;
 
 public class GestioneRichiestaActivity extends AppCompatActivity {
 
@@ -44,6 +53,8 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
     private FrameLayout fNotAssigned;
     private TextView tCorriere;
     DatabaseReference ref;
+    ArticoloAdapter articoloAdapter;
+    SharedPreferences preferences;
     FirebaseDatabase database;
     private Button bAssegnaAutista;
     private boolean aggiornato= false;// se ho aggiornato la richiesta con un autista aggiorno il fragment richieste nell onbackPressed
@@ -68,7 +79,7 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
         Intent i = getIntent();
         richiesta = (Richiesta) i.getSerializableExtra("richiesta");
 
-
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         database = FirebaseDatabase.getInstance();
         ref = database.getReferenceFromUrl(FireBaseConnection.BASE_URL);
@@ -82,7 +93,7 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
         tNota = findViewById(R.id.tNota);
         tNota.setText(richiesta.getTestoLibero());
         recyclerView.setLayoutManager(lm);
-        ArticoloAdapter articoloAdapter;
+
         if (richiesta.getListaAttrezzi().size() > 0) {
             articoloAdapter = new ArticoloAdapter(getApplication(), richiesta.getListaAttrezzi());
         } else  {
@@ -90,6 +101,32 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
         }
 
         recyclerView.setAdapter(articoloAdapter);
+
+        //getsione swipe
+        final SwipeController swipeController = new SwipeController(new SwipeControllerActions() {
+            @Override
+            public void onLeftClicked(int position) {
+                super.onLeftClicked(position);
+            }
+
+            @Override
+            public void onRightClicked(int position) {
+                articoloAdapter.getListaArticoli().remove(position);
+                articoloAdapter.notifyItemRemoved(position);
+                articoloAdapter.notifyItemRangeChanged(position, articoloAdapter.getItemCount());
+            }
+        },preferences.getString(TIPO_UTENTE_ATTIVO,""));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                swipeController.onDraw(c);
+            }
+        });
+
+
         showFrame(richiesta.getAutista());
 
         bAssegnaAutista.setOnClickListener(new View.OnClickListener() {
@@ -138,16 +175,21 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
 
     private void setSpinnerAutisti() {
 
-        ArrayList<String> listaNomi = new ArrayList<>();
         sAutisti = findViewById(R.id.sAutisti);
         listaAutisti = (List<Autista>) InternalStorage.readObject(getApplicationContext(),Constants.LISTA_AUTISTI);
         if (listaAutisti == null || listaAutisti.size()==0){
             ManagerSiteAndPersonal managerSiteAndPersonal = ManagerSiteAndPersonal.getInstance();
+            final ProgressDialog progressDialog =new ProgressDialog(this);
+            progressDialog.show();
             managerSiteAndPersonal.getAutistiInternal(new TaskCompletion() {
                 @Override
                 public void taskToDo(String esito, String bodyResponse) {
-                    if (esito.equalsIgnoreCase(Constants.SUCCESSO))
-                    listaAutisti = JsonParser.getAutisti(bodyResponse);
+                    if (esito.equalsIgnoreCase(Constants.SUCCESSO)) {
+                        listaAutisti = JsonParser.getAutisti(bodyResponse);
+                        setSpinner();
+                        progressDialog.dismiss();
+                        progressDialog.cancel();
+                    }
                     else {
                         Toast.makeText(getApplicationContext(),"Error caricamento autisti",Toast.LENGTH_SHORT).show();
                         Log.i(Constants.TAG, this.getClass() + "   errore caricamento autisti");
@@ -161,16 +203,23 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
                 }
             });
         }
-        for (Autista a: listaAutisti
-             ) {
+        else setSpinner();
+
+
+
+
+
+    }
+
+    private void setSpinner(){
+        List<String> listaNomi = new ArrayList<>();
+        for (Autista a : listaAutisti
+                ) {
             listaNomi.add(a.getNome().toUpperCase());
         }
 
-        ArrayAdapter<String> spinnerAdapter =new ArrayAdapter<String>(getApplicationContext(),R.layout.spinner_item,R.id.tSpinner,listaNomi);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, R.id.tSpinner, listaNomi);
         sAutisti.setAdapter(spinnerAdapter);
-
-
-
 
     }
 

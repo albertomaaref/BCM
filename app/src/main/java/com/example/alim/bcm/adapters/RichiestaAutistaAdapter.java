@@ -27,6 +27,14 @@ public class RichiestaAutistaAdapter extends RecyclerView.Adapter<RichiestaAutis
         public void onclickCard(Richiesta richiesta);
     }
 
+    public List<Richiesta> getListarichieste() {
+        return listarichieste;
+    }
+
+    public void setListarichieste(List<Richiesta> listarichieste) {
+        this.listarichieste = listarichieste;
+    }
+
     public RichiestaAutistaAdapter(List<Richiesta> listarichieste, Context context, @NonNull OnClickCardListener onClickCardListener) {
         this.onClickCardListener = onClickCardListener;
         this.listarichieste = listarichieste;
@@ -46,7 +54,7 @@ public class RichiestaAutistaAdapter extends RecyclerView.Adapter<RichiestaAutis
         holder.tStatoRichiesta.setVisibility(View.GONE);
         holder.tDataConsegna.setVisibility(View.VISIBLE);
         holder.tDataConsegna.setText(richiesta.getDataConesgna());
-        holder.tCantiere.setText(richiesta.getCantiere());
+        holder.tCantiere.setText(richiesta.getCantiere().toUpperCase());
         holder.cardRichiesta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

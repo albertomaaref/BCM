@@ -1,38 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp"
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="40dp">
 
 
-    <TextView
-        android:id="@+id/tArticolo"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_articolo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="left"
-        android:text="Articolo"
-        android:textColor="@color/blu"/>
+        android:background="@color/white"
+        android:paddingHorizontal="5dp"
+        app:cardBackgroundColor="@color/cardview_light_background">
 
-    <TextView
-        android:id="@+id/tQuantita"
-        android:layout_width="15dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="0.1"
-        android:gravity="left"
-        android:text="Qta"
-        android:textColor="@color/blu"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center">
 
-    <TextView
-        android:id="@+id/tConsegnato"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="right"
-        android:text="isConsegnato" />
+            <TextView
 
-</LinearLayout>
+                android:id="@+id/tArticolo"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="Articolo"
+                android:textColor="@color/blu"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/tQuantita"
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.1"
+                android:gravity="left"
+                android:text="Qta"
+                android:textColor="@color/blu" />
+
+            <TextView
+                android:id="@+id/tConsegnato"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="isConsegnato"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

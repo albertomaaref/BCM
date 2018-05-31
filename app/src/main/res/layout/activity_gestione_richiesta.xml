@@ -39,13 +39,16 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="10dp"
-        android:background="@color/whiteLight">
+        android:background="@drawable/bg_nota">
 
         <TextView
             android:id="@+id/tNota"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NOTA" />
+            android:layout_margin="10dp"
+            android:text="NOTA"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
     </FrameLayout>
 
     <FrameLayout
@@ -64,6 +67,9 @@
                 android:id="@+id/sAutisti"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"></FrameLayout>
 
             <Button
                 android:background="@drawable/bg_button"
@@ -72,7 +78,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
                 android:gravity="center"
-                android:text="Assegna ad autista" />
+                android:textColor="@color/white"
+                android:text="Assegna autista" />
         </LinearLayout>
 
     </FrameLayout>

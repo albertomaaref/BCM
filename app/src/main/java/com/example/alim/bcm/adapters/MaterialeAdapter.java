@@ -51,7 +51,7 @@ public class MaterialeAdapter extends RecyclerView.Adapter<MaterialeAdapter.Mate
     public void onBindViewHolder(final Materialeholder holder, int position) {
 
         final Materiale materiale= listaMataeriali.get(position);
-        holder.textMateriale.setText(materiale.getNome());
+        holder.textMateriale.setText(materiale.getNome().toUpperCase());
 
         holder.checkMateriale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

@@ -122,11 +122,10 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletion {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String s = new String(responseBody);
-                if (s.equals("null")){
+                if (s.equals("null")) {
                     delegation.taskToDo(Constants.ERROR, "connessione fallita", qualifica);
 
-                }
-                else {
+                } else {
 
                     String psw = JsonParser.getPassword(s);
                     delegation.taskToDo(Constants.SUCCESSO, psw, qualifica);
@@ -155,6 +154,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletion {
         progressDialog.dismiss();
         progressDialog.cancel();
         if (esito.equals(Constants.ERROR)) {
+            Toast.makeText(getApplicationContext(), "USER/PASSWORD ERRATA", Toast.LENGTH_SHORT).show();
 
         } else if (esito.equals(Constants.SUCCESSO)) {
             if (bodyResponse.equals(password.getText().toString())) {
@@ -162,48 +162,45 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletion {
                 // salvare utenza attiva
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString(Constants.UTENTE_ATTIVO,username.getText().toString());
-                editor.putString(Constants.TIPO_UTENTE_ATTIVO,qualifica);
+                editor.putString(Constants.TIPO_UTENTE_ATTIVO, qualifica);
                 editor.commit();
 
-                if (qualifica.equals(Constants.OPERAIO))
-                    {
-                        Log.i(Constants.TAG,""+this.getClass()+" go to activity for"+qualifica);
-                        Intent i = new Intent(LoginActivity.this, OperaioActivity.class);
-                        startActivity(i);
-                        this.finish();
-                    }
-                else if (qualifica.equals(AUTISTA))    {
-                    Log.i(Constants.TAG,""+this.getClass()+" go to activity for"+qualifica);
+                if (qualifica.equals(Constants.OPERAIO)) {
+                    Log.i(Constants.TAG, "" + this.getClass() + " go to activity for" + qualifica);
+                    Intent i = new Intent(LoginActivity.this, OperaioActivity.class);
+                    startActivity(i);
+                    this.finish();
+                } else if (qualifica.equals(AUTISTA)) {
+                    Log.i(Constants.TAG, "" + this.getClass() + " go to activity for" + qualifica);
 
                     Intent i = new Intent(LoginActivity.this, AutistaActivity.class);
-                        i.putExtra(AUTISTA,username.getText().toString());
-                        startActivity(i);
-                        this.finish();
-                    }
-                else if (qualifica.equals(Constants.IMPIEGATO)){
-                    Log.i(Constants.TAG,""+this.getClass()+" go to activity for"+qualifica);
+                    i.putExtra(AUTISTA, username.getText().toString());
+                    startActivity(i);
+                    this.finish();
+                } else if (qualifica.equals(Constants.IMPIEGATO)) {
+                    Log.i(Constants.TAG, "" + this.getClass() + " go to activity for" + qualifica);
 
                     Intent i = new Intent(LoginActivity.this, ImpiegatoActivity.class);
-                        startActivity(i);
-                        this.finish();
+                    startActivity(i);
+                    this.finish();
 
-                    }
-                else if (qualifica.equals(Constants.CAPOCANTIERE)){
-                    Log.i(Constants.TAG,""+this.getClass()+" go to activity for"+qualifica);
+                } else if (qualifica.equals(Constants.CAPOCANTIERE)) {
+                    Log.i(Constants.TAG, "" + this.getClass() + " go to activity for" + qualifica);
 
                     Intent i = new Intent(LoginActivity.this, CapoCantiereActivity.class);
-                        startActivity(i);
-                        this.finish();
-                    }
+                    startActivity(i);
+                    this.finish();
+                } else {
 
-
-                else     return;
+                    return;
                 }
-
-
             } else {
-                Toast.makeText(getApplicationContext(), "PASSWORD ERRATA", Toast.LENGTH_SHORT);
+                Toast.makeText(getApplicationContext(), "USER/PASSWORD ERRATA", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+
+        }
 
 
     }

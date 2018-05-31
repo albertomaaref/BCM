@@ -59,19 +59,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AsynchR
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng milan = new LatLng(45.4642700, 9.18951);
-        if (listaLatLng!=null){
+        if (mMap != null){
 
-            for (LatLng latlng: listaLatLng
-                    ) {
-                mMap.addMarker(new MarkerOptions().position(latlng).title("A"));
+            LatLng milan = new LatLng(45.4642700, 9.18951);
+            if (listaLatLng!=null){
 
+                for (LatLng latlng: listaLatLng
+                        ) {
+                    mMap.addMarker(new MarkerOptions().position(latlng).title("A"));
+
+                }
             }
+            // Add a marker in Sydney and move the camera
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(milan));
+            CameraUpdate zoom = CameraUpdateFactory.newLatLngZoom(milan, 9);
+            mMap.animateCamera(zoom);
         }
-        // Add a marker in Sydney and move the camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(milan));
-        CameraUpdate zoom = CameraUpdateFactory.newLatLngZoom(milan, 9);
-        mMap.animateCamera(zoom);
     }
 
     @Override

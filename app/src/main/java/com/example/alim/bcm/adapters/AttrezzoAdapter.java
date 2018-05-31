@@ -52,7 +52,7 @@ public class AttrezzoAdapter extends RecyclerView.Adapter<AttrezzoAdapter.Attrez
     public void onBindViewHolder(final AttrezzoHolder holder, int position) {
 
         final Attrezzo attrezzo = listaAttrezzi.get(position);
-        holder.textAttrezzo.setText(attrezzo.getNome());
+        holder.textAttrezzo.setText(attrezzo.getNome().toUpperCase());
         holder.checkBoxCestino.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

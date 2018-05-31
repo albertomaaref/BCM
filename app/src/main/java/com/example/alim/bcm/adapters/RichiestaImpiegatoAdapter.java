@@ -17,6 +17,15 @@ import java.util.List;
 public class RichiestaImpiegatoAdapter extends RecyclerView.Adapter<RichiestaImpiegatoAdapter.RichiestaHolder> {
 
     private Context context;
+
+    public List<Richiesta> getListaRichieste() {
+        return listaRichieste;
+    }
+
+    public void setListaRichieste(List<Richiesta> listaRichieste) {
+        this.listaRichieste = listaRichieste;
+    }
+
     private List<Richiesta> listaRichieste;
     private OnClickCardListener onClickCardListener;
 
@@ -40,7 +49,7 @@ public class RichiestaImpiegatoAdapter extends RecyclerView.Adapter<RichiestaImp
     @Override
     public void onBindViewHolder(RichiestaHolder holder, int position) {
             final Richiesta richiesta = listaRichieste.get(position);
-            holder.tCantiere.setText(richiesta.getCantiere());
+            holder.tCantiere.setText(richiesta.getCantiere().toUpperCase());
             holder.tStatoRichiesta.setText(richiesta.getStato().toString());
             holder.cardRichiesta.setOnClickListener(new View.OnClickListener() {
                 @Override
