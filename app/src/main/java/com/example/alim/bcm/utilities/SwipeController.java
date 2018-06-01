@@ -33,7 +33,7 @@ enum ButtonsState {
         private SwipeControllerActions buttonsActions = null;
 
         private String tipoUtente;
-        private static final float buttonWidth = 300;
+        private static final float buttonWidth = 200;
 
         public SwipeController(SwipeControllerActions buttonsActions,String tipoUtente) {
             this.tipoUtente = tipoUtente;
@@ -158,7 +158,7 @@ enum ButtonsState {
         }
 
         private void drawButtons(Canvas c, RecyclerView.ViewHolder viewHolder) {
-            float buttonWidthWithoutPadding = buttonWidth -2;
+            float buttonWidthWithoutPadding = buttonWidth -5;
             float corners = 16;
 
             View itemView = viewHolder.itemView;

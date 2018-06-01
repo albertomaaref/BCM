@@ -2,6 +2,7 @@ package com.example.alim.bcm.services;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -23,11 +24,15 @@ public class ConfermaDatiDialog extends DialogFragment  {
     TextView tNomeRegister;
     TextView tCognomeRegister;
     TextView tQualificaRegister;
+    TextView tDialog;
     ImageButton bCheck;
     ImageButton bClose;
+    public static final String GENERIC_MESSAGE ="messaggioGenerico";
     private String nome;
     private String cognome;
     private String qualifica;
+    private String modalita = null;
+    private String message = null;
 
 
 
@@ -38,6 +43,14 @@ public class ConfermaDatiDialog extends DialogFragment  {
     }
 
     public ConfermaDatiDialog() {
+    }
+
+    @SuppressLint("ValidFragment")
+    public ConfermaDatiDialog(@NonNull String modalita,@NonNull String message, @NonNull onButtonClickListener onButtonClickListener){
+        this.onButtonClickListener = onButtonClickListener;
+        this.modalita = modalita;
+        this.message = message;
+
     }
 
     @SuppressLint("ValidFragment")
@@ -61,19 +74,35 @@ public class ConfermaDatiDialog extends DialogFragment  {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         tNomeRegister = view.findViewById(R.id.tNomeRegister);
         tCognomeRegister = view.findViewById(R.id.tCognomeRegister);
         tQualificaRegister = view.findViewById(R.id.tQualificaRegister);
+        tDialog = view.findViewById(R.id.tDialog);
         bCheck = view.findViewById(R.id.bCheck);
         bClose = view.findViewById(R.id.bClose);
 
-        tNomeRegister.setText(nome);
-        tCognomeRegister.setText(cognome);
-        tQualificaRegister.setText(qualifica);
+
+
+        if (modalita.equals(GENERIC_MESSAGE)){
+            tCognomeRegister.setVisibility(View.GONE);
+            tNomeRegister.setVisibility(View.GONE);
+            tQualificaRegister.setVisibility(View.GONE);
+            tDialog.setText(message.toUpperCase());
+            tDialog.setVisibility(View.VISIBLE);
+
+        }
+        else {
+            tNomeRegister.setText(nome);
+            tCognomeRegister.setText(cognome);
+            tQualificaRegister.setText(qualifica);
+        }
 
         bCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getDialog().dismiss();
+                getDialog().cancel();
                 onButtonClickListener.onCheckClick();
             }
         });

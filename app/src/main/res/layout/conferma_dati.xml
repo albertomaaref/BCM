@@ -92,6 +92,18 @@
             android:layout_weight="1"
             android:text="" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="testo dialog"/>
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"

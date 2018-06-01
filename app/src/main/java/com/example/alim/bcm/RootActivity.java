@@ -14,6 +14,7 @@ import com.example.alim.bcm.model.Autista;
 import com.example.alim.bcm.model.CapoCantiere;
 import com.example.alim.bcm.model.Constants;
 
+import static com.example.alim.bcm.model.Constants.AUTISTA;
 import static com.example.alim.bcm.model.Constants.TIPO_UTENTE_ATTIVO;
 import static com.example.alim.bcm.model.Constants.UTENTE_ATTIVO;
 
@@ -61,35 +62,31 @@ public class RootActivity extends AppCompatActivity {
         }
 
         else {
-            switch (tipoUtenteAttivo){
+            if (tipoUtenteAttivo.equals(Constants.OPERAIO)) {
+                Log.i(Constants.TAG, "" + this.getClass() + " go to activity for" + tipoUtenteAttivo);
+                Intent i = new Intent(RootActivity.this, OperaioActivity.class);
+                startActivity(i);
+                this.finish();
+            } else if (tipoUtenteAttivo.equals(AUTISTA)) {
+                Log.i(Constants.TAG, "" + this.getClass() + " go to activity for" + tipoUtenteAttivo);
 
-                case IMPIEGATO:{
-                    Log.i(Constants.TAG,""+this.getClass()+" go to activity for"+tipoUtenteAttivo);
-                    Intent i = new Intent(RootActivity.this, ImpiegatoActivity.class);
-                    startActivity(i);
-                    this.finish();
-                }
-                case OPERAIO:{
-                    Log.i(Constants.TAG,""+this.getClass()+" go to activity for"+tipoUtenteAttivo);
-                    Intent i = new Intent(RootActivity.this, OperaioActivity.class);
-                    startActivity(i);
-                    this.finish();
-                }
-                case CAPOCANTIERE:{
-                    Log.i(Constants.TAG,""+this.getClass()+" go to activity for"+tipoUtenteAttivo);
-                    Intent i = new Intent(RootActivity.this, CapoCantiereActivity.class);
-                    startActivity(i);
-                    this.finish();
-                }
-                case AUTISTA:{
-                    Log.i(Constants.TAG,""+this.getClass()+" go to activity for"+tipoUtenteAttivo);
-                    Intent i = new Intent(RootActivity.this, AutistaActivity.class);
-                    i.putExtra(Constants.AUTISTA,utenteAttivo);
-                    startActivity(i);
-                    this.finish();
-                }
+                Intent i = new Intent(RootActivity.this, AutistaActivity.class);
+                i.putExtra(AUTISTA, utenteAttivo);
+                startActivity(i);
+                this.finish();
+            } else if (tipoUtenteAttivo.equals(Constants.IMPIEGATO)) {
+                Log.i(Constants.TAG, "" + this.getClass() + " go to activity for" + tipoUtenteAttivo);
 
-                default: return;
+                Intent i = new Intent(RootActivity.this, ImpiegatoActivity.class);
+                startActivity(i);
+                this.finish();
+
+            } else if (tipoUtenteAttivo.equals(Constants.CAPOCANTIERE)) {
+                Log.i(Constants.TAG, "" + this.getClass() + " go to activity for" + tipoUtenteAttivo);
+
+                Intent i = new Intent(RootActivity.this, CapoCantiereActivity.class);
+                startActivity(i);
+                this.finish();
             }
 
         }

@@ -24,6 +24,7 @@ import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Materiale;
 import com.example.alim.bcm.model.Richiesta;
 import com.example.alim.bcm.model.StatoRichiesta;
+import com.example.alim.bcm.services.ConfermaDatiDialog;
 import com.example.alim.bcm.services.SelectDataDialog;
 import com.example.alim.bcm.utilities.InternalStorage;
 import com.example.alim.bcm.utilities.ItemsManager;
@@ -34,6 +35,7 @@ import java.util.List;
 
 import static com.example.alim.bcm.model.Constants.CANTIERI;
 import static com.example.alim.bcm.model.Constants.TAG;
+import static com.example.alim.bcm.services.ConfermaDatiDialog.GENERIC_MESSAGE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -110,10 +112,23 @@ public class MaterialiFragment extends Fragment {
                 richiesta.setDataConesgna(eDataConsegna.getText().toString());
                 richiesta.setStato(StatoRichiesta.IN_ATTESA);
 
-                //richiesta.setTestoLibero();
-                MaterialiFragment fr = new MaterialiFragment();
-                RequestManager requestManager = RequestManager.getIstance();
-                requestManager.sendRequest(getContext(),richiesta,Constants.MATERIALI,getFragmentManager(),fr);
+                // mettodialogConferma
+                ConfermaDatiDialog confermaDatiDialog = new ConfermaDatiDialog(GENERIC_MESSAGE, "stai per confermare una richiesta", new ConfermaDatiDialog.onButtonClickListener() {
+                    @Override
+                    public void onCheckClick() {
+
+                        MaterialiFragment fr = new MaterialiFragment();
+                        RequestManager requestManager = RequestManager.getIstance();
+                        requestManager.sendRequest(getContext(),richiesta,Constants.MATERIALI,getFragmentManager(),fr);
+                    }
+
+                    @Override
+                    public void onCloseClick() {
+
+                    }
+                });
+                confermaDatiDialog.show(getFragmentManager(),Constants.CONFERMA_DATI_DIALOG);
+
             }
         });
 
