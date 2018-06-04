@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -21,23 +22,36 @@ import com.example.alim.bcm.AutistaDetailRichiestaActivity;
 import com.example.alim.bcm.GestioneRichiestaActivity;
 import com.example.alim.bcm.R;
 import com.example.alim.bcm.adapters.RichiestaAutistaAdapter;
+import com.example.alim.bcm.model.Autista;
 import com.example.alim.bcm.model.Richiesta;
+import com.example.alim.bcm.services.InternetController;
+import com.example.alim.bcm.utilities.InternalStorage;
+import com.example.alim.bcm.utilities.JsonParser;
+import com.example.alim.bcm.utilities.RequestManager;
 import com.example.alim.bcm.utilities.SwipeController;
 import com.example.alim.bcm.utilities.SwipeControllerActions;
+import com.example.alim.bcm.utilities.TaskCompletion;
 
 import java.util.List;
 
+import static com.example.alim.bcm.model.Constants.AUTISTA;
+import static com.example.alim.bcm.model.Constants.SUCCESSO;
 import static com.example.alim.bcm.model.Constants.TIPO_UTENTE_ATTIVO;
 
 
 public class DashboardAutistaFragment extends Fragment {
 
 
-    RecyclerView recyclerView;
-    LinearLayoutManager linearLayoutManager;
-    List<Richiesta> listaRichieste;
-    RichiestaAutistaAdapter richiestaAutistaAdapter;
-    SharedPreferences preferences;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private List<Richiesta> listaRichieste;
+    private RichiestaAutistaAdapter richiestaAutistaAdapter;
+    private SharedPreferences preferences;
+    private SwipeRefreshLayout refreshLayout;
+    private Autista autista;
+
+
+
     public DashboardAutistaFragment() {
     }
 
@@ -45,8 +59,8 @@ public class DashboardAutistaFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        listaRichieste = (List<Richiesta>) getArguments().getSerializable("LISTA_RICHIESTE_BY_AUTISTA");
-
+        listaRichieste = (List<Richiesta>) getArguments().getSerializable("LISTA_RICHIESTE");
+        autista = (Autista) InternalStorage.readObject(getContext(),AUTISTA);
     }
 
     @Override
@@ -60,15 +74,13 @@ public class DashboardAutistaFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.recyclerAutista);
         linearLayoutManager = new LinearLayoutManager(getContext());
-        richiestaAutistaAdapter = new RichiestaAutistaAdapter(listaRichieste, getContext(), new RichiestaAutistaAdapter.OnClickCardListener() {
-            @Override
-            public void onclickCard(Richiesta richiesta) {
-                Intent intent = new Intent(getContext(), AutistaDetailRichiestaActivity.class);
-                intent.putExtra("richiesta", richiesta);
-                startActivity(intent);            }
-        });
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(richiestaAutistaAdapter);
+        if (listaRichieste != null && listaRichieste.size()>0)        setRecycler(RequestManager.getIstance().getRichiesteByAutista(autista.getNome(),listaRichieste));
+
+        else // nessuna richiesta
+
+
+        refreshLayout = view.findViewById(R.id.refreshAutista);
+
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -96,6 +108,41 @@ public class DashboardAutistaFragment extends Fragment {
             }
         });
 
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                RequestManager.getIstance().downloadRequests(new TaskCompletion() {
+                    @Override
+                    public void taskToDo(String esito, String bodyResponse) {
+                        if (esito.equalsIgnoreCase(SUCCESSO))
+                        listaRichieste = JsonParser.getRichieste(bodyResponse);
+                        refreshLayout.setRefreshing(false);
+                        if (listaRichieste!= null && listaRichieste.size()>0)
+                            setRecycler(RequestManager.getIstance().getRichiesteByAutista(autista.getNome(),listaRichieste));
+                    }
+
+                    @Override
+                    public void taskToDo(String esito, String bodyResponse, String param1) {
+
+                    }
+                });
+
+
+            }
+        });
+
+    }
+
+    private void setRecycler(List<Richiesta> listaRichieste) {
+        richiestaAutistaAdapter = new RichiestaAutistaAdapter(listaRichieste, getContext(), new RichiestaAutistaAdapter.OnClickCardListener() {
+            @Override
+            public void onclickCard(Richiesta richiesta) {
+                Intent intent = new Intent(getContext(), AutistaDetailRichiestaActivity.class);
+                intent.putExtra("richiesta", richiesta);
+                startActivity(intent);            }
+        });
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(richiestaAutistaAdapter);
     }
 
 

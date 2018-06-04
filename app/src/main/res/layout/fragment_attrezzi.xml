@@ -23,13 +23,20 @@
         android:textColor="@android:color/background_dark"
         android:textSize="24sp" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewAttrezzi"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshAttrezzi"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_margin="10dp">
+        android:layout_height="300dp">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewAttrezzi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -82,7 +89,7 @@
             android:background="@drawable/bg_button"
             android:gravity="center"
             android:textColor="@color/white"
-            android:text="apporva richiesta" />
+            android:text="conferma richiesta" />
 
         <Button
             android:layout_marginLeft="5dp"

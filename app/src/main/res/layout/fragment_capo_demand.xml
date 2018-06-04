@@ -7,10 +7,10 @@
 
     <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/sFragrichieste"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/spinnerRichiesteFrag">
+        android:layout_margin="10dp"
+        android:entries="@array/spinnerArticoli">
 
     </android.support.v7.widget.AppCompatSpinner>
 
@@ -18,8 +18,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        >
+        android:layout_margin="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,35 +34,44 @@
                 android:text="LISTA ATTREZZI"
                 android:textColor="@android:color/background_dark"
                 android:textSize="24sp"
-                android:visibility="gone"/>
-            <FrameLayout
-                android:id="@+id/frameAttrezzi"
+                android:visibility="gone" />
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/refreshArticoli"
                 android:layout_width="match_parent"
                 android:layout_height="300dp">
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerViewAttrezzi"
+
+                <FrameLayout
+                    android:id="@+id/frameAttrezzi"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp">
+                    android:layout_height="match_parent">
 
-                </android.support.v7.widget.RecyclerView>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerViewAttrezzi"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp">
 
-            </FrameLayout>
+                    </android.support.v7.widget.RecyclerView>
+
+                </FrameLayout>
+            </android.support.v4.widget.SwipeRefreshLayout>
+
             <FrameLayout
                 android:id="@+id/frameMateriali"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone">
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerMateriali"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:layout_margin="10dp" >
+                    android:layout_margin="10dp">
 
                 </android.support.v7.widget.RecyclerView>
 
             </FrameLayout>
-
 
 
             <FrameLayout
@@ -81,10 +89,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:textColor="@color/black"
                         android:gravity="center"
-                        android:textSize="16dp"
-                        android:text="Data di consgna" />
+                        android:text="Data di consgna"
+                        android:textColor="@color/black"
+                        android:textSize="16dp" />
 
                     <EditText
                         android:id="@+id/eDataConsegna"
@@ -93,10 +101,10 @@
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:ems="10"
+                        android:focusable="false"
                         android:gravity="center"
-                        android:inputType="date"
                         android:hint="GG/MM//AAAA"
-                        android:focusable="false"/>
+                        android:inputType="date" />
                 </LinearLayout>
             </FrameLayout>
 
@@ -110,28 +118,27 @@
                     android:id="@+id/bApprovaRichiesta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:background="@drawable/bg_button"
                     android:layout_marginRight="5dp"
-                    android:text="conferma richiesta" />
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_button"
+                    android:gravity="center"
+                    android:text="conferma richiesta"
+                    android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/bAggiungiNota"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/white"
                     android:layout_marginLeft="5dp"
-                    android:gravity="center"
+                    android:layout_weight="1"
                     android:background="@drawable/bg_button"
-                    android:text="aggiungi nota" />
+                    android:gravity="center"
+                    android:text="aggiungi nota"
+                    android:textColor="@color/white" />
             </LinearLayout>
 
         </LinearLayout>
     </FrameLayout>
-
 
 
 </LinearLayout>

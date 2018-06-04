@@ -25,9 +25,9 @@ public class Constants {
 
     public static final String CAPOCANTIERE = "capocantiere";
 
-    public static final String AUTISTA ="autista";
+    public static final String AUTISTA = "autista";
 
-    public static final String RICHIESTE ="richieste";
+    public static final String RICHIESTE = "richieste";
 
     public static final String SELECT_DATA_DIALOG = "SelectDataDialog";
 
@@ -43,7 +43,9 @@ public class Constants {
     public static final String MATERIALI_FRAGMENT = "materiali_fragment";
     public static final String RICHIESTE_FRAGMENT = "richieste_fragment";
     public static final String ADD_SITE_FRAGMENT = "add_site_fragment";
+    public static final String ADD_PRODUCT_FRAGMENT = "add_product_fragment";
+
     public static final String DASHBOARD_AUTISTA_FRAGMENT = "dashboard_Autista_Fragment";
 
-    public static final String CANTIERI = "cantieri" ;
+    public static final String CANTIERI = "cantieri";
 }

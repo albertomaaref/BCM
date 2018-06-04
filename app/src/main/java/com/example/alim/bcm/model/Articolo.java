@@ -7,8 +7,8 @@ import java.io.Serializable;
  */
 
 public class Articolo implements Serializable{
-    private boolean conseganto ;
 
+    private boolean conseganto ;
     private String nome;
     private String marca;
     private String modello;

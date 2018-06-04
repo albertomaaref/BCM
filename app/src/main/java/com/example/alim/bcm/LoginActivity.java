@@ -15,9 +15,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.alim.bcm.model.Autista;
 import com.example.alim.bcm.model.CapoCantiere;
 import com.example.alim.bcm.model.Constants;
+import com.example.alim.bcm.model.Impiegato;
+import com.example.alim.bcm.model.Operaio;
+import com.example.alim.bcm.model.Personale;
 import com.example.alim.bcm.utilities.FireBaseConnection;
+import com.example.alim.bcm.utilities.InternalStorage;
 import com.example.alim.bcm.utilities.JsonParser;
 import com.example.alim.bcm.utilities.TaskCompletion;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -29,6 +34,10 @@ import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 import static com.example.alim.bcm.model.Constants.AUTISTA;
+import static com.example.alim.bcm.model.Constants.CAPOCANTIERE;
+import static com.example.alim.bcm.model.Constants.IMPIEGATO;
+import static com.example.alim.bcm.model.Constants.OPERAIO;
+import static com.example.alim.bcm.model.Constants.UTENTE_ATTIVO;
 
 public class LoginActivity extends AppCompatActivity implements TaskCompletion {
 
@@ -62,6 +71,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletion {
     private SharedPreferences preferences;
     private TaskCompletion delegation;
     private ProgressDialog progressDialog;
+    private Personale personle;
 
 
     @Override
@@ -126,9 +136,24 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletion {
                     delegation.taskToDo(Constants.ERROR, "connessione fallita", qualifica);
 
                 } else {
+                    if (qualifica.equalsIgnoreCase(AUTISTA)) {
+                        personle = (Autista) JsonParser.getPersonale(s, qualifica);
+                        InternalStorage.writeObject(getApplicationContext(), AUTISTA, personle);
+                    } else if (qualifica.equalsIgnoreCase(IMPIEGATO)) {
+                        personle = (Impiegato) JsonParser.getPersonale(s, qualifica);
+                        InternalStorage.writeObject(getApplicationContext(), IMPIEGATO, personle);
+                    } else if (qualifica.equalsIgnoreCase(CAPOCANTIERE)) {
+                        personle = (CapoCantiere) JsonParser.getPersonale(s, qualifica);
+                        InternalStorage.writeObject(getApplicationContext(), CAPOCANTIERE, personle);
+                    } else if (qualifica.equalsIgnoreCase(OPERAIO)) {
+                        personle = (Operaio) JsonParser.getPersonale(s, qualifica);
+                        InternalStorage.writeObject(getApplicationContext(), OPERAIO, personle);
+                    } else personle = null;
+                    if (personle != null) {
 
-                    String psw = JsonParser.getPassword(s);
-                    delegation.taskToDo(Constants.SUCCESSO, psw, qualifica);
+                        String psw = JsonParser.getPassword(s);
+                        delegation.taskToDo(Constants.SUCCESSO, psw, qualifica);
+                    }
                 }
             }
 
@@ -159,11 +184,12 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletion {
         } else if (esito.equals(Constants.SUCCESSO)) {
             if (bodyResponse.equals(password.getText().toString())) {
 
-                // salvare utenza attiva
+                // salvare tipo_utenza attiva
                 SharedPreferences.Editor editor = preferences.edit();
-                editor.putString(Constants.UTENTE_ATTIVO,username.getText().toString());
                 editor.putString(Constants.TIPO_UTENTE_ATTIVO, qualifica);
                 editor.commit();
+                InternalStorage.writeObject(getApplicationContext(), UTENTE_ATTIVO, personle);
+
 
                 if (qualifica.equals(Constants.OPERAIO)) {
                     Log.i(Constants.TAG, "" + this.getClass() + " go to activity for" + qualifica);

@@ -12,7 +12,7 @@
         <item>Statistiche Cantiere</item>
         <item>stato richieste</item>
     </string-array>
-    <string-array name="spinnerRichiesteFrag">
+    <string-array name="spinnerArticoli">
         <item>ATTREZZI</item>
         <item>MATERIALI</item>
     </string-array>

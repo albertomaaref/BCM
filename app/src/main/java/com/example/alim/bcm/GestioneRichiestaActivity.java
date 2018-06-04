@@ -186,7 +186,12 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
                 public void taskToDo(String esito, String bodyResponse) {
                     if (esito.equalsIgnoreCase(Constants.SUCCESSO)) {
                         listaAutisti = JsonParser.getAutisti(bodyResponse);
-                        setSpinner();
+                        if (listaAutisti != null && listaAutisti.size()>0){
+
+                            setSpinner();
+                        }
+                        else                         Toast.makeText(getApplicationContext(),"lista autisti vuota",Toast.LENGTH_SHORT).show();
+
                         progressDialog.dismiss();
                         progressDialog.cancel();
                     }

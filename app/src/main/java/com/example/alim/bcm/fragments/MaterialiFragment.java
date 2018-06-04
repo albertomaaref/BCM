@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.alim.bcm.R;
 import com.example.alim.bcm.model.Cantiere;
@@ -40,8 +42,6 @@ import static com.example.alim.bcm.services.ConfermaDatiDialog.GENERIC_MESSAGE;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
-
-
  */
 public class MaterialiFragment extends Fragment {
 
@@ -53,6 +53,7 @@ public class MaterialiFragment extends Fragment {
     private Richiesta richiesta = new Richiesta();
     private Spinner spinnerCantieri;
     private EditText eDataConsegna;
+    private SwipeRefreshLayout refreshLayout;
 
 
     public MaterialiFragment() {
@@ -60,11 +61,9 @@ public class MaterialiFragment extends Fragment {
     }
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
 
     }
@@ -85,9 +84,10 @@ public class MaterialiFragment extends Fragment {
         bApprovaRichiesta = view.findViewById(R.id.bApprovaRichiesta);
         bAggiungiNota = view.findViewById(R.id.bAggiungiNota);
         lm = new LinearLayoutManager(getContext());
+        refreshLayout = view.findViewById(R.id.refreshMateriali);
         recyclerViewMateriale = view.findViewById(R.id.recyclerMateriali);
-        ItemsManager itemsManager = ItemsManager.getIstance();
-        itemsManager.scaricaListArticoliFromDB(getContext(),listaCestino,recyclerViewMateriale,lm,Constants.MATERIALI);
+        final ItemsManager itemsManager = ItemsManager.getIstance();
+        itemsManager.scaricaListArticoliFromDB(getContext(), listaCestino, recyclerViewMateriale, lm, Constants.MATERIALI);
 
         setSpinnerCantieri();
 
@@ -101,33 +101,36 @@ public class MaterialiFragment extends Fragment {
         bApprovaRichiesta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                richiesta.setCantiere(spinnerCantieri.getSelectedItem().toString());
-                // controllo formato data
+                if (checkCampi()) {
 
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                richiesta.setId(sharedPreferences.getInt(Constants.ID_RICHIESTA,404)+1);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt(Constants.ID_RICHIESTA,sharedPreferences.getInt(Constants.ID_RICHIESTA,404)+1).commit();
-                richiesta.setListaMateriali(listaCestino);
-                richiesta.setDataConesgna(eDataConsegna.getText().toString());
-                richiesta.setStato(StatoRichiesta.IN_ATTESA);
+                    richiesta.setCantiere(spinnerCantieri.getSelectedItem().toString());
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                    richiesta.setId(sharedPreferences.getInt(Constants.ID_RICHIESTA, 404) + 1);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt(Constants.ID_RICHIESTA, sharedPreferences.getInt(Constants.ID_RICHIESTA, 404) + 1).commit();
+                    richiesta.setListaMateriali(listaCestino);
+                    richiesta.setDataConesgna(eDataConsegna.getText().toString());
+                    richiesta.setStato(StatoRichiesta.IN_ATTESA);
 
-                // mettodialogConferma
-                ConfermaDatiDialog confermaDatiDialog = new ConfermaDatiDialog(GENERIC_MESSAGE, "stai per confermare una richiesta", new ConfermaDatiDialog.onButtonClickListener() {
-                    @Override
-                    public void onCheckClick() {
+                    // metto dialogConferma
+                    final ConfermaDatiDialog confermaDatiDialog = new ConfermaDatiDialog(GENERIC_MESSAGE, "stai per confermare una richiesta", new ConfermaDatiDialog.onButtonClickListener() {
+                        @Override
+                        public void onCheckClick() {
 
-                        MaterialiFragment fr = new MaterialiFragment();
-                        RequestManager requestManager = RequestManager.getIstance();
-                        requestManager.sendRequest(getContext(),richiesta,Constants.MATERIALI,getFragmentManager(),fr);
-                    }
+                            MaterialiFragment fr = new MaterialiFragment();
+                            RequestManager requestManager = RequestManager.getIstance();
+                            requestManager.sendRequest(getContext(), richiesta, Constants.MATERIALI, getFragmentManager(), fr);
+                        }
 
-                    @Override
-                    public void onCloseClick() {
+                        @Override
+                        public void onCloseClick() {
 
-                    }
-                });
-                confermaDatiDialog.show(getFragmentManager(),Constants.CONFERMA_DATI_DIALOG);
+                        }
+                    });
+                    confermaDatiDialog.show(getFragmentManager(), Constants.CONFERMA_DATI_DIALOG);
+                } else
+                    Toast.makeText(getContext(), "Controllare i campi", Toast.LENGTH_LONG).show();
+
 
             }
         });
@@ -136,31 +139,40 @@ public class MaterialiFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 SelectDataDialog selectDataDialog = new SelectDataDialog(eDataConsegna);
-                selectDataDialog.show(getFragmentManager(),Constants.SELECT_DATA_DIALOG);
+                selectDataDialog.show(getFragmentManager(), Constants.SELECT_DATA_DIALOG);
+            }
+        });
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                itemsManager.scaricaListArticoliFromDB(getContext(), listaCestino, recyclerViewMateriale, lm, Constants.MATERIALI);
+                refreshLayout.setRefreshing(false);
+
             }
         });
 
     }
 
-    public void setSpinnerCantieri (){
-        List<Cantiere> cantiereList = (List<Cantiere>) InternalStorage.readObject(getContext(),CANTIERI);
-        List<String> lista = new ArrayList<>();
-        lista.add("Seleziona Cantiere");
-        for (Cantiere cantiere: cantiereList
-             ) {
-            lista.add(cantiere.getIndirizzo());
-        }
-        if (cantiereList == null){
-            Log.i(TAG,this.getClass()+" errore settaggio spinner cantieri");
-        }
-        else {
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(),R.layout.spinner_item,R.id.tSpinner,lista);
-            spinnerCantieri.setAdapter(arrayAdapter);
-        }
+    public void setSpinnerCantieri() {
+        List<Cantiere> cantiereList = (List<Cantiere>) InternalStorage.readObject(getContext(), CANTIERI);
+        if (cantiereList != null && cantiereList.size() > 0) {
+
+            List<String> lista = new ArrayList<>();
+            lista.add("Seleziona Cantiere");
+            for (Cantiere cantiere : cantiereList
+                    ) {
+                lista.add(cantiere.getIndirizzo());
+            }
+            if (cantiereList == null) {
+                Log.i(TAG, this.getClass() + " errore settaggio spinner cantieri");
+            } else {
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_item, R.id.tSpinner, lista);
+                spinnerCantieri.setAdapter(arrayAdapter);
+            }
+        } else
+            Toast.makeText(getContext(), "LA LAISTA DEI CANTIEREI E VUOTA", Toast.LENGTH_SHORT).show();
     }
-
-
-
 
 
     @Override
@@ -169,9 +181,9 @@ public class MaterialiFragment extends Fragment {
 
     }
 
-    public void showInputDialog(){
+    public void showInputDialog() {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-        View promptView = layoutInflater.inflate(R.layout.aggiungi_nota,null);
+        View promptView = layoutInflater.inflate(R.layout.aggiungi_nota, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         alertDialogBuilder.setView(promptView);
         final EditText nota = promptView.findViewById(R.id.eAggiungiNota);
@@ -194,6 +206,14 @@ public class MaterialiFragment extends Fragment {
         alertDialog.show();
     }
 
+    private boolean checkCampi() {
+        if (spinnerCantieri.getCount() == 0 || spinnerCantieri.getSelectedItem().toString().equalsIgnoreCase("Seleziona Cantiere") || listaCestino == null || listaCestino.size() < 1 || eDataConsegna.getText().toString().equalsIgnoreCase("")) {
+            return false;
+
+        } else if (spinnerCantieri.getSelectedItem().toString().equalsIgnoreCase("Seleziona Cantiere"))
+            return false;
+        else return true;
+    }
 
 
 }

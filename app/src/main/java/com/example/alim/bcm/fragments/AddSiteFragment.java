@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.alim.bcm.R;
 import com.example.alim.bcm.model.Cantiere;
 import com.example.alim.bcm.model.Constants;
+import com.example.alim.bcm.services.ConfermaDatiDialog;
 import com.example.alim.bcm.services.SelectDataDialog;
 import com.example.alim.bcm.utilities.FireBaseConnection;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.widget.Toast.LENGTH_SHORT;
+import static com.example.alim.bcm.model.Constants.CONFERMA_DATI_DIALOG;
 
 
 public class AddSiteFragment extends Fragment {
@@ -79,9 +81,21 @@ public class AddSiteFragment extends Fragment {
                 }
                 else {
 
-                    insertCantierToDB(new Cantiere(0,0,0,0,tIndirizzo.getText().toString(),0,Float.parseFloat(tValore.getText().toString()),0,tCapoCantiere.getText().toString(),tDataInizio.getText().toString(),tDataFine.getText().toString()));
-                    RichiesteFragment richiesteFragment = new RichiesteFragment();
-                    getFragmentManager().beginTransaction().replace(R.id.fragmentImpiegato,richiesteFragment,Constants.RICHIESTE_FRAGMENT).commit();
+                    ConfermaDatiDialog confermaDatiDialog = new ConfermaDatiDialog(ConfermaDatiDialog.GENERIC_MESSAGE, "stai per inserire un nuovo cantiere", new ConfermaDatiDialog.onButtonClickListener() {
+                        @Override
+                        public void onCheckClick() {
+                            insertCantierToDB(new Cantiere(0,0,0,0,tIndirizzo.getText().toString(),0,Float.parseFloat(tValore.getText().toString()),0,tCapoCantiere.getText().toString(),tDataInizio.getText().toString(),tDataFine.getText().toString()));
+                            RichiesteFragment richiesteFragment = new RichiesteFragment();
+                            getFragmentManager().beginTransaction().replace(R.id.fragmentImpiegato,richiesteFragment,Constants.RICHIESTE_FRAGMENT).commit();
+                        }
+
+                        @Override
+                        public void onCloseClick() {
+
+                        }
+                    });
+
+                    confermaDatiDialog.show(getFragmentManager(),CONFERMA_DATI_DIALOG);
                 }
             }
         });

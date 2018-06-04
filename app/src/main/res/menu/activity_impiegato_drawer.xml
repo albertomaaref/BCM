@@ -14,10 +14,14 @@
             android:title="Attrezzi" />
         <item
             android:id="@+id/nav_richieste"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_cart"
             android:title="Richieste">
 
         </item>
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout"></item>
 
     </group>
 

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,9 +26,11 @@ import android.widget.Toast;
 import com.example.alim.bcm.GestioneRichiestaActivity;
 import com.example.alim.bcm.R;
 import com.example.alim.bcm.adapters.RichiestaImpiegatoAdapter;
+import com.example.alim.bcm.model.Cantiere;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Richiesta;
 import com.example.alim.bcm.model.StatoRichiesta;
+import com.example.alim.bcm.utilities.InternalStorage;
 import com.example.alim.bcm.utilities.JsonParser;
 import com.example.alim.bcm.utilities.RequestManager;
 import com.example.alim.bcm.utilities.SwipeController;
@@ -37,6 +41,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static com.example.alim.bcm.model.Constants.CANTIERI;
+import static com.example.alim.bcm.model.Constants.TAG;
 import static com.example.alim.bcm.model.Constants.TIPO_UTENTE_ATTIVO;
 
 
@@ -46,7 +52,7 @@ public class RichiesteFragment extends Fragment {
     RecyclerView recyclerView;
     ProgressDialog progressDialog;
     Spinner sCantiere;
-
+    SwipeRefreshLayout refreshLayout;
     TextView tNumRichieste;
     TextView tNumAttesa;
     TextView tNumConsegna;
@@ -79,6 +85,7 @@ public class RichiesteFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         recyclerView = view.findViewById(R.id.recyclerRichieste);
         layoutManager = new LinearLayoutManager(getContext());
+        refreshLayout = view.findViewById(R.id.refreshRichieste);
         progressDialog = new ProgressDialog(getContext());
         progressDialog.show();
 
@@ -145,6 +152,58 @@ public class RichiesteFragment extends Fragment {
             }
         });
         //RequestManager.getIstance().downloadRequests(getContext(),layoutManager,recyclerView);
+
+
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (!progressDialog.isShowing()){
+                    progressDialog.show();
+                }
+                RequestManager.getIstance().downloadRequests(new TaskCompletion() {
+                    @Override
+                    public void taskToDo(String esito, String bodyResponse) {
+                        if (esito.equals(Constants.SUCCESSO)){
+
+                            richiestaList = JsonParser.getRichieste(bodyResponse);
+
+                            Log.i(Constants.TAG,""+this.getClass());
+                            if (richiestaList != null && richiestaList.size()>0){
+                                richiestaImpiegatoAdapter = new RichiestaImpiegatoAdapter(getContext(), richiestaList, new RichiestaImpiegatoAdapter.OnClickCardListener() {
+                                    @Override
+                                    public void onclickCard(Richiesta richiesta) {
+                                        Intent intent = new Intent(getContext(), GestioneRichiestaActivity.class);
+                                        intent.putExtra("richiesta", richiesta);
+                                        startActivityForResult(intent,200);
+                                    }
+                                });
+                                setRecycler(richiestaList);
+
+                            }
+                            else {
+                                Toast.makeText(getContext(),"Errore caricamento richieste",Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                        else if (esito.equals(Constants.ERROR)){
+
+                        }
+
+                        progressDialog.dismiss();
+                        progressDialog.cancel();
+                        refreshLayout.setRefreshing(false);
+
+                    }
+
+                    @Override
+                    public void taskToDo(String esito, String bodyResponse, String param1) {
+                        refreshLayout.setRefreshing(false);
+
+                    }
+                });
+            }
+        });
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -178,6 +237,9 @@ public class RichiesteFragment extends Fragment {
 
             recyclerView.setAdapter(richiestaImpiegatoAdapter);
         }
+
+
+
 
 
 
@@ -221,6 +283,28 @@ public class RichiesteFragment extends Fragment {
 
 
     }
+    public void setSpinnerCantieri (){
+        List<Cantiere> cantiereList = (List<Cantiere>) InternalStorage.readObject(getContext(),CANTIERI);
+        if (cantiereList != null && cantiereList.size()>0){
+
+            List<String> lista = new ArrayList<>();
+            lista.add("Seleziona Cantiere");
+            for (Cantiere cantiere: cantiereList
+                    ) {
+                lista.add(cantiere.getIndirizzo());
+            }
+            if (cantiereList == null){
+                Log.i(TAG,this.getClass()+" errore settaggio spinner cantieri");
+            }
+            else {
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(),R.layout.spinner_item,R.id.tSpinner,lista);
+                sCantiere.setAdapter(arrayAdapter);
+            }
+        }
+
+        else Toast.makeText(getContext(),"LA LAISTA DEI CANTIEREI E VUOTA",Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     public void onResume() {

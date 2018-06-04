@@ -1,7 +1,6 @@
 package com.example.alim.bcm;
 
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,8 +19,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -74,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
         listaUtenza.add(Constants.IMPIEGATO.toUpperCase());
         listaUtenza.add(Constants.OPERAIO.toUpperCase());
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getApplicationContext(),R.layout.spinner_registration_item,R.id.spinnerRegistration,listaUtenza);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getApplicationContext(),R.layout.spinner_white_item,R.id.spinnerRegistration,listaUtenza);
         tipoutenza.setAdapter(spinnerAdapter);
     }
 

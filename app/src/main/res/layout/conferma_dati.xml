@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_margin="10dp"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
 
     <TextView
@@ -11,98 +12,105 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="Procedere ?"
         android:textColor="@color/blu"
         android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"/>
+        android:textStyle="bold" />
 
     <LinearLayout
-        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Nome"
             android:gravity="center"
-            android:textColor="@color/black"/>
+            android:text="Nome"
+            android:textColor="@color/black"
+            android:visibility="gone" />
 
         <TextView
-            android:textColor="@color/blu"
-            android:gravity="center"
-
             android:id="@+id/tNomeRegister"
             android:layout_width="50dp"
+
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="" />
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/blu" />
     </LinearLayout>
+
     <LinearLayout
-        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="50dp"
-            android:gravity="center"
-
             android:layout_height="wrap_content"
+
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Cognome"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:visibility="gone" />
 
         <TextView
-            android:textColor="@color/blu"
-            android:gravity="center"
-
             android:id="@+id/tCognomeRegister"
             android:layout_width="50dp"
+
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="" />
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/blu" />
     </LinearLayout>
+
     <LinearLayout
-        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:orientation="horizontal">
 
         <TextView
-            android:textColor="@color/black"
             android:layout_width="50dp"
-            android:gravity="center"
-
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Qualifica" />
+
+            android:gravity="center"
+            android:text="Qualifica"
+            android:textColor="@color/black" />
 
         <TextView
-            android:textColor="@color/blu"
             android:id="@+id/tQualificaRegister"
             android:layout_width="50dp"
-            android:gravity="center"
-
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="" />
+
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/blu" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/tDialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="@color/black"
-            android:text="testo dialog"/>
+            android:text="testo dialog"
+            android:textColor="@color/black" />
     </LinearLayout>
 
     <FrameLayout
@@ -112,10 +120,10 @@
     </FrameLayout>
 
     <LinearLayout
-    android:layout_margin="5dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
 
 
         <ImageButton

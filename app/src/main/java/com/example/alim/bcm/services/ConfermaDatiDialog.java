@@ -31,8 +31,8 @@ public class ConfermaDatiDialog extends DialogFragment  {
     private String nome;
     private String cognome;
     private String qualifica;
-    private String modalita = null;
-    private String message = null;
+    private String modalita = "";
+    private String message = "";
 
 
 
@@ -96,6 +96,7 @@ public class ConfermaDatiDialog extends DialogFragment  {
             tNomeRegister.setText(nome);
             tCognomeRegister.setText(cognome);
             tQualificaRegister.setText(qualifica);
+            tDialog.setVisibility(View.GONE);
         }
 
         bCheck.setOnClickListener(new View.OnClickListener() {

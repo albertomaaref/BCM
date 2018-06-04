@@ -16,6 +16,7 @@ import com.example.alim.bcm.ImpiegatoActivity;
 import com.example.alim.bcm.R;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Richiesta;
+import com.example.alim.bcm.services.InternetController;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -31,18 +32,16 @@ import static com.example.alim.bcm.model.Constants.TAG;
  * Created by alim on 29-Mar-18.
  */
 
-public class RequestManager  {
+public class RequestManager {
 
     private TaskCompletion delegato;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private ProgressDialog progressDialog;
-    private static RequestManager istanza  = null;
+    private static RequestManager istanza = null;
     private Context context;
     DatabaseReference ref;
     FirebaseDatabase database;
-
-
 
 
     private RequestManager() {
@@ -50,119 +49,106 @@ public class RequestManager  {
         ref = database.getReferenceFromUrl(FireBaseConnection.BASE_URL);
     }
 
-    public static RequestManager getIstance (){
-        if (istanza == null){
+    public static RequestManager getIstance() {
+        if (istanza == null) {
             istanza = new RequestManager();
         }
         return istanza;
     }
 
-    public  void sendRequest(final Context context, final Richiesta richiesta, final String type, final android.support.v4.app.FragmentManager fragmentManager, final Fragment fragment) {
+    public void sendRequest(final Context context, final Richiesta richiesta, final String type, final android.support.v4.app.FragmentManager fragmentManager, final Fragment fragment) {
 
-        // controllo se è stato scelto un cantiere
-        if (richiesta.getCantiere().equalsIgnoreCase("seleziona cantiere")) {
-            Toast.makeText(context, "SELEZIONARE CANTIERE", Toast.LENGTH_SHORT).show();
-        } else {
+        // controllo se c connessione
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Procedere con la richiesta ?");
-            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+        if (InternetController.getInsatance(context).isOnline()){
 
-                    Activity activity = (Activity) context;
-                    int idContainer = 0;
-                    if (activity instanceof ImpiegatoActivity) {
-                        idContainer = R.id.fragmentImpiegato;
-                    } else if (activity instanceof CapoCantiereActivity) {
-                        idContainer = R.id.fragmentCapo;
-                    }
-                    ref.child("richieste/" + richiesta.getId() + "/id").setValue(richiesta.getId());
-                    ref.child("richieste/" + richiesta.getId() + "/cantiere").setValue(richiesta.getCantiere());
-                    ref.child("richieste/" + richiesta.getId() + "/dataConsegna").setValue(richiesta.getDataConesgna());
-                    ref.child("richieste/" + richiesta.getId() + "/nota").setValue(richiesta.getTestoLibero());
-                    ref.child("richieste/" + richiesta.getId() + "/stato").setValue(richiesta.getStato());
-                    ref.child("richieste/" + richiesta.getId() + "/corriere").setValue(richiesta.getAutista());
+            Activity activity = (Activity) context;
+            int idContainer = 0;
+            if (activity instanceof ImpiegatoActivity) {
+                idContainer = R.id.fragmentImpiegato;
+            } else if (activity instanceof CapoCantiereActivity) {
+                idContainer = R.id.fragmentCapo;
+            }
+            ref.child("richieste/" + richiesta.getId() + "/id").setValue(richiesta.getId());
+            ref.child("richieste/" + richiesta.getId() + "/cantiere").setValue(richiesta.getCantiere());
+            ref.child("richieste/" + richiesta.getId() + "/dataConsegna").setValue(richiesta.getDataConesgna());
+            ref.child("richieste/" + richiesta.getId() + "/nota").setValue(richiesta.getTestoLibero());
+            ref.child("richieste/" + richiesta.getId() + "/stato").setValue(richiesta.getStato());
+            ref.child("richieste/" + richiesta.getId() + "/corriere").setValue(richiesta.getAutista());
 
 
-
-
-
-                    //int lunghezza = 0;
-                if (type.equalsIgnoreCase(Constants.ATTREZZI)) {
-                    ref.child("richieste/"+richiesta.getId()+"/lista"+type.toUpperCase()).setValue(richiesta.getListaAttrezzi());
-                    //lunghezza = richiesta.getListaAttrezzi().size();
+            //int lunghezza = 0;
+            if (type.equalsIgnoreCase(Constants.ATTREZZI)) {
+                ref.child("richieste/" + richiesta.getId() + "/lista" + type.toUpperCase()).setValue(richiesta.getListaAttrezzi());
+                //lunghezza = richiesta.getListaAttrezzi().size();
                     /*for (int i = 0 ; i< lunghezza; i++){
                         ref.child("richieste/"+richiesta.getId()+"/lista"+type+"/"+(i+1)).setValue(richiesta.getListaAttrezzi().get(i));
                     }*/
-                }
-                else if (type.equalsIgnoreCase(Constants.MATERIALI)) {
-                    ref.child("richieste/"+richiesta.getId()+"/lista"+type.toUpperCase()).setValue(richiesta.getListaMateriali());
+            } else if (type.equalsIgnoreCase(Constants.MATERIALI)) {
+                ref.child("richieste/" + richiesta.getId() + "/lista" + type.toUpperCase()).setValue(richiesta.getListaMateriali());
 
-                }
-                    //lunghezza  = richiesta.getListaMateriali().size();
+            }
+            //lunghezza  = richiesta.getListaMateriali().size();
                 /*for (int i = 0 ; i<= lunghezza; i++){
 
                 }*/
 
-                    ItemsManager itemsManager = ItemsManager.getIstance();
-                    itemsManager.removeAll();
-                    fragmentManager.beginTransaction().replace(idContainer, fragment).commit();
+            ItemsManager itemsManager = ItemsManager.getIstance();
+            itemsManager.removeAll();
+            fragmentManager.beginTransaction().replace(idContainer, fragment).commit();
 
-                }
-            });
-            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-
-            builder.show();
         }
+
+        else Toast.makeText(context,"PROLEMI DI RETE",Toast.LENGTH_SHORT).show();
+
+
     }
 
-    public  void downloadRequests (@NonNull TaskCompletion taskCompletion){
+    public void downloadRequests(@NonNull TaskCompletion taskCompletion) {
         delegato = taskCompletion;
 
-        FireBaseConnection.get(Constants.RICHIESTE + ".json", null, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                String s = new String(responseBody);
-                delegato.taskToDo(Constants.SUCCESSO,s);
-                Log.e(TAG,""+this.getClass()+" caricati le richieste");
-            }
+        if (InternetController.getInsatance(context).isOnline()){
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                delegato.taskToDo(Constants.ERROR,String.valueOf(statusCode));
-                Log.e(TAG,""+this.getClass()+" errore caricamento richieste");
-            }
-        });
+            FireBaseConnection.get(Constants.RICHIESTE + ".json", null, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String s = new String(responseBody);
+                    delegato.taskToDo(Constants.SUCCESSO, s);
+                    Log.e(TAG, "" + this.getClass() + " caricati le richieste");
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    delegato.taskToDo(Constants.ERROR, String.valueOf(statusCode));
+                    Log.e(TAG, "" + this.getClass() + " errore caricamento richieste");
+                }
+            });
+        }
+
+        else Toast.makeText(context,"PROLEMI DI RETE",Toast.LENGTH_SHORT).show();
+
 
 
     }
 
 
-    public List<Richiesta> getRichiesteByAutista (String nomeAutista, List<Richiesta> listarichieste){
+    public List<Richiesta> getRichiesteByAutista(String nomeAutista, List<Richiesta> listarichieste) {
 
         List<Richiesta> lista = new ArrayList<>();
         try {
 
-            for (Richiesta richiesta: listarichieste
+            for (Richiesta richiesta : listarichieste
                     ) {
-                if (richiesta.getAutista().equalsIgnoreCase(nomeAutista)){
+                if (richiesta.getAutista().equalsIgnoreCase(nomeAutista)) {
                     lista.add(richiesta);
                 }
             }
-        }catch (Exception e){
-            Log.e(TAG,this.getClass()+" "+e);
+        } catch (Exception e) {
+            Log.e(TAG, this.getClass() + " " + e);
         }
 
         return lista;
     }
-
-
 
 
 }

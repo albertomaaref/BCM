@@ -9,25 +9,28 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
-import com.example.alim.bcm.model.Autista;
-import com.example.alim.bcm.model.CapoCantiere;
 import com.example.alim.bcm.model.Constants;
+import com.example.alim.bcm.model.Personale;
+import com.example.alim.bcm.services.InternetController;
+import com.example.alim.bcm.utilities.InternalStorage;
 
-import static com.example.alim.bcm.model.Constants.AUTISTA;
 import static com.example.alim.bcm.model.Constants.TIPO_UTENTE_ATTIVO;
 import static com.example.alim.bcm.model.Constants.UTENTE_ATTIVO;
 
 public class RootActivity extends AppCompatActivity {
 
     private SharedPreferences preferences;
-    private String utenteAttivo;
-    private String tipoUtenteAttivo;
+    private Personale utenteAttivo = null;
+    private String tipoUtenteAttivo = null;
     private final static String IMPIEGATO = "impiegato";
     private final static String OPERAIO = "operaio";
     private final static String CAPOCANTIERE = "capoCantiere";
     private final static String AUTISTA = "autista";
     private final static String activity = "RootActivity";
+    private Button bRiprova;
 
 
 
@@ -37,26 +40,44 @@ public class RootActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_root);
 
+        bRiprova = findViewById(R.id.bRiprova);
+
+        // leggo l'utente salvato se esiste
+        utenteAttivo= (Personale)InternalStorage.readObject(getApplicationContext(),UTENTE_ATTIVO);
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        utenteAttivo = preferences.getString(UTENTE_ATTIVO,"");
-        tipoUtenteAttivo = preferences.getString(TIPO_UTENTE_ATTIVO,"");
+       tipoUtenteAttivo = preferences.getString(TIPO_UTENTE_ATTIVO,"");
         int idRichiesta = preferences.getInt(Constants.ID_RICHIESTA,-1);
         if (idRichiesta == -1){
             SharedPreferences.Editor editor = preferences.edit();
             editor.putInt(Constants.ID_RICHIESTA,1);
             editor.commit();
         }
+        controlInternetConnection();
 
+
+        bRiprova.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controlInternetConnection();
+            }
+        });
+
+    }
+
+    private void controlInternetConnection() {
+        boolean isConnected = false;
         // active session control
-        if (isOnline()) sessionControl();
+        isConnected = InternetController.getInsatance(getApplicationContext()).isOnline();
+        if (isConnected) sessionControl();
         else Log.i(Constants.TAG," non c connessione ad Internet");
-
     }
 
     private void sessionControl() {
 
-        if (utenteAttivo.equals("")){
+        if (utenteAttivo== null){
             // passo all'activity del login
+            // resetto la memoria
+            InternalStorage.resetDB(getApplicationContext(),"");
             Intent i = new Intent(RootActivity.this,LoginActivity.class);
             startActivity(i);
         }
@@ -71,7 +92,7 @@ public class RootActivity extends AppCompatActivity {
                 Log.i(Constants.TAG, "" + this.getClass() + " go to activity for" + tipoUtenteAttivo);
 
                 Intent i = new Intent(RootActivity.this, AutistaActivity.class);
-                i.putExtra(AUTISTA, utenteAttivo);
+                i.putExtra(AUTISTA, utenteAttivo.getNome());
                 startActivity(i);
                 this.finish();
             } else if (tipoUtenteAttivo.equals(Constants.IMPIEGATO)) {
@@ -95,10 +116,5 @@ public class RootActivity extends AppCompatActivity {
 
     }
 
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
+
 }

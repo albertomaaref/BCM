@@ -7,6 +7,9 @@ import java.io.Serializable;
  */
 
 public class Operaio extends Personale implements Serializable {
+    public Operaio() {
+    }
+
     public Operaio(int matricola, float stipendio, String nome, String cognome) {
         super(matricola, stipendio, nome, cognome);
     }

@@ -3,32 +3,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.DashboardAutistaFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".fragments.DashboardAutistaFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
-            android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="1"
             android:text="CANTIERE"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
+
         <TextView
-            android:layout_weight="1"
-            android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DATA DI CONSEGNA"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
             android:gravity="right"
-            android:textColor="@color/black"/>
+            android:text="DATA DI CONSEGNA"
+            android:textColor="@color/black" />
     </LinearLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerAutista"
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshAutista"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerAutista"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </LinearLayout>

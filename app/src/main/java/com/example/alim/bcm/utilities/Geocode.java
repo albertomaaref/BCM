@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.example.alim.bcm.model.Constants.TAG;
@@ -69,7 +70,7 @@ public class Geocode extends AsyncTask<List<Richiesta>, Void, List<String>> {
     @Override
     protected void onPostExecute(List<String> stringList) {
         //Log.i("ASYNC",s[0]+" "+s[1]);
-        ArrayList<LatLng> list = new ArrayList<>();
+        HashMap<String,LatLng> list = new HashMap<>();
         for (String stringa: stringList
              ) {
 
@@ -79,9 +80,11 @@ public class Geocode extends AsyncTask<List<Richiesta>, Void, List<String>> {
                         .getJSONObject("location").get("lat").toString();
                 String lngA = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry")
                         .getJSONObject("location").get("lng").toString();
+                String localita = ((JSONArray)jsonObject.get("results")).getJSONObject(0).get("formatted_address")
+                        .toString();
 
                 latLngA = new LatLng(Double.parseDouble(latA),Double.parseDouble(lngA));
-                list.add(latLngA);
+                list.put(localita,latLngA);
 
 
 

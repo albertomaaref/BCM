@@ -2,7 +2,9 @@ package com.example.alim.bcm;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.alim.bcm.fragments.AddProductFragment;
 import com.example.alim.bcm.fragments.AddSiteFragment;
 import com.example.alim.bcm.fragments.AttrezzziFragment;
 import com.example.alim.bcm.fragments.MaterialiFragment;
@@ -33,6 +36,7 @@ import com.example.alim.bcm.utilities.TaskCompletion;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.alim.bcm.model.Constants.ADD_PRODUCT_FRAGMENT;
 import static com.example.alim.bcm.model.Constants.ADD_SITE_FRAGMENT;
 import static com.example.alim.bcm.model.Constants.ATTREZZI;
 import static com.example.alim.bcm.model.Constants.ATTREZZI_FRAGMENT;
@@ -43,10 +47,14 @@ import static com.example.alim.bcm.model.Constants.MATERIALI;
 import static com.example.alim.bcm.model.Constants.MATERIALI_FRAGMENT;
 import static com.example.alim.bcm.model.Constants.RICHIESTE_FRAGMENT;
 import static com.example.alim.bcm.model.Constants.SUCCESSO;
+import static com.example.alim.bcm.model.Constants.TIPO_UTENTE_ATTIVO;
+import static com.example.alim.bcm.model.Constants.UTENTE_ATTIVO;
 
 public class ImpiegatoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
+    SharedPreferences preferences ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +82,8 @@ public class ImpiegatoActivity extends AppCompatActivity
 
         }
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
 
     }
 
@@ -84,13 +94,6 @@ public class ImpiegatoActivity extends AppCompatActivity
     }
 
     private void init() {
-
-        // resetto la memoria
-        InternalStorage.writeObject(getApplicationContext(),ATTREZZI,null);
-        InternalStorage.writeObject(getApplicationContext(),MATERIALI,null);
-        InternalStorage.writeObject(getApplicationContext(),CANTIERI,null);
-        InternalStorage.writeObject(getApplicationContext(),CAPOCANTIERE,null);
-        InternalStorage.writeObject(getApplicationContext(), LISTA_AUTISTI, null);
 
 
         // carico autisti
@@ -195,7 +198,8 @@ public class ImpiegatoActivity extends AppCompatActivity
         }
 
         if (id == R.id.action_AddProduct) {
-            return true;
+            AddProductFragment addProductFragment = new AddProductFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentImpiegato,addProductFragment,ADD_PRODUCT_FRAGMENT).commit();
         }
 
         return super.onOptionsItemSelected(item);
@@ -262,6 +266,15 @@ public class ImpiegatoActivity extends AppCompatActivity
             fragTrans.add(R.id.fragmentImpiegato, richiesteFragment, RICHIESTE_FRAGMENT);
             fragTrans.commit();
 
+        }
+
+        else if (id == R.id.nav_logout){
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(UTENTE_ATTIVO,"");
+            editor.putString(TIPO_UTENTE_ATTIVO,"");
+            editor.commit();
+            Intent intent = new Intent(this,LoginActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -12,6 +12,7 @@ import com.example.alim.bcm.model.Articolo;
 import com.example.alim.bcm.model.Attrezzo;
 import com.example.alim.bcm.model.Constants;
 import com.example.alim.bcm.model.Materiale;
+import com.example.alim.bcm.services.InternetController;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.ArrayList;
@@ -61,37 +62,43 @@ public class ItemsManager implements TaskCompletion {
         this.context = context;
         this.layoutManager = layoutManager;
         this.recyclerView = recyclerView;
-        //recyclerView.setVisibility(View.GONE);
 
 
-        progressDialog = new ProgressDialog(context);
-        progressDialog.show();
-        List <Attrezzo> listaAttrezzo = (List<Attrezzo>) InternalStorage.readObject(context,ATTREZZI);
-        List <Materiale> listaMateriale = (List<Materiale>) InternalStorage.readObject(context,MATERIALI);
+        // controllo internet connection
 
-        if (listaAttrezzo != null && listaAttrezzo.size()>0 && tipologia.equalsIgnoreCase(ATTREZZI)){
-            setRecyclerAttrezzi(listaAttrezzo);
+        if (InternetController.getInsatance(context).isOnline()){
+
+            progressDialog = new ProgressDialog(context);
+            progressDialog.show();
+            List <Attrezzo> listaAttrezzo = (List<Attrezzo>) InternalStorage.readObject(context,ATTREZZI);
+            List <Materiale> listaMateriale = (List<Materiale>) InternalStorage.readObject(context,MATERIALI);
+
+            if (listaAttrezzo != null && listaAttrezzo.size()>0 && tipologia.equalsIgnoreCase(ATTREZZI)){
+                setRecyclerAttrezzi(listaAttrezzo);
+            }
+            else if (listaMateriale != null && listaMateriale.size()>0 && tipologia.equalsIgnoreCase(MATERIALI)){
+                setRecyclerMateriali(listaMateriale);
+            }
+            else {
+
+                FireBaseConnection.get(tipologia + ".json", null, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        String s = new String(responseBody);
+                        delegato.taskToDo(Constants.SUCCESSO, s, tipologia);
+
+
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        delegato.taskToDo(Constants.ERROR, new String(responseBody), tipologia);
+                    }
+                });
+            }
         }
-        else if (listaMateriale != null && listaMateriale.size()>0 && tipologia.equalsIgnoreCase(MATERIALI)){
-            setRecyclerMateriali(listaMateriale);
-        }
-        else {
 
-            FireBaseConnection.get(tipologia + ".json", null, new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    String s = new String(responseBody);
-                    delegato.taskToDo(Constants.SUCCESSO, s, tipologia);
-
-
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    delegato.taskToDo(Constants.ERROR, new String(responseBody), tipologia);
-                }
-            });
-        }
+        else Toast.makeText(context,"PROLEMI DI RETE",Toast.LENGTH_SHORT).show();
 
 
     }

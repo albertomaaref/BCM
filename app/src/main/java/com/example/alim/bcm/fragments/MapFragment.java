@@ -22,7 +22,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.alim.bcm.model.Constants.TAG;
 
@@ -30,7 +33,7 @@ import static com.example.alim.bcm.model.Constants.TAG;
 public class MapFragment extends Fragment implements OnMapReadyCallback, AsynchResponse {
 
     private GoogleMap mMap;
-    private List<LatLng> listaLatLng;
+    private HashMap<String,LatLng> listaLatLng;
 
     public MapFragment() {
         // Required empty public constructor
@@ -59,18 +62,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AsynchR
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        if (mMap != null){
+        if (mMap != null && listaLatLng != null){
 
             LatLng milan = new LatLng(45.4642700, 9.18951);
-            if (listaLatLng!=null){
 
-                for (LatLng latlng: listaLatLng
-                        ) {
-                    mMap.addMarker(new MarkerOptions().position(latlng).title("A"));
+            Iterator iterator = listaLatLng.entrySet().iterator();
+            while (iterator.hasNext()){
+                Map.Entry pair = (Map.Entry) iterator.next();
+                mMap.addMarker(new MarkerOptions().position((LatLng) pair.getValue()).title((String) pair.getKey()));
 
-                }
             }
-            // Add a marker in Sydney and move the camera
             mMap.moveCamera(CameraUpdateFactory.newLatLng(milan));
             CameraUpdate zoom = CameraUpdateFactory.newLatLngZoom(milan, 9);
             mMap.animateCamera(zoom);
@@ -78,7 +79,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, AsynchR
     }
 
     @Override
-    public void onResponse(ArrayList<LatLng> list) {
+    public void onResponse(HashMap<String,LatLng> list) {
         listaLatLng = list;
         onMapReady(mMap);
         Log.i(TAG,"risposta"+ list);
