@@ -36,41 +36,47 @@
                 android:textSize="24sp"
                 android:visibility="gone" />
 
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/refreshArticoli"
+
+            <FrameLayout
+                android:id="@+id/frameMateriali"
                 android:layout_width="match_parent"
                 android:layout_height="300dp">
 
-                <FrameLayout
-                    android:id="@+id/frameAttrezzi"
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/refreshMateriali"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerMateriali"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp">
+
+                    </android.support.v7.widget.RecyclerView>
+                </android.support.v4.widget.SwipeRefreshLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/frameAttrezzi"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:visibility="gone">
+
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/refreshAttrezzi"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recyclerViewAttrezzi"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp">
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        >
 
                     </android.support.v7.widget.RecyclerView>
-
-                </FrameLayout>
-            </android.support.v4.widget.SwipeRefreshLayout>
-
-            <FrameLayout
-                android:id="@+id/frameMateriali"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerMateriali"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_margin="10dp">
-
-                </android.support.v7.widget.RecyclerView>
-
+                </android.support.v4.widget.SwipeRefreshLayout>
             </FrameLayout>
 
 

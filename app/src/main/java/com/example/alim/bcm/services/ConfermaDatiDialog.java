@@ -93,9 +93,9 @@ public class ConfermaDatiDialog extends DialogFragment  {
 
         }
         else {
-            tNomeRegister.setText(nome);
-            tCognomeRegister.setText(cognome);
-            tQualificaRegister.setText(qualifica);
+            tNomeRegister.setText(nome.toUpperCase());
+            tCognomeRegister.setText(cognome.toUpperCase());
+            tQualificaRegister.setText(qualifica.toUpperCase());
             tDialog.setVisibility(View.GONE);
         }
 

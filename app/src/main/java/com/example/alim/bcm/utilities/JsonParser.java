@@ -88,7 +88,6 @@ public final class JsonParser {
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
-
         }
 
 
@@ -127,6 +126,7 @@ public final class JsonParser {
 
         } catch (JSONException e) {
             e.printStackTrace();
+            return null;
         }
 
         return lista;
@@ -315,6 +315,8 @@ public final class JsonParser {
                         cantiere.setStatoFase3(Integer.parseInt(oggetto.getString(chiave)));
                     else if (chiave.equalsIgnoreCase("statoFase4"))
                         cantiere.setStatoFase4(Integer.parseInt(oggetto.getString(chiave)));
+                    else if (chiave.equalsIgnoreCase("citta"))
+                        cantiere.setCitta(oggetto.getString(chiave));
 
                 }
 
@@ -438,6 +440,24 @@ public final class JsonParser {
             return null;
         }
 
+    }
+
+    public static List<String> getListIdArticoli (String s){
+        List<String> list = new ArrayList<>();
+        try {
+
+            JSONObject object = new JSONObject(s);
+            Iterator keys = object.keys();
+            while (keys.hasNext()){
+                String key = (String) keys.next();
+                list.add(key);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return list;
     }
 
 }

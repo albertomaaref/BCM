@@ -69,6 +69,8 @@ public class InternalStorage {
             InternalStorage.writeObject(context, CAPOCANTIERE, null);
             InternalStorage.writeObject(context, LISTA_AUTISTI, null);
             InternalStorage.writeObject(context, UTENTE_ATTIVO, null);
+            InternalStorage.writeObject(context,"id"+ATTREZZI,null);
+            InternalStorage.writeObject(context,"id"+MATERIALI,null);
         } else if (flag.equalsIgnoreCase(ATTREZZI)) {
             InternalStorage.writeObject(context, ATTREZZI, null);
         } else if (flag.equalsIgnoreCase(MATERIALI)) {

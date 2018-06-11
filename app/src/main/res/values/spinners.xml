@@ -13,8 +13,9 @@
         <item>stato richieste</item>
     </string-array>
     <string-array name="spinnerArticoli">
-        <item>ATTREZZI</item>
         <item>MATERIALI</item>
+        <item>ATTREZZI</item>
+
     </string-array>
     <string-array name="spinnerCantieri">
         <item>Seleziona Cantiere</item>

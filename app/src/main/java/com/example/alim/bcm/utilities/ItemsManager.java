@@ -2,7 +2,9 @@ package com.example.alim.bcm.utilities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ import cz.msebera.android.httpclient.Header;
 import static com.example.alim.bcm.model.Constants.ATTREZZI;
 import static com.example.alim.bcm.model.Constants.MATERIALI;
 import static com.example.alim.bcm.model.Constants.SUCCESSO;
+import static com.example.alim.bcm.model.Constants.TAG;
 
 /**
  * Created by alim on 29-Mar-18.
@@ -39,7 +42,8 @@ public class ItemsManager implements TaskCompletion {
 
     private static ItemsManager istanza = null;
 
-    private ItemsManager() {
+    private ItemsManager(Context context) {
+        this.context = context;
     }
 
     private Context context;
@@ -48,9 +52,9 @@ public class ItemsManager implements TaskCompletion {
     private AttrezzoAdapter attrezzoAdapter;
     private MaterialeAdapter materialeAdapter;
 
-    public static ItemsManager getIstance() {
+    public static ItemsManager getIstance(Context context) {
         if (istanza == null) {
-            istanza = new ItemsManager();
+            istanza = new ItemsManager(context);
         }
 
         return istanza;
@@ -116,15 +120,24 @@ public class ItemsManager implements TaskCompletion {
             if (param1.equals(ATTREZZI)) {
                 final List<? extends Articolo> lista;
                 lista = JsonParser.getAttrezzi(bodyResponse);
-                InternalStorage.writeObject(context,ATTREZZI,lista);
-                setRecyclerAttrezzi((List<Attrezzo>) lista);
+                if (lista!=null && lista.size()>0){
+
+                    InternalStorage.writeObject(context,ATTREZZI,lista);
+                    setRecyclerAttrezzi((List<Attrezzo>) lista);
+                }
+
+                else Log.i(TAG,this.getClass()+" | scaricaListaArticoliFromDB | lista Attrezzi vuota");
 
 
             } else if (param1.equals(Constants.MATERIALI)) {
                 final List<? extends Articolo> lista;
                 lista = JsonParser.getMateriali(bodyResponse);
-                InternalStorage.writeObject(context,MATERIALI,lista);
-                setRecyclerMateriali((List<Materiale>) lista);
+                if (lista != null && lista.size()>0) {
+
+                    InternalStorage.writeObject(context,MATERIALI,lista);
+                    setRecyclerMateriali((List<Materiale>) lista);
+                }
+                else Log.i(TAG,this.getClass()+" | scaricaListaArticoliFromDB | lista materiali vuota");
             }
 
 
@@ -199,5 +212,23 @@ public class ItemsManager implements TaskCompletion {
 
     public void removeAll() {
         listaCestino.removeAll(listaCestino);
+    }
+
+    public void cariacIdArticoli (String articolo,@NonNull TaskCompletion taskCompletion){
+
+
+        final TaskCompletion finalTaskCompletion = taskCompletion;
+        FireBaseConnection.get(articolo + ".json", null, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String s = new String(responseBody);
+                finalTaskCompletion.taskToDo(SUCCESSO,s);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
     }
 }

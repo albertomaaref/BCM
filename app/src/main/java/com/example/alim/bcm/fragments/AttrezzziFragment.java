@@ -71,7 +71,7 @@ public class AttrezzziFragment extends Fragment implements ImpiegatoTasks {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final ItemsManager itemsManager = ItemsManager.getIstance();
+        final ItemsManager itemsManager = ItemsManager.getIstance(getContext());
         itemsManager.scaricaListArticoliFromDB(getContext(), listaCestino, recyclerViewAttrezzi, lm, Constants.ATTREZZI);
         bApprovaRichiesta.setOnClickListener(new View.OnClickListener() {
             @Override

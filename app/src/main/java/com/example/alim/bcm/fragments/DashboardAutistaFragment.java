@@ -76,7 +76,7 @@ public class DashboardAutistaFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getContext());
         if (listaRichieste != null && listaRichieste.size()>0)        setRecycler(RequestManager.getIstance().getRichiesteByAutista(autista.getNome(),listaRichieste));
 
-        else // nessuna richiesta
+        else {}// nessuna richiesta
 
 
         refreshLayout = view.findViewById(R.id.refreshAutista);

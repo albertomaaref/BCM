@@ -86,7 +86,7 @@ public class MaterialiFragment extends Fragment {
         lm = new LinearLayoutManager(getContext());
         refreshLayout = view.findViewById(R.id.refreshMateriali);
         recyclerViewMateriale = view.findViewById(R.id.recyclerMateriali);
-        final ItemsManager itemsManager = ItemsManager.getIstance();
+        final ItemsManager itemsManager = ItemsManager.getIstance(getContext());
         itemsManager.scaricaListArticoliFromDB(getContext(), listaCestino, recyclerViewMateriale, lm, Constants.MATERIALI);
 
         setSpinnerCantieri();

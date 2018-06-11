@@ -14,26 +14,35 @@ public class Cantiere implements Serializable {
     private int statoFase2;
     private int statoFase3;
     private int statoFase4;
-    private String indirizzo="";
+    private String indirizzo = "";
+    private String citta = "";
     private int oreLavorate;
     private float costoLavoratori;
-    private String capoCantiere;
-    private String dataInizio;
-    private String dataFine;
+    private String capoCantiere="";
+    private String dataInizio="";
+    private String dataFine="";
     private float valoreAppalto;
-
-
 
 
     public Cantiere() {
     }
 
-    public Cantiere(int statoFase1, int statoFase2, int statoFase3, int statoFase4, String indirizzo, int oreLavorate,float valoreAppalto ,float costoLavoratori, String capoCantiere, String dataInizio, String dataFine) {
+    public String getCitta() {
+        return citta;
+    }
+
+    public void setCitta(String citta) {
+        this.citta = citta;
+    }
+
+    public Cantiere(int statoFase1, int statoFase2, int statoFase3, int statoFase4, String indirizzo, String citta, int oreLavorate, float valoreAppalto, float costoLavoratori, String capoCantiere, String dataInizio, String dataFine) {
         this.statoFase1 = statoFase1;
         this.statoFase2 = statoFase2;
         this.statoFase3 = statoFase3;
         this.statoFase4 = statoFase4;
         this.indirizzo = indirizzo;
+        this.citta = citta;
+
         this.valoreAppalto = valoreAppalto;
         this.oreLavorate = oreLavorate;
         this.costoLavoratori = costoLavoratori;

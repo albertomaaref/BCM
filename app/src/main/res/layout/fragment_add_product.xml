@@ -34,6 +34,32 @@
             android:layout_margin="5dp"
             ></Spinner>
     </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="ID" />
+
+        <EditText
+            android:id="@+id/eIdArticolo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+
+            android:inputType="textPersonName"
+            android:maxLines="1"
+
+            android:singleLine="true" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -134,40 +160,14 @@
             android:layout_weight="1"
             android:ems="10"
 
-            android:imeOptions="actionNext"
-            android:inputType="textPersonName"
-            android:maxLines="1"
-
-            android:singleLine="true" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="ID" />
-
-        <EditText
-            android:id="@+id/eIdArticolo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-
             android:imeOptions="actionDone"
             android:inputType="textPersonName"
             android:maxLines="1"
 
             android:singleLine="true" />
     </LinearLayout>
+
+
 
     <FrameLayout
         android:layout_width="match_parent"

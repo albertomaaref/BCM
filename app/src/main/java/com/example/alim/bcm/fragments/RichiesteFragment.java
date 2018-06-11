@@ -32,6 +32,7 @@ import com.example.alim.bcm.model.Richiesta;
 import com.example.alim.bcm.model.StatoRichiesta;
 import com.example.alim.bcm.utilities.InternalStorage;
 import com.example.alim.bcm.utilities.JsonParser;
+import com.example.alim.bcm.utilities.ManagerSiteAndPersonal;
 import com.example.alim.bcm.utilities.RequestManager;
 import com.example.alim.bcm.utilities.SwipeController;
 import com.example.alim.bcm.utilities.SwipeControllerActions;
@@ -59,12 +60,13 @@ public class RichiesteFragment extends Fragment {
     List<Richiesta> richiestaList = new ArrayList<>();
     RichiestaImpiegatoAdapter richiestaImpiegatoAdapter;
     SharedPreferences preferences;
+    boolean firsTime = false;
+    private List<Cantiere> cantiereList;
 
 
     public RichiesteFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -97,11 +99,14 @@ public class RichiesteFragment extends Fragment {
 
         sCantiere = view.findViewById(R.id.sCantiere);
 
-
+        setSpinnerCantieri();
         sCantiere.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                filtroLista(sCantiere.getSelectedItem().toString());
+                if (!firsTime){
+                    filtroLista(sCantiere.getSelectedItem().toString());
+                    firsTime=false;
+                }
             }
 
             @Override
@@ -111,34 +116,31 @@ public class RichiesteFragment extends Fragment {
         });
 
 
-
         RequestManager requestManager = RequestManager.getIstance();
         requestManager.downloadRequests(new TaskCompletion() {
             @Override
             public void taskToDo(String esito, String bodyResponse) {
-                if (esito.equals(Constants.SUCCESSO)){
+                if (esito.equals(Constants.SUCCESSO)) {
 
                     richiestaList = JsonParser.getRichieste(bodyResponse);
 
-                    Log.i(Constants.TAG,""+this.getClass());
-                    if (richiestaList != null && richiestaList.size()>0){
-                         richiestaImpiegatoAdapter = new RichiestaImpiegatoAdapter(getContext(), richiestaList, new RichiestaImpiegatoAdapter.OnClickCardListener() {
+                    Log.i(Constants.TAG, "" + this.getClass());
+                    if (richiestaList != null && richiestaList.size() > 0) {
+                        richiestaImpiegatoAdapter = new RichiestaImpiegatoAdapter(getContext(), richiestaList, new RichiestaImpiegatoAdapter.OnClickCardListener() {
                             @Override
                             public void onclickCard(Richiesta richiesta) {
                                 Intent intent = new Intent(getContext(), GestioneRichiestaActivity.class);
                                 intent.putExtra("richiesta", richiesta);
-                                startActivityForResult(intent,200);
+                                startActivityForResult(intent, 200);
                             }
                         });
-                         setRecycler(richiestaList);
+                        setRecycler(richiestaList);
 
-                    }
-                    else {
-                        Toast.makeText(getContext(),"Errore caricamento richieste",Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(), "Lista richieste vuota", Toast.LENGTH_LONG).show();
                     }
 
-                }
-                else if (esito.equals(Constants.ERROR)){
+                } else if (esito.equals(Constants.ERROR)) {
 
                 }
 
@@ -154,39 +156,36 @@ public class RichiesteFragment extends Fragment {
         //RequestManager.getIstance().downloadRequests(getContext(),layoutManager,recyclerView);
 
 
-
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (!progressDialog.isShowing()){
+                if (!progressDialog.isShowing()) {
                     progressDialog.show();
                 }
                 RequestManager.getIstance().downloadRequests(new TaskCompletion() {
                     @Override
                     public void taskToDo(String esito, String bodyResponse) {
-                        if (esito.equals(Constants.SUCCESSO)){
+                        if (esito.equals(Constants.SUCCESSO)) {
 
                             richiestaList = JsonParser.getRichieste(bodyResponse);
 
-                            Log.i(Constants.TAG,""+this.getClass());
-                            if (richiestaList != null && richiestaList.size()>0){
+                            Log.i(Constants.TAG, "" + this.getClass());
+                            if (richiestaList != null && richiestaList.size() > 0) {
                                 richiestaImpiegatoAdapter = new RichiestaImpiegatoAdapter(getContext(), richiestaList, new RichiestaImpiegatoAdapter.OnClickCardListener() {
                                     @Override
                                     public void onclickCard(Richiesta richiesta) {
                                         Intent intent = new Intent(getContext(), GestioneRichiestaActivity.class);
                                         intent.putExtra("richiesta", richiesta);
-                                        startActivityForResult(intent,200);
+                                        startActivityForResult(intent, 200);
                                     }
                                 });
                                 setRecycler(richiestaList);
 
-                            }
-                            else {
-                                Toast.makeText(getContext(),"Errore caricamento richieste",Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getContext(), "Lista richieste Vuota", Toast.LENGTH_LONG).show();
                             }
 
-                        }
-                        else if (esito.equals(Constants.ERROR)){
+                        } else if (esito.equals(Constants.ERROR)) {
 
                         }
 
@@ -208,54 +207,52 @@ public class RichiesteFragment extends Fragment {
     }
 
     private void filtroLista(String cantiere) {
-        List<Richiesta> listaFiltrata = new ArrayList<>();
-        if (!cantiere.equalsIgnoreCase("Tutte")){
+        if (richiestaList !=null && richiestaList.size()>0){
+
+            List<Richiesta> listaFiltrata = new ArrayList<>();
+            if (!cantiere.equalsIgnoreCase("Tutte")) {
 
 
-            for (Richiesta richiesta: richiestaList
-                    ) {
-                if (richiesta.getCantiere().equalsIgnoreCase(cantiere)){
-                    listaFiltrata.add(richiesta);
+                for (Richiesta richiesta : richiestaList
+                        ) {
+                    if (richiesta.getCantiere().equalsIgnoreCase(cantiere)) {
+                        listaFiltrata.add(richiesta);
+                    }
                 }
+            } else listaFiltrata = richiestaList;
+
+
+            if (listaFiltrata.size() > 0) {
+
+                richiestaImpiegatoAdapter = new RichiestaImpiegatoAdapter(getContext(), listaFiltrata, new RichiestaImpiegatoAdapter.OnClickCardListener() {
+                    @Override
+                    public void onclickCard(Richiesta richiesta) {
+                        Intent intent = new Intent(getContext(), GestioneRichiestaActivity.class);
+                        intent.putExtra("richiesta", richiesta);
+                        startActivityForResult(intent, 200);
+                    }
+                });
+
+                setRecycler(listaFiltrata);
+
+                recyclerView.setAdapter(richiestaImpiegatoAdapter);
             }
         }
-        else listaFiltrata = richiestaList;
-
-
-        if (listaFiltrata.size()>0){
-
-            richiestaImpiegatoAdapter = new RichiestaImpiegatoAdapter(getContext(), listaFiltrata, new RichiestaImpiegatoAdapter.OnClickCardListener() {
-                @Override
-                public void onclickCard(Richiesta richiesta) {
-                    Intent intent = new Intent(getContext(), GestioneRichiestaActivity.class);
-                    intent.putExtra("richiesta", richiesta);
-                    startActivityForResult(intent,200);
-                }
-            });
-
-            setRecycler(listaFiltrata);
-
-            recyclerView.setAdapter(richiestaImpiegatoAdapter);
-        }
-
-
-
-
 
 
     }
 
-    public void setRecycler(List<Richiesta> list){
+    public void setRecycler(List<Richiesta> list) {
         int inAttesa = 0;
         int inConesgna = 0;
-        for (Richiesta richiesta: list
+        for (Richiesta richiesta : list
                 ) {
-            if (richiesta.getStato().equals(StatoRichiesta.IN_ATTESA))inAttesa++;
-            else if (richiesta.getStato().equals(StatoRichiesta.IN_CONSEGNA))inConesgna++;
+            if (richiesta.getStato().equals(StatoRichiesta.IN_ATTESA)) inAttesa++;
+            else if (richiesta.getStato().equals(StatoRichiesta.IN_CONSEGNA)) inConesgna++;
         }
-        tNumAttesa.setText(""+inAttesa);
-        tNumConsegna.setText(""+inConesgna);
-        tNumRichieste.setText(""+list.size());
+        tNumAttesa.setText("" + inAttesa);
+        tNumConsegna.setText("" + inConesgna);
+        tNumRichieste.setText("" + list.size());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(richiestaImpiegatoAdapter);
 
@@ -270,7 +267,7 @@ public class RichiesteFragment extends Fragment {
             public void onRightClicked(int position) {
                 super.onRightClicked(position);
             }
-        },preferences.getString(TIPO_UTENTE_ATTIVO,""));
+        }, preferences.getString(TIPO_UTENTE_ATTIVO, ""));
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
@@ -283,26 +280,63 @@ public class RichiesteFragment extends Fragment {
 
 
     }
-    public void setSpinnerCantieri (){
-        List<Cantiere> cantiereList = (List<Cantiere>) InternalStorage.readObject(getContext(),CANTIERI);
-        if (cantiereList != null && cantiereList.size()>0){
+
+    public void setSpinnerCantieri() {
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+
+        cantiereList = (List<Cantiere>) InternalStorage.readObject(getContext(), CANTIERI);
+        if (cantiereList != null && cantiereList.size() > 0) {
 
             List<String> lista = new ArrayList<>();
             lista.add("Seleziona Cantiere");
-            for (Cantiere cantiere: cantiereList
+            for (Cantiere cantiere : cantiereList
                     ) {
                 lista.add(cantiere.getIndirizzo());
             }
-            if (cantiereList == null){
-                Log.i(TAG,this.getClass()+" errore settaggio spinner cantieri");
-            }
-            else {
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(),R.layout.spinner_item,R.id.tSpinner,lista);
+            if (cantiereList == null) {
+                Log.i(TAG, this.getClass() + " errore settaggio spinner cantieri");
+            } else {
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_white_item, R.id.spinnerRegistration, lista);
                 sCantiere.setAdapter(arrayAdapter);
             }
-        }
+        } else ManagerSiteAndPersonal.getInstance().getCantieri(new TaskCompletion() {
+            @Override
+            public void taskToDo(String esito, String bodyResponse) {
+                String s = new String(bodyResponse);
+                cantiereList = JsonParser.getCantieri(s);
+                if (cantiereList != null && cantiereList.size() > 0) {
+                    List<String> lista = new ArrayList<>();
+                    lista.add("Seleziona Cantiere");
+                    for (Cantiere cantiere : cantiereList
+                            ) {
+                        lista.add(cantiere.getIndirizzo());
+                    }
+                    if (cantiereList == null) {
+                        Log.i(TAG, this.getClass() + " errore settaggio spinner cantieri");
+                    } else {
+                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_white_item, R.id.spinnerRegistration, lista);
+                        sCantiere.setAdapter(arrayAdapter);
+                    }
+                } else {
+                    List<String> lista = new ArrayList<>();
+                    lista.add("Non ci sono cantieri");
 
-        else Toast.makeText(getContext(),"LA LAISTA DEI CANTIEREI E VUOTA",Toast.LENGTH_SHORT).show();
+
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_white_item, R.id.spinnerRegistration, lista);
+                    sCantiere.setAdapter(arrayAdapter);
+
+                }
+            }
+
+            @Override
+            public void taskToDo(String esito, String bodyResponse, String param1) {
+
+            }
+        });
+
+
     }
 
 
@@ -325,15 +359,15 @@ public class RichiesteFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i(Constants.TAG,"onActivity result fragment");
+        Log.i(Constants.TAG, "onActivity result fragment");
 
-        if (requestCode == 200){
-            if (resultCode == RESULT_OK){
-                boolean aggiornato = data.getBooleanExtra("aggiornato",false);
-                if (aggiornato){
+        if (requestCode == 200) {
+            if (resultCode == RESULT_OK) {
+                boolean aggiornato = data.getBooleanExtra("aggiornato", false);
+                if (aggiornato) {
                     // ricarico fragment x aver aggiornato l'autista
                     RichiesteFragment fragment = new RichiesteFragment();
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentImpiegato,fragment).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragmentImpiegato, fragment).commit();
                 }
             }
         }

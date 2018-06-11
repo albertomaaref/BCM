@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/bg_activity"
+    android:id="@+id/loginLayout"
+    android:orientation="vertical"
     tools:context="com.example.alim.bcm.LoginActivity">
 
-    <LinearLayout
-        android:id="@+id/loginLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -141,31 +139,26 @@
             android:text="accedi"
             android:textColor="@color/white" />
 
-    </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"></FrameLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/bRegistrati"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_account_plus_white_24dp" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/bRegistrati"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="92dp"
-        android:layout_marginEnd="64dp"
-        android:clickable="true"
-        app:srcCompat="@drawable/ic_account_plus_white_24dp"
-        android:layout_marginRight="64dp"
-        android:layout_alignParentRight="true" />
+        <TextView
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="56dp"
-        android:layout_marginEnd="54dp"
-        android:text="Registrati"
-        android:textColor="@color/blu"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="54dp" />
-</RelativeLayout>
+            android:text="Registrati"
+            android:textColor="@color/blu" />
+
+
+</LinearLayout>

@@ -93,7 +93,7 @@ public class RequestManager {
 
                 }*/
 
-            ItemsManager itemsManager = ItemsManager.getIstance();
+            ItemsManager itemsManager = ItemsManager.getIstance(context);
             itemsManager.removeAll();
             fragmentManager.beginTransaction().replace(idContainer, fragment).commit();
 

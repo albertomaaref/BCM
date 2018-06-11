@@ -275,6 +275,7 @@ public class ImpiegatoActivity extends AppCompatActivity
             editor.commit();
             Intent intent = new Intent(this,LoginActivity.class);
             startActivity(intent);
+            InternalStorage.resetDB(getApplicationContext(),"");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

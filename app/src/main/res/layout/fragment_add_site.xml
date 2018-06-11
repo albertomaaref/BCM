@@ -36,7 +36,8 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Indirizzo" />
+                android:text="Indirizzo"
+                android:textColor="@color/black"/>
 
             <EditText
                 android:hint="..."
@@ -58,7 +59,31 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Valore Appalto" />
+                android:text="Città"
+                android:textColor="@color/black"/>
+
+            <EditText
+                android:hint="..."
+                android:id="@+id/editCitta"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:background="@android:color/transparent"
+                android:inputType="textPersonName"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Valore Appalto"
+                android:textColor="@color/black"/>
 
             <EditText
 
@@ -81,26 +106,28 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Capo Cantiere" />
+                android:layout_gravity="center"
+                android:text="Capo Cantiere"
+                android:textColor="@color/black"/>
 
-            <EditText
-                android:id="@+id/editCapoCantiere"
+            <Spinner
+                android:id="@+id/spinnerCapoCantiere"
+                android:layout_margin="2dp"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:hint="....
-"
-                android:ems="10"
-                android:inputType="textPersonName"
-                 />
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_button"
+                android:popupBackground="@drawable/bg_button"></Spinner>
         </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"></FrameLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal">
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -116,14 +143,17 @@
                 android:ems="10"
                 android:inputType="date"
                 android:hint="Clicca per scegliere la data"
+
                 />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal">
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -144,7 +174,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="180dp">
 
             <Button
                 android:id="@+id/bAggiungiCantiere"
@@ -152,6 +182,7 @@
                 android:layout_height="wrap_content"
                 android:text="aggiungi cantiere"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:background="@drawable/bg_button"
                 />

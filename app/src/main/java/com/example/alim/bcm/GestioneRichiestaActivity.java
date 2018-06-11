@@ -57,7 +57,7 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
     SharedPreferences preferences;
     FirebaseDatabase database;
     private Button bAssegnaAutista;
-    private boolean aggiornato= false;// se ho aggiornato la richiesta con un autista aggiorno il fragment richieste nell onbackPressed
+    private boolean aggiornato = false;// se ho aggiornato la richiesta con un autista aggiorno il fragment richieste nell onbackPressed
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +96,8 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
 
         if (richiesta.getListaAttrezzi().size() > 0) {
             articoloAdapter = new ArticoloAdapter(getApplication(), richiesta.getListaAttrezzi());
-        } else  {
-             articoloAdapter = new ArticoloAdapter(getApplication(), richiesta.getListaMateriali());
+        } else {
+            articoloAdapter = new ArticoloAdapter(getApplication(), richiesta.getListaMateriali());
         }
 
         recyclerView.setAdapter(articoloAdapter);
@@ -115,7 +115,7 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
                 articoloAdapter.notifyItemRemoved(position);
                 articoloAdapter.notifyItemRangeChanged(position, articoloAdapter.getItemCount());
             }
-        },preferences.getString(TIPO_UTENTE_ATTIVO,""));
+        }, preferences.getString(TIPO_UTENTE_ATTIVO, ""));
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
@@ -132,11 +132,13 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
         bAssegnaAutista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                aggiornaDB();
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("aggiornato",aggiornato);
-                setResult(Activity.RESULT_OK,returnIntent);
-                finish();
+                if (aggiornaDB()){
+
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("aggiornato", aggiornato);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                }
             }
         });
 
@@ -150,21 +152,27 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
 
     }
 
-    private void aggiornaDB() {
-        richiesta.setAutista(sAutisti.getSelectedItem().toString());
-        ref.child("richieste/" + richiesta.getId() + "/corriere").setValue(richiesta.getAutista());
-        ref.child(Constants.UTENTI+"/"+Constants.AUTISTA+"/"+richiesta.getAutista().toLowerCase()+"/listaRichieste/"+richiesta.getId()+"id").setValue(richiesta.getId());
+    private boolean aggiornaDB() {
+        if (sAutisti.getSelectedItem().toString().equalsIgnoreCase("non ci sono autisti")){
+            Toast.makeText(getApplicationContext(),"selezzionare autista",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else {
+            richiesta.setAutista(sAutisti.getSelectedItem().toString());
+            ref.child("richieste/" + richiesta.getId() + "/corriere").setValue(richiesta.getAutista());
+            ref.child(Constants.UTENTI + "/" + Constants.AUTISTA + "/" + richiesta.getAutista().toLowerCase() + "/listaRichieste/" + richiesta.getId() + "/id").setValue(richiesta.getId());
+            return true;
+        }
 
     }
 
     private void showFrame(String autista) {
-        if (autista.equalsIgnoreCase("NON ASSEGNATO")){
+        if (autista.equalsIgnoreCase("NON ASSEGNATO")) {
 
             fIsAssigned.setVisibility(View.GONE);
             fNotAssigned.setVisibility(View.VISIBLE);
 
-        }
-        else {
+        } else {
 
             tCorriere.setText(richiesta.getAutista());
             fNotAssigned.setVisibility(View.GONE);
@@ -176,51 +184,50 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
     private void setSpinnerAutisti() {
 
         sAutisti = findViewById(R.id.sAutisti);
-        listaAutisti = (List<Autista>) InternalStorage.readObject(getApplicationContext(),Constants.LISTA_AUTISTI);
-        if (listaAutisti == null || listaAutisti.size()==0){
+        listaAutisti = (List<Autista>) InternalStorage.readObject(getApplicationContext(), Constants.LISTA_AUTISTI);
+        if (listaAutisti == null || listaAutisti.size() == 0) {
             ManagerSiteAndPersonal managerSiteAndPersonal = ManagerSiteAndPersonal.getInstance();
-            final ProgressDialog progressDialog =new ProgressDialog(this);
+            final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.show();
             managerSiteAndPersonal.getAutistiInternal(new TaskCompletion() {
                 @Override
                 public void taskToDo(String esito, String bodyResponse) {
                     if (esito.equalsIgnoreCase(Constants.SUCCESSO)) {
                         listaAutisti = JsonParser.getAutisti(bodyResponse);
-                        if (listaAutisti != null && listaAutisti.size()>0){
 
-                            setSpinner();
-                        }
-                        else                         Toast.makeText(getApplicationContext(),"lista autisti vuota",Toast.LENGTH_SHORT).show();
-
-                        progressDialog.dismiss();
-                        progressDialog.cancel();
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(),"Error caricamento autisti",Toast.LENGTH_SHORT).show();
+                        setSpinner();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Error caricamento autisti", Toast.LENGTH_SHORT).show();
                         Log.i(Constants.TAG, this.getClass() + "   errore caricamento autisti");
 
                     }
+                    progressDialog.dismiss();
+                    progressDialog.cancel();
                 }
+
 
                 @Override
                 public void taskToDo(String esito, String bodyResponse, String param1) {
 
                 }
             });
-        }
-        else setSpinner();
-
-
-
+        } else setSpinner();
 
 
     }
 
-    private void setSpinner(){
+    private void setSpinner() {
         List<String> listaNomi = new ArrayList<>();
-        for (Autista a : listaAutisti
-                ) {
-            listaNomi.add(a.getNome().toUpperCase());
+        if (listaAutisti != null && listaAutisti.size() > 0) {
+            listaNomi.add("Seleziona Autista");
+            for (Autista a : listaAutisti
+                    ) {
+                listaNomi.add(a.getNome().toUpperCase());
+            }
+
+
+        } else {
+            listaNomi.add("non ci sono autisti");
         }
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, R.id.tSpinner, listaNomi);
