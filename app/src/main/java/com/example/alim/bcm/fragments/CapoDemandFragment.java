@@ -104,8 +104,8 @@ public class CapoDemandFragment extends Fragment {
         bAggiungiNota = view.findViewById(R.id.bAggiungiNota);
         spinnerCantieri = view.findViewById(R.id.sCantieri);
         spinnerRichieste = view.findViewById(R.id.sFragrichieste);
-        frameLayoutMateriali = view.findViewById(R.id.frameMateriali);
-        frameLayoutAttrezzi = view.findViewById(R.id.frameAttrezzi);
+       /* frameLayoutMateriali = view.findViewById(R.id.frameMateriali);
+        frameLayoutAttrezzi = view.findViewById(R.id.frameAttrezzi);*/
         eDataConsegna = view.findViewById(R.id.eDataConsegna);
         refreshAttrezzi = view.findViewById(R.id.refreshAttrezzi);
         refreshMateriali = view.findViewById(R.id.refreshMateriali);
@@ -202,19 +202,16 @@ public class CapoDemandFragment extends Fragment {
                         ItemsManager itemsManager = ItemsManager.getIstance(getContext());
                         itemsManager.scaricaListArticoliFromDB(getContext(), listaCestino, recyclerViewAttrezzi, lm1, ATTREZZI);
 
-                        frameLayoutMateriali.setVisibility(View.GONE);
-                        frameLayoutAttrezzi.setVisibility(View.VISIBLE);
+                        refreshMateriali.setVisibility(View.GONE);
+                        refreshAttrezzi.setVisibility(View.VISIBLE);
                     } else if (spinnerRichieste.getSelectedItem().toString().equalsIgnoreCase(MATERIALI)) {
                         ItemsManager itemsManager = ItemsManager.getIstance(getContext());
                         itemsManager.scaricaListArticoliFromDB(getContext(), listaCestino, recyclerViewMateriali, lm2, MATERIALI);
 
-                        frameLayoutAttrezzi.setVisibility(View.GONE);
-                        frameLayoutMateriali.setVisibility(View.VISIBLE);
+                        refreshAttrezzi.setVisibility(View.GONE);
+                        refreshMateriali.setVisibility(View.VISIBLE);
                         recyclerViewAttrezzi.setVisibility(View.GONE);
-                        Log.i(TAG, "frameLayoutAttrezzi.getVisibility()" + frameLayoutAttrezzi.getVisibility());
-                        Log.i(TAG, "frameLayoutMateriali.getVisibility()" + frameLayoutMateriali.getVisibility());
-                        Log.i(TAG, "recyclerViewAttrezzi.getVisibility()" + recyclerViewAttrezzi.getVisibility());
-                        Log.i(TAG, "recyclerViewMateriali.getVisibility()" + recyclerViewMateriali.getVisibility());
+
                     }
 
 

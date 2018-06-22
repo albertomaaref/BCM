@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements TaskCompletion {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.login);
 
         delegation = this;
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
