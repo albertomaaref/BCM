@@ -49,8 +49,6 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
     private TextView tNota;
     private List<Autista> listaAutisti;
     private Spinner sAutisti;
-    private FrameLayout fIsAssigned;
-    private FrameLayout fNotAssigned;
     private TextView tCorriere;
     DatabaseReference ref;
     ArticoloAdapter articoloAdapter;
@@ -83,10 +81,10 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         ref = database.getReferenceFromUrl(FireBaseConnection.BASE_URL);
-        fIsAssigned = findViewById(R.id.frameAutistaAssegnato);
-        fNotAssigned = findViewById(R.id.frameAggiungiAutista);
+
         tCorriere = findViewById(R.id.tCorriere);
         bAssegnaAutista = findViewById(R.id.bAssegnaAutista);
+        sAutisti = findViewById(R.id.sAutisti);
 
         lm = new LinearLayoutManager(getApplicationContext());
         recyclerView = findViewById(R.id.recyclerArticolo);
@@ -169,21 +167,20 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
     private void showFrame(String autista) {
         if (autista.equalsIgnoreCase("NON ASSEGNATO")) {
 
-            fIsAssigned.setVisibility(View.GONE);
-            fNotAssigned.setVisibility(View.VISIBLE);
+            sAutisti.setVisibility(View.VISIBLE);
+            bAssegnaAutista.setVisibility(View.VISIBLE);
 
         } else {
 
             tCorriere.setText(richiesta.getAutista());
-            fNotAssigned.setVisibility(View.GONE);
-            fIsAssigned.setVisibility(View.VISIBLE);
+            sAutisti.setVisibility(View.GONE);
+            bAssegnaAutista.setVisibility(View.GONE);
 
         }
     }
 
     private void setSpinnerAutisti() {
 
-        sAutisti = findViewById(R.id.sAutisti);
         listaAutisti = (List<Autista>) InternalStorage.readObject(getApplicationContext(), Constants.LISTA_AUTISTI);
         if (listaAutisti == null || listaAutisti.size() == 0) {
             ManagerSiteAndPersonal managerSiteAndPersonal = ManagerSiteAndPersonal.getInstance();

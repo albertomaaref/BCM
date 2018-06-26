@@ -1,190 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout8"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_margin="5dp"
     android:fitsSystemWindows="false"
     tools:context=".fragments.AddProductFragment">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="INSERISCI PRODOTTO"
-            android:textColor="@color/black" />
-    </FrameLayout>
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:text="INSERISCI PRODOTTO"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerAddProduct"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
 
-        <Spinner
-            android:id="@+id/spinnerAddProduct"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:popupBackground="@drawable/bg_button"
-            android:background="@drawable/bg_button"
-            android:layout_margin="5dp"
-            ></Spinner>
-    </FrameLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Spinner
+        android:id="@+id/spinnerAddProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_button"
+        android:popupBackground="@drawable/bg_button"
+        app:layout_constraintBottom_toTopOf="@+id/eIdArticolo"
+        app:layout_constraintEnd_toEndOf="@+id/textView27"
+        app:layout_constraintStart_toEndOf="@+id/textView27"
+        app:layout_constraintTop_toBottomOf="@+id/textView26"></Spinner>
+
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="0dp"
+
+        android:layout_height="0dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:gravity="center_vertical"
+        android:text="ID"
+        app:layout_constraintBottom_toBottomOf="@+id/eIdArticolo"
+        app:layout_constraintEnd_toStartOf="@+id/eIdArticolo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/eIdArticolo" />
+
+    <EditText
+        android:id="@+id/eIdArticolo"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:orientation="horizontal">
+        android:layout_marginBottom="10dp"
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
 
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="ID" />
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:maxLines="1"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/eNomeArticolo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView27"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerAddProduct" />
 
-        <EditText
-            android:id="@+id/eIdArticolo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
 
-            android:inputType="textPersonName"
-            android:maxLines="1"
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:gravity="center_vertical"
+        android:text="Nome"
+        app:layout_constraintBottom_toBottomOf="@+id/eNomeArticolo"
+        app:layout_constraintEnd_toStartOf="@+id/eNomeArticolo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/eNomeArticolo" />
 
-            android:singleLine="true" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/eNomeArticolo"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:orientation="horizontal">
+        android:layout_marginBottom="9dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/eMarcaArticolo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView28"
+        app:layout_constraintTop_toBottomOf="@+id/eIdArticolo" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="Nome" />
 
-        <EditText
-            android:id="@+id/eNomeArticolo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:singleLine="true" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:gravity="center_vertical"
+        android:text="Marca"
+        app:layout_constraintBottom_toBottomOf="@+id/eMarcaArticolo"
+        app:layout_constraintEnd_toStartOf="@+id/eMarcaArticolo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/eMarcaArticolo" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/eMarcaArticolo"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:orientation="horizontal">
+        android:layout_marginBottom="10dp"
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="Marca" />
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:ems="10"
 
-        <EditText
-            android:id="@+id/eMarcaArticolo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
+        android:imeOptions="actionNext"
+        android:inputType="textPersonName"
+        android:maxLines="1"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/eModelloArticolo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView29"
+        app:layout_constraintTop_toBottomOf="@+id/eNomeArticolo" />
 
-            android:imeOptions="actionNext"
-            android:inputType="textPersonName"
-            android:maxLines="1"
 
-            android:singleLine="true" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="0dp"
 
-    <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:gravity="center_vertical"
+        android:text="Modello"
+        app:layout_constraintBottom_toBottomOf="@+id/eModelloArticolo"
+        app:layout_constraintEnd_toStartOf="@+id/eModelloArticolo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/eModelloArticolo" />
+
+    <EditText
+        android:id="@+id/eModelloArticolo"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:orientation="horizontal">
+        android:layout_marginBottom="9dp"
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
 
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="Modello" />
+        android:ems="10"
+        android:imeOptions="actionNext"
+        android:inputType="textPersonName"
+        android:maxLines="1"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/eTipoArticolo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView30"
+        app:layout_constraintTop_toBottomOf="@+id/eMarcaArticolo" />
 
-        <EditText
-            android:id="@+id/eModelloArticolo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
 
-            android:imeOptions="actionNext"
-            android:inputType="textPersonName"
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="0dp"
 
-            android:maxLines="1"
-            android:singleLine="true" />
-    </LinearLayout>
+        android:layout_height="0dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:gravity="center_vertical"
+        android:text="Tipo"
+        app:layout_constraintBottom_toBottomOf="@+id/eTipoArticolo"
+        app:layout_constraintEnd_toStartOf="@+id/eTipoArticolo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/eTipoArticolo" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/eTipoArticolo"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:orientation="horizontal">
+        android:layout_marginBottom="35dp"
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:ems="10"
 
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="Tipo" />
-
-        <EditText
-            android:id="@+id/eTipoArticolo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-
-            android:imeOptions="actionDone"
-            android:inputType="textPersonName"
-            android:maxLines="1"
-
-            android:singleLine="true" />
-    </LinearLayout>
+        android:imeOptions="actionDone"
+        android:inputType="textPersonName"
+        android:maxLines="1"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/bAddProduct"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView31"
+        app:layout_constraintTop_toBottomOf="@+id/eModelloArticolo" />
 
 
+    <Button
+        android:id="@+id/bAddProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="43dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_button"
+        android:text="aggiungi"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"></FrameLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-
-        <Button
-            android:id="@+id/bAddProduct"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/bg_button"
-            android:text="aggiungi"
-            android:textColor="@color/white" />
-    </FrameLayout>
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -30,9 +30,7 @@ public class CantiereFragment extends Fragment {
     private Button bSalva;
     private TextView tIndirizzo;
     private Spinner spStatoCantiere;
-    private FrameLayout statoCantiere;
-    private FrameLayout Statistiche;
-    private FrameLayout StatoRichieste;
+
 
     public CantiereFragment() {
         // Required empty public constructor
@@ -43,7 +41,6 @@ public class CantiereFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // layout statoCantiere
-        statoCantiere = view.findViewById(R.id.statoCantiere);
         tIndirizzo = view.findViewById(R.id.tIndirizzoCantiere);
         seekBar1 = view.findViewById(R.id.seekBar1);
         seekBar2 = view.findViewById(R.id.seekBar2);
