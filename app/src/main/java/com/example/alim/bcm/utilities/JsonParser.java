@@ -141,7 +141,7 @@ public final class JsonParser {
             while (keys.hasNext()) {
                 Richiesta richiesta = new Richiesta();
                 String key = (String) keys.next();
-                richiesta.setId(Integer.parseInt(key));
+                richiesta.setId(Integer.parseInt(key.replace("R","")));
                 JSONObject oggetto = object.getJSONObject(key);
                 Iterator chiavi = oggetto.keys();
                 while (chiavi.hasNext()) {
@@ -410,7 +410,7 @@ public final class JsonParser {
 
                 while (chiavi.hasNext()) {
                     String chiave = (String) chiavi.next();
-                    if (chiave.equalsIgnoreCase("cantiere"))
+                    if (chiave.equalsIgnoreCase("cantieri"))
                         capoCantiere.setCantiere(jsonObject.getString(chiave));
                     else if (chiave.equalsIgnoreCase("cognome"))
                         capoCantiere.setCognome(jsonObject.getString(chiave));

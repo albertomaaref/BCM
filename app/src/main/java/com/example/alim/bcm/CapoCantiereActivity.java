@@ -11,10 +11,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.alim.bcm.fragments.CantiereFragment;
 import com.example.alim.bcm.fragments.NotificheFragment;
 import com.example.alim.bcm.fragments.CapoDemandFragment;
+import com.example.alim.bcm.model.Autista;
+import com.example.alim.bcm.model.CapoCantiere;
+import com.example.alim.bcm.model.Personale;
 import com.example.alim.bcm.utilities.InternalStorage;
 
 import static com.example.alim.bcm.model.Constants.TIPO_UTENTE_ATTIVO;
@@ -91,11 +95,23 @@ public class CapoCantiereActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(null);
         }
 
+        CapoCantiere capoCantiere = (CapoCantiere) InternalStorage.readObject(this,UTENTE_ATTIVO);
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         fm = getSupportFragmentManager();
-        navigation.setSelectedItemId(R.id.navigation_cantiere);
+
+
+        if (capoCantiere != null && capoCantiere.getCantiere() != null){
+
+            navigation.setSelectedItemId(R.id.navigation_cantiere);
+        }
+        else {
+            navigation.setSelectedItemId(R.id.navigation_notifiche);
+            navigation.getMenu().getItem(0).setEnabled(false);
+            navigation.getMenu().getItem(1).setEnabled(false);
+            Toast.makeText(this,"non hai nessun cantiere assegnato",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -107,6 +123,7 @@ public class CapoCantiereActivity extends AppCompatActivity {
         InternalStorage.resetDB(getApplicationContext(),"");
         Intent intent = new Intent(this,LoginActivity.class);
         startActivity(intent);
+        this.finish();
         return true;
     }
 }

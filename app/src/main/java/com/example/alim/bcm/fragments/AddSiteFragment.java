@@ -153,6 +153,7 @@ public class AddSiteFragment extends Fragment {
 
     private void insertCantierToDB(Cantiere cantiere) {
         ref.child("cantieri/" + tIndirizzo.getText().toString()).setValue(cantiere);
+        ref.child("utenti/"+CAPOCANTIERE+"/"+spinnerCapoCantiere.getSelectedItem().toString()+"/"+CANTIERI).setValue(cantiere.getIndirizzo()+" "+cantiere.getCitta());
     }
 
     public boolean checkCampo(EditText editText) {

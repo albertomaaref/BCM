@@ -120,6 +120,7 @@ public class AutistaActivity extends AppCompatActivity {
         InternalStorage.resetDB(getApplicationContext(),"");
         Intent intent = new Intent(this,LoginActivity.class);
         startActivity(intent);
+        this.finish();
         return true;
     }
 }

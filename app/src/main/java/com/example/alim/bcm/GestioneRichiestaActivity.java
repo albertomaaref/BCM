@@ -159,8 +159,8 @@ public class GestioneRichiestaActivity extends AppCompatActivity {
         }
         else {
             richiesta.setAutista(sAutisti.getSelectedItem().toString());
-            ref.child("richieste/" + richiesta.getId() + "/corriere").setValue(richiesta.getAutista());
-            ref.child(Constants.UTENTI + "/" + Constants.AUTISTA + "/" + richiesta.getAutista().toLowerCase() + "/listaRichieste/" + richiesta.getId() + "/id").setValue(richiesta.getId());
+            ref.child("richieste/" + "R"+richiesta.getId() + "/corriere").setValue(richiesta.getAutista());
+            ref.child(Constants.UTENTI + "/" + Constants.AUTISTA + "/" + richiesta.getAutista().toLowerCase() + "/listaRichieste/R" + richiesta.getId() + "/id").setValue(richiesta.getId());
             return true;
         }
 

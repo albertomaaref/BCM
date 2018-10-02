@@ -89,7 +89,6 @@ public class RichiesteFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         refreshLayout = view.findViewById(R.id.refreshRichieste);
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.show();
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -301,6 +300,9 @@ public class RichiesteFragment extends Fragment {
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_white_item, R.id.spinnerRegistration, lista);
                 sCantiere.setAdapter(arrayAdapter);
             }
+
+            progressDialog.dismiss();
+            progressDialog.cancel();
         } else ManagerSiteAndPersonal.getInstance().getCantieri(new TaskCompletion() {
             @Override
             public void taskToDo(String esito, String bodyResponse) {
@@ -328,6 +330,9 @@ public class RichiesteFragment extends Fragment {
                     sCantiere.setAdapter(arrayAdapter);
 
                 }
+
+                progressDialog.dismiss();
+                progressDialog.cancel();
             }
 
             @Override

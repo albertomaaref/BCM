@@ -112,11 +112,11 @@ public class CapoDemandFragment extends Fragment {
 
         // controllo se il capoCantiere ha un cantiere in carico
 
-        if (capoCantiere != null && capoCantiere.getCantiere() != null && !capoCantiere.getCantiere().equalsIgnoreCase("")) {
+        /*if (capoCantiere != null && capoCantiere.getCantiere() != null && !capoCantiere.getCantiere().equalsIgnoreCase("")) {
             bAggiungiNota.setEnabled(false);
             bApprovaRichiesta.setEnabled(false);
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        }
+        }*/
 
         bApprovaRichiesta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +143,7 @@ public class CapoDemandFragment extends Fragment {
                     RequestManager requestManager = RequestManager.getIstance();
                     requestManager.sendRequest(getContext(), richiesta, type, getFragmentManager(), fr);
                 } else
-                    Toast.makeText(getContext(), "CANTIERE INESISTENTE", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "non sei in nessun cantiere", Toast.LENGTH_SHORT).show();
 
 
             }

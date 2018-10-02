@@ -69,23 +69,23 @@ public class RequestManager {
             } else if (activity instanceof CapoCantiereActivity) {
                 idContainer = R.id.fragmentCapo;
             }
-            ref.child("richieste/" + richiesta.getId() + "/id").setValue(richiesta.getId());
-            ref.child("richieste/" + richiesta.getId() + "/cantiere").setValue(richiesta.getCantiere());
-            ref.child("richieste/" + richiesta.getId() + "/dataConsegna").setValue(richiesta.getDataConesgna());
-            ref.child("richieste/" + richiesta.getId() + "/nota").setValue(richiesta.getTestoLibero());
-            ref.child("richieste/" + richiesta.getId() + "/stato").setValue(richiesta.getStato());
-            ref.child("richieste/" + richiesta.getId() + "/corriere").setValue(richiesta.getAutista());
+            ref.child("richieste/" + "R"+richiesta.getId() + "/id").setValue(richiesta.getId());
+            ref.child("richieste/" + "R"+richiesta.getId() + "/cantiere").setValue(richiesta.getCantiere());
+            ref.child("richieste/" + "R"+richiesta.getId() + "/dataConsegna").setValue(richiesta.getDataConesgna());
+            ref.child("richieste/" + "R"+richiesta.getId() + "/nota").setValue(richiesta.getTestoLibero());
+            ref.child("richieste/" + "R"+richiesta.getId() + "/stato").setValue(richiesta.getStato());
+            ref.child("richieste/" + "R"+richiesta.getId() + "/corriere").setValue(richiesta.getAutista());
 
 
             //int lunghezza = 0;
             if (type.equalsIgnoreCase(Constants.ATTREZZI)) {
-                ref.child("richieste/" + richiesta.getId() + "/lista" + type.toUpperCase()).setValue(richiesta.getListaAttrezzi());
+                ref.child("richieste/" + "R"+richiesta.getId() + "/lista" + type.toUpperCase()).setValue(richiesta.getListaAttrezzi());
                 //lunghezza = richiesta.getListaAttrezzi().size();
                     /*for (int i = 0 ; i< lunghezza; i++){
                         ref.child("richieste/"+richiesta.getId()+"/lista"+type+"/"+(i+1)).setValue(richiesta.getListaAttrezzi().get(i));
                     }*/
             } else if (type.equalsIgnoreCase(Constants.MATERIALI)) {
-                ref.child("richieste/" + richiesta.getId() + "/lista" + type.toUpperCase()).setValue(richiesta.getListaMateriali());
+                ref.child("richieste/" + "R"+richiesta.getId() + "/lista" + type.toUpperCase()).setValue(richiesta.getListaMateriali());
 
             }
             //lunghezza  = richiesta.getListaMateriali().size();

@@ -275,6 +275,7 @@ public class ImpiegatoActivity extends AppCompatActivity
             editor.commit();
             Intent intent = new Intent(this,LoginActivity.class);
             startActivity(intent);
+            this.finish();
             InternalStorage.resetDB(getApplicationContext(),"");
         }
 
@@ -323,11 +324,8 @@ public class ImpiegatoActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.show();
         RichiesteFragment fragment = new RichiesteFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentImpiegato, fragment).commit();
-        progressDialog.dismiss();
-        progressDialog.cancel();
+
     }
 }
