@@ -5,7 +5,6 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 
-import com.example.alim.bcm.database.helper.DBFlowHelperImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,8 +17,6 @@ public class Applicazione extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        DBFlowHelperImpl dbFlowHelper = new DBFlowHelperImpl();
-        dbFlowHelper.checkVersion(this);
 
     }
 

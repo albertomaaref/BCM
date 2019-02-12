@@ -1,8 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.alim.bcm.fragments.AttrezzziFragment">
 
     <Spinner
@@ -10,14 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@drawable/bg_spinner"
-        />
+        android:background="@drawable/bg_spinner" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_below="@id/sCantieri"
         android:gravity="center"
         android:text="LISTA ATTREZZI"
         android:textColor="@android:color/background_dark"
@@ -26,7 +25,8 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refreshAttrezzi"
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="300dp"
+        android:layout_below="@id/textView7">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewAttrezzi"
@@ -41,6 +41,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:layout_below="@id/refreshAttrezzi"
         android:layout_margin="5dp">
 
         <LinearLayout
@@ -53,55 +54,55 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="Data di consgna"
-                android:textColor="@color/black"
-                android:gravity="center"/>
+                android:textColor="@color/black" />
+
             <EditText
                 android:id="@+id/eDataConsegna"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:ems="10"
-                android:textColor="@color/blu"
-                android:gravity="center"
-                android:inputType="date"
                 android:background="@android:color/transparent"
-                android:hint="GG/MM//AAAA"
+                android:ems="10"
                 android:focusable="false"
-                />
+                android:gravity="center"
+                android:hint="GG/MM//AAAA"
+                android:inputType="date"
+                android:textColor="@color/blu" />
 
         </LinearLayout>
     </FrameLayout>
 
     <LinearLayout
-        android:layout_marginHorizontal="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginHorizontal="5dp"
+        android:gravity="bottom"
         android:orientation="horizontal">
 
         <Button
-            android:layout_marginRight="5dp"
             android:id="@+id/bApprovaRichiesta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="@drawable/bg_button"
             android:gravity="center"
-            android:textColor="@color/white"
-            android:text="conferma richiesta" />
+            android:text="conferma richiesta"
+            android:textColor="@color/white" />
 
         <Button
-            android:layout_marginLeft="5dp"
             android:id="@+id/bAggiungiNota"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:textColor="@color/white"
-            android:gravity="center"
             android:background="@drawable/bg_button"
-            android:text="aggiungi nota" />
+            android:gravity="center"
+            android:text="aggiungi nota"
+            android:textColor="@color/white" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

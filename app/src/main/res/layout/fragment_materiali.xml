@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_below="@id/sCantieri"
         android:gravity="center"
         android:text="LISTA MATERIALI"
         android:textColor="@android:color/black"
@@ -27,6 +28,7 @@
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refreshMateriali"
+        android:layout_below="@+id/textView7"
         android:layout_width="match_parent"
         android:layout_height="300dp">
 
@@ -42,6 +44,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
+        android:layout_below="@+id/refreshMateriali"
         android:layout_height="45dp"
         android:layout_margin="5dp">
 
@@ -78,13 +81,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="5dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="bottom"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/bApprovaRichiesta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="@drawable/bg_button"
@@ -96,7 +100,6 @@
             android:id="@+id/bAggiungiNota"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:background="@drawable/bg_button"
@@ -105,4 +108,4 @@
             android:textColor="@color/white" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
