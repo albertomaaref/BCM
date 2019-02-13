@@ -12,6 +12,9 @@
     <color name="whiteLight">#c9e0f9</color>
     <color name="black">#0b0b0c</color>
     <color name="white">#ffffff</color>
+    <color name="title">#386b53</color>
+    <color name="button_black">#0b0b0c</color>
+    <color name="button_green">#137762</color>
 
 
 
