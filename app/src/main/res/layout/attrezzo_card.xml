@@ -23,8 +23,9 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="TextView"
+                android:layout_gravity="center"
                 android:textColor="@color/colorAccent"
-                android:textSize="24sp" />
+                android:textSize="18dp" />
 
             <EditText
                 android:id="@+id/eQuantita"

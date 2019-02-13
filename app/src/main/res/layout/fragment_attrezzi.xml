@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.alim.bcm.fragments.AttrezzziFragment">
+    tools:context="com.example.alim.bcm.fragments.AttrezzziFragment"
+    >
 
     <Spinner
         android:id="@+id/sCantieri"
@@ -76,10 +77,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginHorizontal="5dp"
         android:gravity="bottom"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
         <Button
@@ -88,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_button"
+            android:background="@drawable/bg_black_button"
             android:gravity="center"
             android:text="conferma richiesta"
             android:textColor="@color/white" />
@@ -99,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_button"
+            android:background="@drawable/bg_black_button"
             android:gravity="center"
             android:text="aggiungi nota"
             android:textColor="@color/white" />

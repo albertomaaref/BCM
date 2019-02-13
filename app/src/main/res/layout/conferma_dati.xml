@@ -133,7 +133,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="50dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_button"
+            android:background="@drawable/bg_black_button"
             app:srcCompat="@drawable/ic_checkbox_marked_circle_white_24dp" />
 
         <ImageButton
@@ -143,7 +143,7 @@
             android:layout_marginHorizontal="50dp"
 
             android:layout_weight="1"
-            android:background="@drawable/bg_button"
+            android:background="@drawable/bg_black_button"
             app:srcCompat="@drawable/ic_close_circle_white_24dp" />
     </LinearLayout>
 

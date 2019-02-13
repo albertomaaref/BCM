@@ -29,8 +29,8 @@
             android:id="@+id/spinnerAddProduct"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:popupBackground="@drawable/bg_button"
-            android:background="@drawable/bg_button"
+            android:popupBackground="@drawable/bg_black_button"
+            android:background="@drawable/bg_black_button"
             android:layout_margin="5dp"
             ></Spinner>
     </FrameLayout>
@@ -182,7 +182,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/bg_button"
+            android:background="@drawable/bg_black_button"
             android:text="aggiungi"
             android:textColor="@color/white" />
     </FrameLayout>

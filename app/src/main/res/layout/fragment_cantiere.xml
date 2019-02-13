@@ -166,7 +166,7 @@
                     android:layout_gravity="top"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_button"
+                    android:background="@drawable/bg_black_button"
                     android:text="aggiorna"
                     android:textColor="@color/white" />
 
@@ -177,7 +177,7 @@
                     android:layout_gravity="top"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_button"
+                    android:background="@drawable/bg_black_button"
                     android:text="salva modifiche"
                     android:textColor="@color/white" />
             </LinearLayout>

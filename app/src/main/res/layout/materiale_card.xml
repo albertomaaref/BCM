@@ -19,12 +19,14 @@
 
             <TextView
                 android:id="@+id/tnomeMateriale"
-                android:layout_width="60dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
+                android:text="Materiale"
+                android:layout_gravity="center"
                 android:textColor="@color/colorAccent"
-                android:textSize="24sp"/>
+                android:textSize="18dp"/>
 
             <EditText
                 android:id="@+id/eQuantita"

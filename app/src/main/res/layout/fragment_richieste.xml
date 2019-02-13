@@ -8,8 +8,8 @@
 
     <Spinner
         android:id="@+id/sCantiere"
-        android:background="@drawable/bg_button"
-        android:popupBackground="@drawable/bg_button"
+        android:background="@drawable/bg_black_button"
+        android:popupBackground="@drawable/bg_black_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"

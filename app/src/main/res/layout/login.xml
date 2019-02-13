@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_activity"
+    android:background="@drawable/bg_login_activity"
     tools:context=".LoginActivity">
 
     <TextView
@@ -130,7 +130,7 @@
         android:layout_below="@+id/ePassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:background="@drawable/bg_button"
+        android:background="@drawable/bg_black_button"
         android:text="accedi"
         android:textColor="@color/white"
         android:textStyle="bold" />

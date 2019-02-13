@@ -115,8 +115,8 @@
                 android:layout_margin="2dp"
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/bg_button"
-                android:popupBackground="@drawable/bg_button"></Spinner>
+                android:background="@drawable/bg_black_button"
+                android:popupBackground="@drawable/bg_black_button"></Spinner>
         </LinearLayout>
         <FrameLayout
             android:layout_width="match_parent"
@@ -184,7 +184,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:background="@drawable/bg_button"
+                android:background="@drawable/bg_black_button"
                 />
         </FrameLayout>
     </LinearLayout>
