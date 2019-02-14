@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.alim.bcm.fragments.MaterialiFragment"
+    android:background="@drawable/bg_lavorazioni"
     >
 
 
@@ -90,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_black_button"
+            android:background="@drawable/bg_blu_button"
             android:gravity="center"
             android:text="conferma richiesta"
             android:textColor="@color/white" />
@@ -101,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_black_button"
+            android:background="@drawable/bg_blu_button"
             android:gravity="center"
             android:text="aggiungi nota"
             android:textColor="@color/white" />

@@ -2,14 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_materiale"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_margin="5dp"
-        android:layout_weight="5">
+        android:layout_marginTop="5dp"
+        android:layout_weight="5"
+        android:backgroundTint="@color/whiteLight"
+        app:cardCornerRadius="19dp"
+        app:cardElevation="6dp">
 
         <LinearLayout
             android:layout_width="match_parent"
