@@ -6,14 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.util.Log;
@@ -24,29 +20,27 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.alim.bcm.model.Autista;
-import com.example.alim.bcm.model.CapoCantiere;
-import com.example.alim.bcm.model.Constants;
-import com.example.alim.bcm.model.Impiegato;
-import com.example.alim.bcm.model.Operaio;
-import com.example.alim.bcm.model.Personale;
+import com.example.alim.bcm.data.model.Autista;
+import com.example.alim.bcm.data.model.CapoCantiere;
+import com.example.alim.bcm.data.model.Constants;
+import com.example.alim.bcm.data.model.Impiegato;
+import com.example.alim.bcm.data.model.Operaio;
+import com.example.alim.bcm.data.model.Personale;
 import com.example.alim.bcm.utilities.FireBaseConnection;
 import com.example.alim.bcm.utilities.InternalStorage;
 import com.example.alim.bcm.utilities.JsonParser;
 import com.example.alim.bcm.utilities.TaskCompletion;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import java.util.concurrent.CompletionService;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
-import static com.example.alim.bcm.model.Constants.AUTISTA;
-import static com.example.alim.bcm.model.Constants.CAPOCANTIERE;
-import static com.example.alim.bcm.model.Constants.IMPIEGATO;
-import static com.example.alim.bcm.model.Constants.OPERAIO;
-import static com.example.alim.bcm.model.Constants.UTENTE_ATTIVO;
+import static com.example.alim.bcm.data.model.Constants.AUTISTA;
+import static com.example.alim.bcm.data.model.Constants.CAPOCANTIERE;
+import static com.example.alim.bcm.data.model.Constants.IMPIEGATO;
+import static com.example.alim.bcm.data.model.Constants.OPERAIO;
+import static com.example.alim.bcm.data.model.Constants.UTENTE_ATTIVO;
 
 public class LoginActivity extends AppCompatActivity implements TaskCompletion {
 

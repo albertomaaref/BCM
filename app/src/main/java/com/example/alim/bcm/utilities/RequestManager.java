@@ -1,10 +1,8 @@
 package com.example.alim.bcm.utilities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +12,8 @@ import android.widget.Toast;
 import com.example.alim.bcm.CapoCantiereActivity;
 import com.example.alim.bcm.ImpiegatoActivity;
 import com.example.alim.bcm.R;
-import com.example.alim.bcm.model.Constants;
-import com.example.alim.bcm.model.Richiesta;
+import com.example.alim.bcm.data.model.Constants;
+import com.example.alim.bcm.data.model.Richiesta;
 import com.example.alim.bcm.services.InternetController;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -26,7 +24,7 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-import static com.example.alim.bcm.model.Constants.TAG;
+import static com.example.alim.bcm.data.model.Constants.TAG;
 
 /**
  * Created by alim on 29-Mar-18.

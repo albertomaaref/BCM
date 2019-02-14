@@ -22,9 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alim.bcm.adapters.ArticoloAdapter;
-import com.example.alim.bcm.model.Autista;
-import com.example.alim.bcm.model.Constants;
-import com.example.alim.bcm.model.Richiesta;
+import com.example.alim.bcm.data.model.Autista;
+import com.example.alim.bcm.data.model.Constants;
+import com.example.alim.bcm.data.model.Richiesta;
 import com.example.alim.bcm.utilities.ManagerSiteAndPersonal;
 import com.example.alim.bcm.utilities.FireBaseConnection;
 import com.example.alim.bcm.utilities.InternalStorage;
@@ -38,7 +38,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.alim.bcm.model.Constants.TIPO_UTENTE_ATTIVO;
+import static com.example.alim.bcm.data.model.Constants.TIPO_UTENTE_ATTIVO;
 
 public class GestioneRichiestaActivity extends AppCompatActivity {
 

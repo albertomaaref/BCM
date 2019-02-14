@@ -11,7 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import static android.support.v7.widget.helper.ItemTouchHelper.*;
-import static com.example.alim.bcm.model.Constants.AUTISTA;
+import static com.example.alim.bcm.data.model.Constants.AUTISTA;
 
 
 enum ButtonsState {

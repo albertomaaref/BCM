@@ -1,15 +1,11 @@
 package com.example.alim.bcm.fragments;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -19,9 +15,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.alim.bcm.R;
-import com.example.alim.bcm.model.Cantiere;
-import com.example.alim.bcm.model.CapoCantiere;
-import com.example.alim.bcm.model.Constants;
+import com.example.alim.bcm.data.model.Cantiere;
+import com.example.alim.bcm.data.model.CapoCantiere;
+import com.example.alim.bcm.data.model.Constants;
 import com.example.alim.bcm.services.ConfermaDatiDialog;
 import com.example.alim.bcm.services.SelectDataDialog;
 import com.example.alim.bcm.utilities.FireBaseConnection;
@@ -32,19 +28,16 @@ import com.example.alim.bcm.utilities.TaskCompletion;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static android.widget.Toast.LENGTH_SHORT;
-import static com.example.alim.bcm.model.Constants.CANTIERI;
-import static com.example.alim.bcm.model.Constants.CAPOCANTIERE;
-import static com.example.alim.bcm.model.Constants.CONFERMA_DATI_DIALOG;
-import static com.example.alim.bcm.model.Constants.ERROR;
-import static com.example.alim.bcm.model.Constants.SUCCESSO;
-import static com.example.alim.bcm.model.Constants.TAG;
+import static com.example.alim.bcm.data.model.Constants.CANTIERI;
+import static com.example.alim.bcm.data.model.Constants.CAPOCANTIERE;
+import static com.example.alim.bcm.data.model.Constants.CONFERMA_DATI_DIALOG;
+import static com.example.alim.bcm.data.model.Constants.ERROR;
+import static com.example.alim.bcm.data.model.Constants.SUCCESSO;
+import static com.example.alim.bcm.data.model.Constants.TAG;
 
 
 public class AddSiteFragment extends Fragment {

@@ -10,10 +10,10 @@ import android.widget.Toast;
 
 import com.example.alim.bcm.adapters.AttrezzoAdapter;
 import com.example.alim.bcm.adapters.MaterialeAdapter;
-import com.example.alim.bcm.model.Articolo;
-import com.example.alim.bcm.model.Attrezzo;
-import com.example.alim.bcm.model.Constants;
-import com.example.alim.bcm.model.Materiale;
+import com.example.alim.bcm.data.model.Articolo;
+import com.example.alim.bcm.data.model.Attrezzo;
+import com.example.alim.bcm.data.model.Constants;
+import com.example.alim.bcm.data.model.Materiale;
 import com.example.alim.bcm.services.InternetController;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -22,10 +22,10 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-import static com.example.alim.bcm.model.Constants.ATTREZZI;
-import static com.example.alim.bcm.model.Constants.MATERIALI;
-import static com.example.alim.bcm.model.Constants.SUCCESSO;
-import static com.example.alim.bcm.model.Constants.TAG;
+import static com.example.alim.bcm.data.model.Constants.ATTREZZI;
+import static com.example.alim.bcm.data.model.Constants.MATERIALI;
+import static com.example.alim.bcm.data.model.Constants.SUCCESSO;
+import static com.example.alim.bcm.data.model.Constants.TAG;
 
 /**
  * Created by alim on 29-Mar-18.

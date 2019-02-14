@@ -2,15 +2,15 @@ package com.example.alim.bcm.utilities;
 
 import android.support.annotation.NonNull;
 
-import com.example.alim.bcm.model.Constants;
+import com.example.alim.bcm.data.model.Constants;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import cz.msebera.android.httpclient.Header;
 
-import static com.example.alim.bcm.model.Constants.CAPOCANTIERE;
-import static com.example.alim.bcm.model.Constants.ERROR;
-import static com.example.alim.bcm.model.Constants.SUCCESSO;
-import static com.example.alim.bcm.model.Constants.UTENTI;
+import static com.example.alim.bcm.data.model.Constants.CAPOCANTIERE;
+import static com.example.alim.bcm.data.model.Constants.ERROR;
+import static com.example.alim.bcm.data.model.Constants.SUCCESSO;
+import static com.example.alim.bcm.data.model.Constants.UTENTI;
 
 public class ManagerSiteAndPersonal {
     private static ManagerSiteAndPersonal ourInstance = null;

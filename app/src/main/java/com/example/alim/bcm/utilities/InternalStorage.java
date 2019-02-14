@@ -10,12 +10,12 @@ import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import static com.example.alim.bcm.model.Constants.ATTREZZI;
-import static com.example.alim.bcm.model.Constants.CANTIERI;
-import static com.example.alim.bcm.model.Constants.CAPOCANTIERE;
-import static com.example.alim.bcm.model.Constants.LISTA_AUTISTI;
-import static com.example.alim.bcm.model.Constants.MATERIALI;
-import static com.example.alim.bcm.model.Constants.UTENTE_ATTIVO;
+import static com.example.alim.bcm.data.model.Constants.ATTREZZI;
+import static com.example.alim.bcm.data.model.Constants.CANTIERI;
+import static com.example.alim.bcm.data.model.Constants.CAPOCANTIERE;
+import static com.example.alim.bcm.data.model.Constants.LISTA_AUTISTI;
+import static com.example.alim.bcm.data.model.Constants.MATERIALI;
+import static com.example.alim.bcm.data.model.Constants.UTENTE_ATTIVO;
 
 public class InternalStorage {
 

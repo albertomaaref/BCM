@@ -21,11 +21,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.alim.bcm.R;
-import com.example.alim.bcm.model.Cantiere;
-import com.example.alim.bcm.model.Constants;
-import com.example.alim.bcm.model.Materiale;
-import com.example.alim.bcm.model.Richiesta;
-import com.example.alim.bcm.model.StatoRichiesta;
+import com.example.alim.bcm.data.model.Cantiere;
+import com.example.alim.bcm.data.model.Constants;
+import com.example.alim.bcm.data.model.Materiale;
+import com.example.alim.bcm.data.model.Richiesta;
+import com.example.alim.bcm.data.model.StatoRichiesta;
 import com.example.alim.bcm.services.ConfermaDatiDialog;
 import com.example.alim.bcm.services.SelectDataDialog;
 import com.example.alim.bcm.utilities.InternalStorage;
@@ -35,8 +35,8 @@ import com.example.alim.bcm.utilities.RequestManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.alim.bcm.model.Constants.CANTIERI;
-import static com.example.alim.bcm.model.Constants.TAG;
+import static com.example.alim.bcm.data.model.Constants.CANTIERI;
+import static com.example.alim.bcm.data.model.Constants.TAG;
 import static com.example.alim.bcm.services.ConfermaDatiDialog.GENERIC_MESSAGE;
 
 /**

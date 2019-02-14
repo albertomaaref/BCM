@@ -1,4 +1,4 @@
-package com.example.alim.bcm.model;
+package com.example.alim.bcm.data.model;
 
 import java.util.HashMap;
 import java.util.List;

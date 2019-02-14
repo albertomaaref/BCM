@@ -1,13 +1,9 @@
 package com.example.alim.bcm;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,28 +11,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.alim.bcm.model.Constants;
-import com.example.alim.bcm.model.Personale;
+import com.example.alim.bcm.data.model.Constants;
+import com.example.alim.bcm.data.model.Personale;
 import com.example.alim.bcm.services.InternetController;
-import com.example.alim.bcm.utilities.FireBaseConnection;
 import com.example.alim.bcm.utilities.InternalStorage;
 import com.example.alim.bcm.utilities.ItemsManager;
 import com.example.alim.bcm.utilities.JsonParser;
 import com.example.alim.bcm.utilities.TaskCompletion;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.msebera.android.httpclient.Header;
-
-import static com.example.alim.bcm.model.Constants.ATTREZZI;
-import static com.example.alim.bcm.model.Constants.ERROR;
-import static com.example.alim.bcm.model.Constants.MATERIALI;
-import static com.example.alim.bcm.model.Constants.SUCCESSO;
-import static com.example.alim.bcm.model.Constants.TIPO_UTENTE_ATTIVO;
-import static com.example.alim.bcm.model.Constants.UTENTE_ATTIVO;
-import static com.example.alim.bcm.model.Constants.TAG;
+import static com.example.alim.bcm.data.model.Constants.ATTREZZI;
+import static com.example.alim.bcm.data.model.Constants.ERROR;
+import static com.example.alim.bcm.data.model.Constants.MATERIALI;
+import static com.example.alim.bcm.data.model.Constants.SUCCESSO;
+import static com.example.alim.bcm.data.model.Constants.TIPO_UTENTE_ATTIVO;
+import static com.example.alim.bcm.data.model.Constants.UTENTE_ATTIVO;
+import static com.example.alim.bcm.data.model.Constants.TAG;
 
 public class RootActivity extends AppCompatActivity {
 

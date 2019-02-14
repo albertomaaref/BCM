@@ -11,12 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.example.alim.bcm.adapters.ArticoloAdapter;
-import com.example.alim.bcm.model.Articolo;
-import com.example.alim.bcm.model.Richiesta;
+import com.example.alim.bcm.data.model.Richiesta;
 import com.example.alim.bcm.utilities.SwipeController;
 import com.example.alim.bcm.utilities.SwipeControllerActions;
 
-import static com.example.alim.bcm.model.Constants.TIPO_UTENTE_ATTIVO;
+import static com.example.alim.bcm.data.model.Constants.TIPO_UTENTE_ATTIVO;
 
 public class AutistaDetailRichiestaActivity extends AppCompatActivity {
 

@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.alim.bcm.model.Constants;
+import com.example.alim.bcm.data.model.Constants;
 import com.example.alim.bcm.services.ConfermaDatiDialog;
 import com.example.alim.bcm.utilities.FireBaseConnection;
 import com.google.firebase.database.DatabaseReference;

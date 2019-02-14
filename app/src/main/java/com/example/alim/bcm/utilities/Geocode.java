@@ -5,7 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.alim.bcm.model.Richiesta;
+import com.example.alim.bcm.data.model.Richiesta;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.example.alim.bcm.model.Constants.TAG;
+import static com.example.alim.bcm.data.model.Constants.TAG;
 
 public class Geocode extends AsyncTask<List<Richiesta>, Void, List<String>> {
     private Context context;

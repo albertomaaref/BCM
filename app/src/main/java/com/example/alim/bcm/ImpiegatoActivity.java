@@ -1,6 +1,5 @@
 package com.example.alim.bcm;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,10 +23,10 @@ import com.example.alim.bcm.fragments.AddSiteFragment;
 import com.example.alim.bcm.fragments.AttrezzziFragment;
 import com.example.alim.bcm.fragments.MaterialiFragment;
 import com.example.alim.bcm.fragments.RichiesteFragment;
-import com.example.alim.bcm.model.Autista;
-import com.example.alim.bcm.model.Cantiere;
-import com.example.alim.bcm.model.CapoCantiere;
-import com.example.alim.bcm.model.Constants;
+import com.example.alim.bcm.data.model.Autista;
+import com.example.alim.bcm.data.model.Cantiere;
+import com.example.alim.bcm.data.model.CapoCantiere;
+import com.example.alim.bcm.data.model.Constants;
 import com.example.alim.bcm.utilities.ManagerSiteAndPersonal;
 import com.example.alim.bcm.utilities.InternalStorage;
 import com.example.alim.bcm.utilities.JsonParser;
@@ -36,19 +35,17 @@ import com.example.alim.bcm.utilities.TaskCompletion;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.alim.bcm.model.Constants.ADD_PRODUCT_FRAGMENT;
-import static com.example.alim.bcm.model.Constants.ADD_SITE_FRAGMENT;
-import static com.example.alim.bcm.model.Constants.ATTREZZI;
-import static com.example.alim.bcm.model.Constants.ATTREZZI_FRAGMENT;
-import static com.example.alim.bcm.model.Constants.CANTIERI;
-import static com.example.alim.bcm.model.Constants.CAPOCANTIERE;
-import static com.example.alim.bcm.model.Constants.LISTA_AUTISTI;
-import static com.example.alim.bcm.model.Constants.MATERIALI;
-import static com.example.alim.bcm.model.Constants.MATERIALI_FRAGMENT;
-import static com.example.alim.bcm.model.Constants.RICHIESTE_FRAGMENT;
-import static com.example.alim.bcm.model.Constants.SUCCESSO;
-import static com.example.alim.bcm.model.Constants.TIPO_UTENTE_ATTIVO;
-import static com.example.alim.bcm.model.Constants.UTENTE_ATTIVO;
+import static com.example.alim.bcm.data.model.Constants.ADD_PRODUCT_FRAGMENT;
+import static com.example.alim.bcm.data.model.Constants.ADD_SITE_FRAGMENT;
+import static com.example.alim.bcm.data.model.Constants.ATTREZZI_FRAGMENT;
+import static com.example.alim.bcm.data.model.Constants.CANTIERI;
+import static com.example.alim.bcm.data.model.Constants.CAPOCANTIERE;
+import static com.example.alim.bcm.data.model.Constants.LISTA_AUTISTI;
+import static com.example.alim.bcm.data.model.Constants.MATERIALI_FRAGMENT;
+import static com.example.alim.bcm.data.model.Constants.RICHIESTE_FRAGMENT;
+import static com.example.alim.bcm.data.model.Constants.SUCCESSO;
+import static com.example.alim.bcm.data.model.Constants.TIPO_UTENTE_ATTIVO;
+import static com.example.alim.bcm.data.model.Constants.UTENTE_ATTIVO;
 
 public class ImpiegatoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

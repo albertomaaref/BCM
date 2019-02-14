@@ -10,12 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.alim.bcm.R;
-import com.example.alim.bcm.model.Articolo;
+import com.example.alim.bcm.data.model.Articolo;
 
 import java.util.List;
-
-import static com.example.alim.bcm.R.color.green;
-import static com.example.alim.bcm.R.color.white;
 
 public class ArticoloAdapter extends RecyclerView.Adapter<ArticoloAdapter.Articoloholder> {
 

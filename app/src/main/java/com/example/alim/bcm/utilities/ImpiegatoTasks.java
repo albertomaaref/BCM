@@ -1,6 +1,6 @@
 package com.example.alim.bcm.utilities;
 
-import com.example.alim.bcm.model.Autista;
+import com.example.alim.bcm.data.model.Autista;
 
 import java.util.List;
 

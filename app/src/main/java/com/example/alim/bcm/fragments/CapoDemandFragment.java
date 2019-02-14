@@ -23,13 +23,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.alim.bcm.R;
-import com.example.alim.bcm.model.Articolo;
-import com.example.alim.bcm.model.Attrezzo;
-import com.example.alim.bcm.model.CapoCantiere;
-import com.example.alim.bcm.model.Constants;
-import com.example.alim.bcm.model.Materiale;
-import com.example.alim.bcm.model.Richiesta;
-import com.example.alim.bcm.model.StatoRichiesta;
+import com.example.alim.bcm.data.model.Articolo;
+import com.example.alim.bcm.data.model.Attrezzo;
+import com.example.alim.bcm.data.model.CapoCantiere;
+import com.example.alim.bcm.data.model.Constants;
+import com.example.alim.bcm.data.model.Materiale;
+import com.example.alim.bcm.data.model.Richiesta;
+import com.example.alim.bcm.data.model.StatoRichiesta;
 import com.example.alim.bcm.services.SelectDataDialog;
 import com.example.alim.bcm.utilities.InternalStorage;
 import com.example.alim.bcm.utilities.ItemsManager;
@@ -41,10 +41,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.alim.bcm.model.Constants.ATTREZZI;
-import static com.example.alim.bcm.model.Constants.MATERIALI;
-import static com.example.alim.bcm.model.Constants.TAG;
-import static com.example.alim.bcm.model.Constants.UTENTE_ATTIVO;
+import static com.example.alim.bcm.data.model.Constants.ATTREZZI;
+import static com.example.alim.bcm.data.model.Constants.MATERIALI;
+import static com.example.alim.bcm.data.model.Constants.UTENTE_ATTIVO;
 
 /**
  * A simple {@link Fragment} subclass.

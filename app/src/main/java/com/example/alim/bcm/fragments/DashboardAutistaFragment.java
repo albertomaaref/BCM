@@ -1,10 +1,8 @@
 package com.example.alim.bcm.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -16,15 +14,12 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.alim.bcm.AutistaDetailRichiestaActivity;
-import com.example.alim.bcm.GestioneRichiestaActivity;
 import com.example.alim.bcm.R;
 import com.example.alim.bcm.adapters.RichiestaAutistaAdapter;
-import com.example.alim.bcm.model.Autista;
-import com.example.alim.bcm.model.Richiesta;
-import com.example.alim.bcm.services.InternetController;
+import com.example.alim.bcm.data.model.Autista;
+import com.example.alim.bcm.data.model.Richiesta;
 import com.example.alim.bcm.utilities.InternalStorage;
 import com.example.alim.bcm.utilities.JsonParser;
 import com.example.alim.bcm.utilities.RequestManager;
@@ -34,9 +29,9 @@ import com.example.alim.bcm.utilities.TaskCompletion;
 
 import java.util.List;
 
-import static com.example.alim.bcm.model.Constants.AUTISTA;
-import static com.example.alim.bcm.model.Constants.SUCCESSO;
-import static com.example.alim.bcm.model.Constants.TIPO_UTENTE_ATTIVO;
+import static com.example.alim.bcm.data.model.Constants.AUTISTA;
+import static com.example.alim.bcm.data.model.Constants.SUCCESSO;
+import static com.example.alim.bcm.data.model.Constants.TIPO_UTENTE_ATTIVO;
 
 
 public class DashboardAutistaFragment extends Fragment {

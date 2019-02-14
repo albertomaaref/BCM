@@ -14,10 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alim.bcm.R;
-import com.example.alim.bcm.model.Attrezzo;
-import com.example.alim.bcm.model.Materiale;
+import com.example.alim.bcm.data.model.Materiale;
 
-import java.io.IOException;
 import java.util.List;
 
 /**

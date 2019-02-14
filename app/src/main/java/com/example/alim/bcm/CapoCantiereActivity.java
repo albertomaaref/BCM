@@ -16,13 +16,11 @@ import android.widget.Toast;
 import com.example.alim.bcm.fragments.CantiereFragment;
 import com.example.alim.bcm.fragments.NotificheFragment;
 import com.example.alim.bcm.fragments.CapoDemandFragment;
-import com.example.alim.bcm.model.Autista;
-import com.example.alim.bcm.model.CapoCantiere;
-import com.example.alim.bcm.model.Personale;
+import com.example.alim.bcm.data.model.CapoCantiere;
 import com.example.alim.bcm.utilities.InternalStorage;
 
-import static com.example.alim.bcm.model.Constants.TIPO_UTENTE_ATTIVO;
-import static com.example.alim.bcm.model.Constants.UTENTE_ATTIVO;
+import static com.example.alim.bcm.data.model.Constants.TIPO_UTENTE_ATTIVO;
+import static com.example.alim.bcm.data.model.Constants.UTENTE_ATTIVO;
 
 public class CapoCantiereActivity extends AppCompatActivity {
 

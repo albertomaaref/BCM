@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alim.bcm.R;
-import com.example.alim.bcm.model.Attrezzo;
+import com.example.alim.bcm.data.model.Attrezzo;
 
 import java.util.List;
 

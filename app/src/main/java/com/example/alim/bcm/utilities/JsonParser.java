@@ -1,21 +1,15 @@
 package com.example.alim.bcm.utilities;
 
-import android.content.Intent;
-import android.graphics.Paint;
-import android.util.Log;
-
-import com.example.alim.bcm.R;
-import com.example.alim.bcm.model.Attrezzo;
-import com.example.alim.bcm.model.Autista;
-import com.example.alim.bcm.model.Cantiere;
-import com.example.alim.bcm.model.CapoCantiere;
-import com.example.alim.bcm.model.Constants;
-import com.example.alim.bcm.model.Impiegato;
-import com.example.alim.bcm.model.Materiale;
-import com.example.alim.bcm.model.Operaio;
-import com.example.alim.bcm.model.Personale;
-import com.example.alim.bcm.model.Richiesta;
-import com.example.alim.bcm.model.StatoRichiesta;
+import com.example.alim.bcm.data.model.Attrezzo;
+import com.example.alim.bcm.data.model.Autista;
+import com.example.alim.bcm.data.model.Cantiere;
+import com.example.alim.bcm.data.model.CapoCantiere;
+import com.example.alim.bcm.data.model.Impiegato;
+import com.example.alim.bcm.data.model.Materiale;
+import com.example.alim.bcm.data.model.Operaio;
+import com.example.alim.bcm.data.model.Personale;
+import com.example.alim.bcm.data.model.Richiesta;
+import com.example.alim.bcm.data.model.StatoRichiesta;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,10 +19,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.example.alim.bcm.model.Constants.AUTISTA;
-import static com.example.alim.bcm.model.Constants.CAPOCANTIERE;
-import static com.example.alim.bcm.model.Constants.IMPIEGATO;
-import static com.example.alim.bcm.model.Constants.OPERAIO;
+import static com.example.alim.bcm.data.model.Constants.AUTISTA;
+import static com.example.alim.bcm.data.model.Constants.CAPOCANTIERE;
+import static com.example.alim.bcm.data.model.Constants.IMPIEGATO;
+import static com.example.alim.bcm.data.model.Constants.OPERAIO;
 
 /**
  * Created by alim on 22-Mar-18.

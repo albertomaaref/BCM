@@ -1,15 +1,12 @@
 package com.example.alim.bcm.fragments;
 
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,28 +15,25 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.alim.bcm.R;
-import com.example.alim.bcm.model.Articolo;
-import com.example.alim.bcm.model.Attrezzo;
-import com.example.alim.bcm.model.Constants;
-import com.example.alim.bcm.model.Materiale;
+import com.example.alim.bcm.data.model.Articolo;
+import com.example.alim.bcm.data.model.Attrezzo;
+import com.example.alim.bcm.data.model.Materiale;
 import com.example.alim.bcm.services.ConfermaDatiDialog;
 import com.example.alim.bcm.utilities.FireBaseConnection;
 import com.example.alim.bcm.utilities.InternalStorage;
-import com.example.alim.bcm.utilities.ItemsManager;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import static android.widget.Toast.LENGTH_SHORT;
-import static com.example.alim.bcm.model.Constants.ADD_PRODUCT_FRAGMENT;
-import static com.example.alim.bcm.model.Constants.ATTREZZI;
-import static com.example.alim.bcm.model.Constants.CONFERMA_DATI_DIALOG;
-import static com.example.alim.bcm.model.Constants.MATERIALI;
-import static com.example.alim.bcm.model.Constants.TAG;
+import static com.example.alim.bcm.data.model.Constants.ADD_PRODUCT_FRAGMENT;
+import static com.example.alim.bcm.data.model.Constants.ATTREZZI;
+import static com.example.alim.bcm.data.model.Constants.CONFERMA_DATI_DIALOG;
+import static com.example.alim.bcm.data.model.Constants.MATERIALI;
+import static com.example.alim.bcm.data.model.Constants.TAG;
 
 
 public class AddProductFragment extends Fragment {
